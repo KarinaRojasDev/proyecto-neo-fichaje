@@ -15,7 +15,7 @@
         android:layout_width="350dp"
         android:layout_height="350dp"
         android:scaleType="fitXY"
-        android:src="@drawable/logo_principal"
+        android:src="@mipmap/logo_principal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
