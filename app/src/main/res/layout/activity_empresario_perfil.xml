@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="20dp"
+    tools:context=".activity_empresario_perfil">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/tituloEmpresa"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <EditText
+            android:id="@+id/et_nombreEmpresa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/style_etbg"
+            android:drawableStart="@drawable/ic_business"
+            android:drawablePadding="10dp"
+            android:ems="20"
+            android:hint="@string/nombreEmpresa"
+            android:inputType="textCapSentences|textPersonName"
+            android:padding="4dp"
+            android:textColorHint="@color/celeste"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_nitEmpresa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/style_etbg"
+            android:drawableStart="@drawable/ic_nit"
+            android:drawablePadding="10dp"
+            android:ems="20"
+            android:hint="@string/nifEmpresa"
+            android:inputType="text"
+            android:padding="4dp"
+            android:textColorHint="@color/celeste"
+            android:textSize="16sp" />
+
+
+        <EditText
+            android:id="@+id/et_emailEmpresa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/style_etbg"
+            android:drawableStart="@drawable/ic_email"
+            android:drawablePadding="10dp"
+            android:ems="20"
+            android:hint="@string/emailEmpresa"
+            android:inputType="textEmailAddress"
+            android:padding="4dp"
+            android:textColorHint="@color/celeste"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_fonoEmpresa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/style_etbg"
+            android:drawableStart="@drawable/ic_phone"
+            android:drawablePadding="16dp"
+            android:ems="20"
+            android:hint="@string/fonoEmpresa"
+            android:inputType="number"
+            android:padding="4dp"
+            android:textColorHint="@color/celeste"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_dirEmpresa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/style_etbg"
+            android:drawableStart="@drawable/ic_location"
+            android:drawablePadding="16dp"
+            android:ems="20"
+            android:hint="@string/dirreccionEmpresa"
+            android:inputType="text"
+            android:padding="4dp"
+            android:textColorHint="@color/celeste"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_webEmpresa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/style_etbg"
+            android:drawableStart="@drawable/ic_web"
+            android:drawablePadding="16dp"
+            android:ems="20"
+            android:hint="@string/webEmpresa"
+            android:inputType="text"
+            android:padding="4dp"
+            android:textColorHint="@color/celeste"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/tituloAdministrador"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:layout_marginTop="20dp"
+            android:text="@string/tituloEmpresario"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+        <EditText
+            android:id="@+id/et_nombreEmpresario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/style_etbg"
+            android:drawableStart="@drawable/ic_person"
+            android:drawablePadding="10dp"
+            android:ems="20"
+            android:hint="@string/nombreAdministrador"
+            android:inputType="textCapSentences|textPersonName"
+            android:padding="4dp"
+            android:textColorHint="@color/celeste"
+            android:textSize="16sp" />
+        <EditText
+            android:id="@+id/et_emailEmpresario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/style_etbg"
+            android:drawableStart="@drawable/ic_email"
+            android:drawablePadding="10dp"
+            android:ems="20"
+            android:hint="@string/emailAdministrador"
+            android:inputType="textEmailAddress"
+            android:padding="4dp"
+            android:textColorHint="@color/celeste"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/cargoAdministrador"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:layout_marginTop="20dp"
+            android:text="@string/cargo"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <Spinner
+            android:layout_marginStart="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <android.widget.Button
+            android:id="@+id/btn_iniSesionEmpresa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAllCaps="false"
+            android:background="@drawable/gradient"
+            android:text="@string/btnGuardarCambios"
+            android:padding="10dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@color/white"
+    tools:context=".activity_login_empleado">
+
+    <ImageView
+        android:id="@+id/iv_imagenLogin"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/banner_img"
+        app:layout_constraintBottom_toTopOf="@+id/ll_loginEmpleado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <LinearLayout
+        android:id="@+id/ll_loginEmpleado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/style_etbg"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/iv_imagenLogin"
+        app:layout_constraintStart_toStartOf="@+id/iv_imagenLogin">
+
+        <EditText
+            android:id="@+id/et_nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:padding="6dp"
+            android:ems="20"
+            android:background="@drawable/style_etbg"
+            android:hint="@string/correo"
+            android:drawableStart="@drawable/ic_email"
+            android:drawablePadding="10dp"
+            android:textSize="16sp"
+            android:inputType="textCapSentences"
+            android:textColorHint="@color/celeste"
+            android:gravity=""/>
+
+        <EditText
+            android:id="@+id/et_contrasenia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/style_etbg"
+            android:drawableStart="@drawable/ic_lock"
+            android:drawableEnd="@drawable/ic_eye"
+            android:drawablePadding="10dp"
+            android:ems="10"
+            android:hint="@string/contrasenia"
+            android:inputType="textPassword|textVisiblePassword"
+            android:padding="6dp"
+            android:textColorHint="@color/celeste"
+            android:textSize="16sp" />
+
+        <android.widget.Button
+            android:id="@+id/btn_iniSesionEmple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAllCaps="false"
+            android:background="@drawable/gradient"
+            android:text="@string/inicioSesion"
+            android:padding="10dp"
+            android:layout_marginBottom="20dp"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
