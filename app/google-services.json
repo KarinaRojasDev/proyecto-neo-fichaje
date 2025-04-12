@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "300937761793",
+    "project_id": "neofichaje",
+    "storage_bucket": "neofichaje.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300937761793:android:5db912f50fe9d4dd155c00",
+        "android_client_info": {
+          "package_name": "com.example.neofichaje"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9XJC5rPB-SkXUQ1u27FP1zX-SN_hw5Oc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
