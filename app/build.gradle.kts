@@ -40,7 +40,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -49,5 +48,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
+    // Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:30.0.0"))
+    // Firebase Autentication
+    implementation("com.google.firebase:firebase-auth")
+    // Firestore
+    implementation("com.google.firebase:firebase-firestore")
+    // Realtime Database
+    implementation("com.google.firebase:firebase-database")
 }

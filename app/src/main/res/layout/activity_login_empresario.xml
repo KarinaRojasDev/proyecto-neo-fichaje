@@ -14,6 +14,7 @@
         android:layout_width="350dp"
         android:layout_height="350dp"
         android:scaleType="fitXY"
+        android:layout_marginBottom="20dp"
         android:src="@mipmap/img_banner_empresario"
         app:layout_constraintBottom_toTopOf="@+id/ll_loginEmpresa"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +25,7 @@
         android:id="@+id/ll_loginEmpresa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/style_etbg"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,8 +40,8 @@
             android:padding="6dp"
             android:ems="20"
             android:background="@drawable/style_etbg"
-            android:hint="@string/nombreEmpresario"
-            android:drawableStart="@drawable/ic_person"
+            android:hint="@string/correo"
+            android:drawableStart="@drawable/ic_email"
             android:drawablePadding="10dp"
             android:textSize="16sp"
             android:inputType="textCapSentences"
@@ -58,21 +59,33 @@
             android:drawablePadding="10dp"
             android:ems="10"
             android:hint="@string/contrasenia"
-            android:inputType="textPassword|textVisiblePassword"
+            android:inputType="textPassword"
             android:padding="6dp"
             android:textColorHint="@color/celeste"
             android:textSize="16sp" />
 
         <android.widget.Button
             android:id="@+id/btn_iniSesionEmpresa"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:layout_gravity="center"
             android:textAllCaps="false"
             android:background="@drawable/gradient"
             android:text="@string/inicioSesion"
             android:padding="10dp"
             android:layout_marginBottom="20dp"/>
+        <TextView
+            android:id="@+id/txtOlvidoContrasenia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/olvidoContrasenia"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
