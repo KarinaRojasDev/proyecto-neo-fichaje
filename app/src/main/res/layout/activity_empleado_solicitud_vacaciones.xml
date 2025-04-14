@@ -151,6 +151,7 @@
         android:padding="16dp"
         android:text="@string/enviarSolicitud"
         android:textAllCaps="false"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/id_comentarioVaca"
         app:layout_constraintTop_toBottomOf="@+id/id_comentarioVaca" />

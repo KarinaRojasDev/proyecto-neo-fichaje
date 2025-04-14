@@ -13,6 +13,21 @@
         android:theme="@style/Theme.NeoFichaje"
         tools:targetApi="31">
         <activity
+            android:name=".cambio_contrasenia"
+            android:exported="false" />
+        <activity
+            android:name=".cambiar_contrasenia_empresario"
+            android:exported="false" />
+        <activity
+            android:name=".inicio_empresario"
+            android:exported="false" />
+        <activity
+            android:name=".inicio_empleado"
+            android:exported="false" />
+        <activity
+            android:name=".pantalla_inicio_empleado"
+            android:exported="false" />
+        <activity
             android:name=".empleado_mis_documentos"
             android:exported="false" />
         <activity

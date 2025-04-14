@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="@+id/iv_imagenLogin">
 
         <EditText
-            android:id="@+id/et_usuario_empresa"
+            android:id="@+id/et_correo_empresa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
@@ -57,9 +57,10 @@
             android:drawableStart="@drawable/ic_lock"
             android:drawableEnd="@drawable/ic_eye"
             android:drawablePadding="10dp"
-            android:ems="10"
+            android:ems="2"
             android:hint="@string/contrasenia"
             android:inputType="textPassword"
+            android:onClick="@drawable/ic_eye"
             android:padding="6dp"
             android:textColorHint="@color/celeste"
             android:textSize="16sp" />
@@ -74,6 +75,7 @@
             android:background="@drawable/gradient"
             android:text="@string/inicioSesion"
             android:padding="10dp"
+            android:textSize="16sp"
             android:layout_marginBottom="20dp"/>
         <TextView
             android:id="@+id/txtOlvidoContrasenia"

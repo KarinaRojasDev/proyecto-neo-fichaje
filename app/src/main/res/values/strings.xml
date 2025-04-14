@@ -44,6 +44,14 @@
     <string name="estadoR">Rechazado</string>
 
     <!--pantalla de inicio LOGIN EMPRESARIO-->
+    <string name="puesto">Soy Administrador</string>
+
+    <!--pantalla de CONFIRMAR CONTRASEÑA EMPRESARIO-->
+    <string name="titlePass">Cambio de Contraseña</string>
+    <string name="passActual">Contraseña actual:</string>
+    <string name="passNueva">Nueva Contraseña:</string>
+    <string name="passConfirmar">Confirmar Contraseña:</string>
+    <string name="passGuardar">Guardar contraseña</string>
 
     <!--Terminos y condiciones-->
     <string name="acepto">He leido y acepto los</string>

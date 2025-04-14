@@ -184,6 +184,7 @@
             android:background="@drawable/gradient"
             android:text="@string/btnGuardarCambios"
             android:padding="10dp"
+            android:textSize="16sp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="16dp"/>
 
