@@ -13,19 +13,22 @@
         android:theme="@style/Theme.NeoFichaje"
         tools:targetApi="31">
         <activity
-            android:name=".cambio_contrasenia"
-            android:exported="false" />
+            android:name=".login_empleado"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
-            android:name=".cambiar_contrasenia_empresario"
+            android:name=".cambio_contrasenia"
             android:exported="false" />
         <activity
             android:name=".inicio_empresario"
             android:exported="false" />
         <activity
             android:name=".inicio_empleado"
-            android:exported="false" />
-        <activity
-            android:name=".pantalla_inicio_empleado"
             android:exported="false" />
         <activity
             android:name=".empleado_mis_documentos"
@@ -37,26 +40,11 @@
             android:name=".empleado_solicitud_vacaciones"
             android:exported="false" />
         <activity
-            android:name=".activity_empleado_solicitud_vacaciones"
-            android:exported="false" />
-        <activity
             android:name=".activity_empresario_perfil"
-            android:exported="false" />
-        <activity
-            android:name=".activity_login_empleado"
             android:exported="false" />
         <activity
             android:name=".activity_login_empresario"
             android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
