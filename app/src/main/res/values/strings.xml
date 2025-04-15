@@ -62,14 +62,14 @@
     <string name="tituloEmpresa">Datos de la empresa</string>
     <string name="nombreEmpresa">Nombre de Empresa</string>
     <string name="nifEmpresa">NIF</string>
-    <string name="emailEmpresa">Email</string>
+    <string name="emailEmpresa">Email </string>
     <string name="fonoEmpresa">Teléfono</string>
     <string name="dirreccionEmpresa">Dirección</string>
     <string name="webEmpresa">Sitio Web</string>
 
     <string name="tituloEmpresario">Datos del Empresario</string>
     <string name="nombreAdministrador">Nombre y Apellidos</string>
-    <string name="emailAdministrador">Email de Contacto</string>
+    <string name="emailAdministrador">Email Adminstrador:</string>
     <string name="cargo">Cargo</string>
     <string-array name="cargo">
         <item>Directivo</item>

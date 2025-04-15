@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
+    android:layout_margin="20dp"
     android:background="@color/white"
     android:orientation="vertical"
     tools:context=".cambio_contrasenia">
@@ -31,20 +32,22 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/titlePassActual"
+            android:id="@+id/titleEmail"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/passActual"
             android:textSize="16sp"
             android:fontFamily="@font/roboto"
             android:layout_marginEnd="8dp"/>
 
         <EditText
-            android:id="@+id/etContraseniaActual"
+            android:id="@+id/et_passActual"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:inputType="textPassword"
+            android:drawableEnd="@drawable/ic_eye"
             android:backgroundTint="@color/black"/>
     </LinearLayout>
 
@@ -60,6 +63,7 @@
             android:id="@+id/titlePassNuevo"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/passNueva"
             android:textSize="16sp"
             android:fontFamily="@font/roboto"
@@ -71,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:inputType="textPassword"
+            android:drawableEnd="@drawable/ic_eye"
             android:backgroundTint="@color/black"/>
     </LinearLayout>
     <!-- Campo: Nueva contraseña -->
@@ -84,6 +89,7 @@
             android:id="@+id/titlePassConf"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/passConfirmar"
             android:textSize="16sp"
             android:fontFamily="@font/roboto"
@@ -95,6 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:inputType="textPassword"
+            android:drawableEnd="@drawable/ic_eye"
             android:backgroundTint="@color/black"/>
     </LinearLayout>
     <android.widget.Button

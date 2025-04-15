@@ -6,7 +6,6 @@ import android.text.InputType
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.neofichaje.databinding.ActivityLoginEmpresarioBinding
 import com.google.android.material.snackbar.Snackbar
@@ -26,16 +25,12 @@ class activity_login_empresario : AppCompatActivity(), View.OnClickListener, Vie
 
         binding.btnIniSesionEmpresa.setOnClickListener(this)
         binding.etContraseniaEmpresa.setOnTouchListener(this)
-        binding.txtOlvidoContrasenia.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when(v?.id){
             binding.btnIniSesionEmpresa.id -> {
                 iniciarSesion()
-            }
-            binding.txtOlvidoContrasenia.id -> {
-                restablecerContrasenia()
             }
         }
     }
@@ -72,11 +67,6 @@ class activity_login_empresario : AppCompatActivity(), View.OnClickListener, Vie
     override fun onRestart() {
         super.onRestart()
         limpiar()
-    }
-    private fun restablecerContrasenia(){
-        val intent= Intent(this, cambio_contrasenia::class.java)
-        startActivity(intent)
-        //borramos campos para pasar a la siguiente pantalla
     }
     private fun cambiarVisibilidadContrasenia() {
         val campoContrasenia = binding.etContraseniaEmpresa

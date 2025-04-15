@@ -51,12 +51,12 @@ class login_empleado : AppCompatActivity(), OnClickListener, OnTouchListener {
                 if (task.isSuccessful) {
                     accionesEmpleado()
                 } else {
-                    Snackbar.make(binding.root, "El correo o la contraseña son incorrectos. Por favor, verifica e intenta nuevamente.",
+                    Snackbar.make(binding.root, "El correo o la contraseña son incorrectos. " +
+                            "Por favor, verifica e intenta nuevamente.",
                         Snackbar.LENGTH_LONG).show()
                 }
             }
     }
-
     private fun accionesEmpleado() {
         val usuario = auth.currentUser
 
@@ -75,16 +75,20 @@ class login_empleado : AppCompatActivity(), OnClickListener, OnTouchListener {
                         startActivity(intent)
                         finish()
                     } else {
-                        Snackbar.make(binding.root, "El usuario no existe en la base de datos.", Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(binding.root, "El usuario no existe en la base de datos.",
+                            Snackbar.LENGTH_LONG).show()
                     }
                 } else {
-                    Snackbar.make(binding.root, "No se encontró tu usuario en la base de datos.", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.root, "No se encontró tu usuario en la base de datos.",
+                        Snackbar.LENGTH_LONG).show()
                 }
             }.addOnFailureListener {
-                Snackbar.make(binding.root, "Error al buscar datos del usuario en Firestore.", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.root, "Error al buscar datos del usuario en Firestore.",
+                    Snackbar.LENGTH_LONG).show()
             }
         } else {
-            Snackbar.make(binding.root, "Error: Usuario no autenticado.", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(binding.root, "Error: Usuario no autenticado.",
+                Snackbar.LENGTH_LONG).show()
         }
     }
 
