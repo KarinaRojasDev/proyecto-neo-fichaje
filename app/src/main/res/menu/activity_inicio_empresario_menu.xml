@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:id="@+id/nav_item_gestionEmpleados"
+            android:icon="@drawable/ic_group"
+            android:title="@string/gestionEmpleados"/>
+        <item android:id="@+id/nav_item_asistenciaEmpleado"
+            android:icon="@drawable/ic_timer"
+            android:title="@string/gestionAsistencia"/>
+        <item android:id="@+id/nav_item_gestionVacaEmpleado"
+            android:icon="@drawable/ic_beach"
+            android:title="@string/gestionVacaciones"/>
+        <item android:id="@+id/nav_item_adjuntarDocEmpleado"
+            android:icon="@drawable/ic_file"
+            android:title="@string/adjuntarArchivo"/>
+        <item android:id="@+id/nav_item_cerrarEmpleado"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/cerrarSesionEmpleado"/>
+    </group>
+
+</menu>

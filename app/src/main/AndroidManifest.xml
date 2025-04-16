@@ -13,6 +13,9 @@
         android:theme="@style/Theme.NeoFichaje"
         tools:targetApi="31">
         <activity
+            android:name=".nominas_empleado"
+            android:exported="false" />
+        <activity
             android:name=".login_empleado"
             android:exported="true">
             <intent-filter>

@@ -1,10 +1,27 @@
 <resources>
     <string name="app_name">NeoFichaje</string>
+
+    <!--EMPLEADO-->
     <!--pantalla de login empleado-->
     <string name="correo">Escribe tu email</string>
     <string name="contrasenia">Escribe tu contraseña</string>
-    <string name="olvidoContrasenia">Olvidaste tu contraseña?</string>
     <string name="inicioSesion">Iniciar Sesión</string>
+
+    <!--MENU empleado-->
+    <string name="fichar">Control Horario</string>
+    <string name="misDocumentos">Mis Documentos</string>
+    <string name="nominas">Mis Nóminas</string>
+    <string name="contrato">Mi Contrato</string>
+    <string name="permisoBaja">Permiso/Baja</string>  <!--DE MOMENTO NO -->
+    <string name="cerrarSesionEmpleado">Cerrar Sesión</string>
+
+    <string name="abrir_menu">Abrir menú</string>
+    <string name="cerrar_menu">Cerrar menú</string>
+
+    <!--INICIO NOTIFICACIONES empleado-->
+    <string name="horas">Notificación de Horas</string>
+    <string name="vacaciones">Notificación de Vacaciones</string>
+    <string name="Nominas">Notificación Mis Nóminas</string>
 
 
     <!--pantalla de fichaje empleado-->
@@ -17,34 +34,34 @@
     <string name="botonFicharSalida">Fichar Salida</string>
 
     <!--pantalla de vacaciones-->
-    <string name="tituloSolicitudVacaciones">Solicitar Vacaciones </string>
+    <string name="tituloVacaciones">Solicitar Vacaciones </string>
     <string name="SeleccioneFechaInicio">Seleccione Fecha de Inicio</string>
     <string name="SeleccioneFechaFin">Seleccione Fecha Final</string>
     <string name="descripcion">Si desea añada una descripción</string>
     <string name="comentario">Comentario:</string>
     <string name="enviarSolicitud">Enviar Solicitud</string>
 
-    <!--pantalla de Documentos-->
-    <string name="tituloNominaCntrato">Nóminas y Contrato </string>
-    <string name="UltimNomina">Última Nómina:</string>
+    <!--pantalla de NOMINAS O CONTRATOS-->
     <string name="nominaMes">Nómina-Febrero 2025</string>
     <string name="ver">Ver </string>
     <string name="descargar">Descargar </string>
-    <string name="historialNominas">Historial Nóminas:</string>
-    <string name="MisNominas">Mis nóminas</string>
-    <string name="tituloContrato">Mi Contrato:</string>
     <string name="contratoLaboral">Contrato Laboral</string>
 
-    <!--pantalla de inicio-->
-    <string name="tituloNotificaciones">Notificaciones</string>
-    <string name="solicitudVaca">Solicitud de vacaciones
-    estado: Aprobado </string>
-    <string name="estadoA">Aprobado</string>
-    <string name="estadoP">Pendiente</string>
-    <string name="estadoR">Rechazado</string>
+    <!--TITULOS BARRA de inicio-->
+    <string name="bar_title">Inicio</string>
+
+
+    <!--EMPRESARIO-->
 
     <!--pantalla de inicio LOGIN EMPRESARIO-->
     <string name="puesto">Soy Administrador</string>
+
+    <!--MENU EMPRESARIO-->
+    <string name="gestionEmpleados">Gestión de Empleados</string>
+    <string name="gestionAsistencia">Gestión Asistencia</string>
+    <string name="gestionVacaciones">Gestión Vacaciones</string>
+    <string name="adjuntarArchivo">Adjuntar Archivo</string>
+    <string name="cerrarSesion">Cerrar Sesión</string>
 
     <!--pantalla de CONFIRMAR CONTRASEÑA EMPRESARIO-->
     <string name="titlePass">Cambio de Contraseña</string>
