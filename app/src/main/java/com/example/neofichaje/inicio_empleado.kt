@@ -1,5 +1,6 @@
 package com.example.neofichaje
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -25,8 +26,11 @@ class inicio_empleado : AppCompatActivity() {
         manejarOpcionesMenu()
     }
     private fun configurarToolbar() {
-        val barraHerramientas = binding.includeEmpleado.toolbarEmpleado
+        val barraHerramientas = binding.includeInicioEmpleado.toolbarComun
         setSupportActionBar(barraHerramientas)
+
+        // Cambiar el título del Toolbar
+        supportActionBar?.title = "INICIO"
 
         menu = ActionBarDrawerToggle(
             this,
@@ -47,21 +51,16 @@ class inicio_empleado : AppCompatActivity() {
     private fun manejarOpcionesMenu() {
         binding.navView.setNavigationItemSelectedListener { opcion ->
             when (opcion.itemId) {
-                R.id.nav_item_inicioEmpleado -> mostrarMensaje("Fichar")
-                R.id.nav_item_vacaEmpleado -> mostrarMensaje("Vacaciones")
-                R.id.nav_item_permisoEmpleado -> mostrarMensaje("Permiso/Baja")
-                R.id.nav_item_nominaEmpleado -> mostrarMensaje("Nóminas")
-                R.id.nav_item_contratoEmpleado -> mostrarMensaje("Contrato")
-                R.id.nav_item_cerrarEmpleado -> mostrarMensaje("Cerrar sesión")
+                R.id.menu_fichaje -> startActivity(Intent(this, empleado_control_horario::class.java))
+                R.id.menu_vacaEmpleado -> startActivity(Intent(this, empleado_solicitud_vacaciones::class.java))
+                R.id.menu_permisoEmpleado -> startActivity(Intent(this, permisoEmpleado::class.java))
+                R.id.menu_nominaEmpleado -> startActivity(Intent(this, nominas_empleado::class.java))
+                R.id.menu_contratoEmpleado -> startActivity(Intent(this, contratoEmpleado::class.java))
+                R.id.menu_cerrarEmpleado -> finishAffinity()
             }
 
             binding.inicioEmpleado.closeDrawer(GravityCompat.START)
             true
         }
     }
-
-    private fun mostrarMensaje(texto: String) {
-        Toast.makeText(this, texto, Toast.LENGTH_SHORT).show()
-    }
-
 }

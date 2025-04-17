@@ -5,26 +5,22 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.neofichaje.databinding.ActivityEmpleadoSolicitudVacacionesBinding
+import com.example.neofichaje.databinding.ActivityPermisoEmpleadoBinding
 
-class empleado_solicitud_vacaciones : AppCompatActivity() {
-
-    private lateinit var binding: ActivityEmpleadoSolicitudVacacionesBinding
+class permisoEmpleado : AppCompatActivity() {
+    private lateinit var binding: ActivityPermisoEmpleadoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityEmpleadoSolicitudVacacionesBinding.inflate(layoutInflater)
+        binding=ActivityPermisoEmpleadoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         toolbar()
     }
-    private fun toolbar(){
-        val barraHerramientas = binding.includeVacaciones.toolbarComun
+    private fun toolbar() {
+        val barraHerramientas = binding.includePermisos.toolbarComun
         setSupportActionBar(barraHerramientas)
-
         // Cambiar el título del Toolbar
-        supportActionBar?.title = "SOLICITUD DE VACACIONES"
-
+        supportActionBar?.title = "PERMISOS/BAJAS"
     }
 }

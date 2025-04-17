@@ -6,98 +6,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:padding="24dp"
     tools:context=".empleado_control_horario">
 
-    <ImageView
-        android:id="@+id/ivflechaFichaje"
-        android:layout_width="30dp"
-        android:layout_height="25dp"
-        android:src="@drawable/ic_arrow"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <include
+        android:id="@+id/includeFichaje"
+        layout="@layout/toolbar_comun"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/tituloPantallafichaje"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:fontFamily="@font/roboto"
-        android:text="@string/tituloPantallaFichaje"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tituloinicioHora"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="100dp"
         android:fontFamily="@font/roboto"
         android:text="@string/inicioHorario"
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tituloPantallafichaje" />
-
-
-
-    <android.widget.Button
-        android:id="@+id/btn_fichajeEntrada"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textAllCaps="false"
-        android:background="@drawable/gradient"
-        android:text="@string/botonFicharEntrada"
-        android:padding="10dp"
-        android:textSize="16sp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.043"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-    <TextView
-        android:id="@+id/titulofinHora"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/roboto"
-        android:text="@string/finHorario"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/tituloinicioHora"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_fichajeEntrada" />
-
-
-
-    <android.widget.Button
-        android:id="@+id/btn_fichajeFin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textAllCaps="false"
-        android:background="@drawable/gradient"
-        android:text="@string/botonFicharSalida"
-        android:padding="10dp"
-        android:textSize="16sp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear2Layout"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,21 +46,22 @@
             android:id="@+id/layoutFechaInicio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:padding="15dp">
+
             <TextView
                 android:id="@+id/tv_inicioFecha"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                app:drawableStartCompat="@drawable/ic_date"
+                android:layout_weight="1"
                 android:drawablePadding="10dp"
-                android:padding="10dp"
+                android:fontFamily="@font/roboto"
                 android:hint="@string/fecha"
+                android:padding="10dp"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_date" />
 
             <CalendarView
                 android:id="@+id/calendarioFecha"
@@ -158,8 +98,36 @@
 
         </LinearLayout>
     </LinearLayout>
+    <android.widget.Button
+        android:id="@+id/btn_fichajeEntrada"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAllCaps="false"
+        android:background="@drawable/gradient"
+        android:text="@string/botonFicharEntrada"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <!--LAYOUT 2 OJO-->
+    <TextView
+        android:id="@+id/titulofinHora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/finHorario"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tituloinicioHora"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_fichajeEntrada" />
 
     <LinearLayout
         android:id="@+id/linear2Layout"
@@ -167,8 +135,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titulofinHora">
 
@@ -176,6 +145,7 @@
             android:id="@+id/layoutFechaFin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="15dp">
@@ -229,5 +199,20 @@
 
         </LinearLayout>
     </LinearLayout>
+    <android.widget.Button
+        android:id="@+id/btn_fichajeFin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAllCaps="false"
+        android:background="@drawable/gradient"
+        android:text="@string/botonFicharSalida"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear2Layout"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

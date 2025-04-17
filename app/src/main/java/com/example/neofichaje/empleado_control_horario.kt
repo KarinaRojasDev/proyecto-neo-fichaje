@@ -15,5 +15,15 @@ class empleado_control_horario : AppCompatActivity() {
 
         binding= ActivityEmpleadoControlHorarioBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        toolbar()
+    }
+    private fun toolbar(){
+        val barraHerramientas = binding.includeFichaje.toolbarComun
+        setSupportActionBar(barraHerramientas)
+
+        // Cambiar el título del Toolbar
+        supportActionBar?.title = "CONTROL HORARIO"
+
     }
 }

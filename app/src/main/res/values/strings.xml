@@ -61,6 +61,7 @@
     <string name="gestionAsistencia">Gestión Asistencia</string>
     <string name="gestionVacaciones">Gestión Vacaciones</string>
     <string name="adjuntarArchivo">Adjuntar Archivo</string>
+    <string name="perfil">Mi Perfil</string>
     <string name="cerrarSesion">Cerrar Sesión</string>
 
     <!--pantalla de CONFIRMAR CONTRASEÑA EMPRESARIO-->
@@ -76,9 +77,10 @@
 
 
     <!--pantalla de configuración EMPRESARIO-->
-    <string name="tituloEmpresa">Datos de la empresa</string>
-    <string name="nombreEmpresa">Nombre de Empresa</string>
-    <string name="nifEmpresa">NIF</string>
+    <string name="nombreEmpresa">Nombre de Empresa:</string>
+    <string name="neoGestion">Neo Gestion S.L</string>
+    <string name="nifEmpresa">NIF:</string>
+    <string name="nif">0123456789</string>
     <string name="emailEmpresa">Email </string>
     <string name="fonoEmpresa">Teléfono</string>
     <string name="dirreccionEmpresa">Dirección</string>
@@ -86,8 +88,8 @@
 
     <string name="tituloEmpresario">Datos del Empresario</string>
     <string name="nombreAdministrador">Nombre y Apellidos</string>
-    <string name="emailAdministrador">Email Adminstrador:</string>
-    <string name="cargo">Cargo</string>
+    <string name="emailAdministrador">Email Administrador:</string>
+    <string name="cargo">Puesto</string>
     <string-array name="cargo">
         <item>Directivo</item>
         <item>Gerente</item>

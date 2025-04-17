@@ -13,6 +13,27 @@
         android:theme="@style/Theme.NeoFichaje"
         tools:targetApi="31">
         <activity
+            android:name=".perfilEmpresario"
+            android:exported="false" />
+        <activity
+            android:name=".documentosEmpleados"
+            android:exported="false" />
+        <activity
+            android:name=".gestionVacaciones"
+            android:exported="false" />
+        <activity
+            android:name=".gestionControlAsistencia"
+            android:exported="false" />
+        <activity
+            android:name=".gestionEmpleados"
+            android:exported="false" />
+        <activity
+            android:name=".permisoEmpleado"
+            android:exported="false" />
+        <activity
+            android:name=".contratoEmpleado"
+            android:exported="false" />
+        <activity
             android:name=".nominas_empleado"
             android:exported="false" />
         <activity

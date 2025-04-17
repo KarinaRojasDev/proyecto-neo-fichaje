@@ -22,8 +22,8 @@
             android:orientation="vertical">
 
             <include
-                android:id="@+id/includeEmpleado"
-                layout="@layout/app_bar"
+                android:id="@+id/includeInicioEmpleado"
+                layout="@layout/toolbar_comun"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -98,7 +98,7 @@
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="start"
         app:menu="@menu/activity_inicio_empleado_menu" />
 

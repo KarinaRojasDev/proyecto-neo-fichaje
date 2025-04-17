@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.neofichaje.databinding.ActivityLoginEmpresarioBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class activity_login_empresario : AppCompatActivity(), View.OnClickListener, View.OnTouchListener  {
     private lateinit var binding: ActivityLoginEmpresarioBinding
@@ -46,12 +47,33 @@ class activity_login_empresario : AppCompatActivity(), View.OnClickListener, Vie
         auth.signInWithEmailAndPassword(correo, contrasenia)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // CREAR UN INTENT A LA SEGUNDA PANTALLA
-                    acciones()
-                    Toast.makeText(this, "Inicio de sesión correctamente", Toast.LENGTH_SHORT).show()
+                    val userId = auth.currentUser?.uid
+                    val db = FirebaseFirestore.getInstance()
+
+                    db.collection("usuarios").document(userId!!)
+                        .get()
+                        .addOnSuccessListener { document ->
+                            if (document.exists()) {
+                                val puesto = document.getString("puesto")
+                                if (puesto == "administrador") {
+                                    acciones()
+                                    Toast.makeText(this, "Inicio de sesión correctamente", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    auth.signOut()
+                                    Snackbar.make(binding.root, "Acceso denegado. Esta zona es solo para administradores.", Snackbar.LENGTH_LONG).show()
+                                }
+                            } else {
+                                auth.signOut()
+                                Snackbar.make(binding.root, "No se encontró información del usuario.", Snackbar.LENGTH_LONG).show()
+                            }
+                        }
+                        .addOnFailureListener {
+                            auth.signOut()
+                            Snackbar.make(binding.root, "Error al verificar el rol del usuario.", Snackbar.LENGTH_LONG).show()
+                        }
+
                 } else {
-                    Snackbar.make(binding.root, "El correo o la contraseña son incorrectos. Por favor, verifica e intenta nuevamente.",
-                        Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.root, "El correo o la contraseña son incorrectos. Por favor, verifica e intenta nuevamente.", Snackbar.LENGTH_LONG).show()
                 }
             }
     }

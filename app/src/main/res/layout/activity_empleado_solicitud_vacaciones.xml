@@ -6,55 +6,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:padding="24dp"
     tools:context=".empleado_solicitud_vacaciones">
 
-    <ImageView
-        android:id="@+id/flechaSolicitudVacaciones"
-        android:layout_width="30dp"
-        android:layout_height="25dp"
-        android:src="@drawable/ic_arrow"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_tittleSolicitudVaca"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:fontFamily="@font/roboto"
-        android:text="@string/tituloVacaciones"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <include
+        android:id="@+id/includeVacaciones"
+        layout="@layout/toolbar_comun"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
     <LinearLayout
         android:id="@+id/fechaInicioVacaciones"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:layout_marginTop="130dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tittleSolicitudVaca">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textofechaInicioVaca"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/roboto"
-            android:padding="10dp"
-            app:drawableStartCompat="@drawable/ic_date"
             android:drawablePadding="10dp"
+            android:fontFamily="@font/roboto"
             android:hint="@string/SeleccioneFechaInicio"
+            android:padding="10dp"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_date" />
 
         <CalendarView
             android:id="@+id/calendarioInicioVacaciones"
@@ -71,6 +57,8 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,6 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:padding="10dp"
+        android:layout_marginStart="10dp"
         android:fontFamily="@font/roboto"
         android:text="@string/comentario"
         android:textSize="16sp"
@@ -115,6 +104,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/rectangule"
         android:hint="@string/descripcion"
         android:inputType="textMultiLine"

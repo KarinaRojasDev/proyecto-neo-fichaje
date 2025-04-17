@@ -3,26 +3,26 @@
     <item android:title="@string/misDocumentos">
         <menu>
             <item
-                android:id="@+id/nav_item_nominaEmpleado"
+                android:id="@+id/menu_nominaEmpleado"
                 android:icon="@drawable/ic_contract"
                 android:title="@string/nominas"/>
             <item
-                android:id="@+id/nav_item_contratoEmpleado"
+                android:id="@+id/menu_contratoEmpleado"
                 android:icon="@drawable/ic_deal"
                 android:title="@string/contrato"/>
         </menu>
     </item>
     <group>
-        <item android:id="@+id/nav_item_inicioEmpleado"
+        <item android:id="@+id/menu_fichaje"
             android:icon="@drawable/ic_timer"
             android:title="@string/fichar"/>
-        <item android:id="@+id/nav_item_vacaEmpleado"
+        <item android:id="@+id/menu_vacaEmpleado"
             android:icon="@drawable/ic_beach"
             android:title="@string/tituloVacaciones"/>
-        <item android:id="@+id/nav_item_permisoEmpleado"
+        <item android:id="@+id/menu_permisoEmpleado"
             android:icon="@drawable/ic_today"
             android:title="@string/permisoBaja"/>
-        <item android:id="@+id/nav_item_cerrarEmpleado"
+        <item android:id="@+id/menu_cerrarEmpleado"
             android:icon="@drawable/ic_logout"
             android:title="@string/cerrarSesionEmpleado"/>
     </group>

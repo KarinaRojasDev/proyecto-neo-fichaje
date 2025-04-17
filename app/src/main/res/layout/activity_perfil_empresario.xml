@@ -7,27 +7,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".nominas_empleado">
+    tools:context=".perfilEmpresario">
 
     <include
-        android:id="@+id/includeNominas"
+        android:id="@+id/include_Perfil"
         layout="@layout/toolbar_comun"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <android.widget.Button
-        android:id="@+id/btn_iniSesionEmpresa"
+        android:id="@+id/btn_editarPerfilEmpresa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="20dp"
         android:background="@drawable/gradient"
         android:padding="10dp"
-        android:text="MIS NOMINAS"
-        android:textAllCaps="false"
+        android:text="EDITAR PERFIL"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.widget.Button
+        android:id="@+id/btn_contrasenia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:background="@drawable/gradient"
+        android:padding="10dp"
+        android:text="Cambiar Contraseña"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_editarPerfilEmpresa"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.text.InputType
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import android.view.View.OnTouchListener
 import com.example.neofichaje.databinding.ActivityCambioContraseniaBinding
 import com.google.android.material.snackbar.Snackbar
@@ -24,6 +25,7 @@ class cambio_contrasenia : AppCompatActivity(), View.OnClickListener, OnTouchLis
         setContentView(binding.root)
         auth = FirebaseAuth.getInstance()
 
+        toolbar()
         binding.btnGuardarPass.setOnClickListener(this)
         binding.etPassActual.setOnTouchListener(this)
         binding.etNuevaContrasenia.setOnTouchListener(this)
@@ -37,6 +39,11 @@ class cambio_contrasenia : AppCompatActivity(), View.OnClickListener, OnTouchLis
                 cambiarContrasenia(v)
             }
         }
+    }
+    private fun toolbar(){
+        val toolbar: Toolbar = findViewById(R.id.includeCambioContraseniaToolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = "CAMBIO DE CONTRASEÑA" // Cambia el título aquí
     }
     private fun cambiarContrasenia(vista: View) {
         val pass = binding.etPassActual.text.toString().trim()
@@ -186,5 +193,4 @@ class cambio_contrasenia : AppCompatActivity(), View.OnClickListener, OnTouchLis
             }
         }
     }
-
 }

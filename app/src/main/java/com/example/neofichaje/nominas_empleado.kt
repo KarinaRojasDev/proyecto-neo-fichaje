@@ -14,5 +14,13 @@ class nominas_empleado : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNominasEmpleadoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        toolbar()
+    }
+    private fun toolbar() {
+        val barraHerramientas = binding.includeNominas.toolbarComun
+        setSupportActionBar(barraHerramientas)
+        // Cambiar el título del Toolbar
+        supportActionBar?.title = "MIS NÓMINAS"
     }
 }

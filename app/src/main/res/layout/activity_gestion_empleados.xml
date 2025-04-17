@@ -7,10 +7,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".nominas_empleado">
+    tools:context=".gestionEmpleados">
 
     <include
-        android:id="@+id/includeNominas"
+        android:id="@+id/includeGestionEmpleados"
         layout="@layout/toolbar_comun"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -23,8 +23,7 @@
         android:layout_margin="20dp"
         android:background="@drawable/gradient"
         android:padding="10dp"
-        android:text="MIS NOMINAS"
-        android:textAllCaps="false"
+        android:text="GESTION EMPLEADOS EMPRESA"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
