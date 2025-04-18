@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import android.view.View.OnTouchListener
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import com.example.neofichaje.databinding.ActivityCambioContraseniaBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -15,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class cambio_contrasenia : AppCompatActivity(), View.OnClickListener, OnTouchListener {
     private lateinit var binding: ActivityCambioContraseniaBinding
+    private lateinit var menu: ActionBarDrawerToggle
     private lateinit var auth: FirebaseAuth
     private var esVisible = false
 
@@ -26,6 +29,8 @@ class cambio_contrasenia : AppCompatActivity(), View.OnClickListener, OnTouchLis
         auth = FirebaseAuth.getInstance()
 
         toolbar()
+        configurarMenuLateral()
+        manejarOpcionesMenu()
         binding.btnGuardarPass.setOnClickListener(this)
         binding.etPassActual.setOnTouchListener(this)
         binding.etNuevaContrasenia.setOnTouchListener(this)
@@ -44,6 +49,15 @@ class cambio_contrasenia : AppCompatActivity(), View.OnClickListener, OnTouchLis
         val toolbar: Toolbar = findViewById(R.id.includeCambioContraseniaToolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = "CAMBIO DE CONTRASEÑA" // Cambia el título aquí
+
+        menu = ActionBarDrawerToggle(
+            this,
+            binding.menuCambioPass,  // Este es tu MENU ID
+            toolbar,  // Tu toolbar
+            R.string.abrir_menu,
+            R.string.cerrar_menu)
+        binding.menuCambioPass.addDrawerListener(menu)
+        menu.syncState()
     }
     private fun cambiarContrasenia(vista: View) {
         val pass = binding.etPassActual.text.toString().trim()
@@ -77,7 +91,6 @@ class cambio_contrasenia : AppCompatActivity(), View.OnClickListener, OnTouchLis
                             usuario?.updatePassword(nuevaContrasenia)
                                 ?.addOnSuccessListener {
                                     Snackbar.make(vista, "Contraseña actualizada correctamente", Snackbar.LENGTH_LONG).show()
-                                    acciones()
                                 }
                                 ?.addOnFailureListener {
                                     Snackbar.make(vista, "Error al actualizar contraseña", Snackbar.LENGTH_LONG).show()
@@ -94,13 +107,7 @@ class cambio_contrasenia : AppCompatActivity(), View.OnClickListener, OnTouchLis
                 Snackbar.make(vista, "Error al buscar en la base de datos", Snackbar.LENGTH_LONG).show()
             }
     }
-    //-----------------------------------------------
-    private fun acciones(){
-        val intent = Intent(this, activity_login_empresario::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
-    }
+
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         when (v?.id) {
@@ -191,6 +198,49 @@ class cambio_contrasenia : AppCompatActivity(), View.OnClickListener, OnTouchLis
                 }
                 binding.etConfirmeContrasenia.setSelection(binding.etConfirmeContrasenia.text.length)
             }
+        }
+    }
+    private fun configurarMenuLateral() {
+        // Aquí puedes agregar más configuraciones si lo necesitas
+
+    }
+    // Manejar las opciones seleccionadas en el menú lateral
+    private fun manejarOpcionesMenu() {
+
+        binding.navViewGestion.setNavigationItemSelectedListener { opcion ->
+            when (opcion.itemId) {
+
+                R.id.menu_perfilEmpresa -> {
+                    val intent = Intent(this, perfilEmpresario::class.java)
+                    startActivity(intent)
+                }
+
+                R.id.menu_gestionEmpleados -> {
+                    val intent = Intent(this, gestionEmpleados::class.java)
+                    startActivity(intent)
+                }
+
+                R.id.menu_asistenciaEmpleado -> {
+                    val intent = Intent(this, gestionControlAsistencia::class.java)
+                    startActivity(intent)
+                }
+
+                R.id.menu_gestionVacaiones -> {
+                    val intent = Intent(this, gestionVacaciones::class.java)
+                    startActivity(intent)
+                }
+
+                R.id.menu_adjuntarDocumento -> {
+                    val intent = Intent(this, documentosEmpleados::class.java)
+                    startActivity(intent)
+                }
+
+                R.id.menu_cerrarSesionEmpresa -> {
+                    finishAffinity()
+                }
+            }
+            binding.menuCambioPass.closeDrawer(GravityCompat.START)
+            true
         }
     }
 }
