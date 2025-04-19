@@ -40,6 +40,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="20dp"
                     android:background="@drawable/gradient"
+                    android:textColor="@android:color/black"
                     android:padding="10dp"
                     android:text="GESTION VACACIONES"
                     android:textSize="16sp"/>

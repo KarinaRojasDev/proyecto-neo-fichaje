@@ -79,11 +79,11 @@ class gestionControlAsistencia : AppCompatActivity() {
                 }
 
                 R.id.menu_cerrarSesionEmpresa -> {
-                    finishAffinity()  // Cierra todas las actividades
+                    finishAffinity()
                 }
             }
 
-            binding.menuGestionAsistencia.closeDrawer(GravityCompat.START)  // Cerrar el menú lateral
+            binding.menuGestionAsistencia.closeDrawer(GravityCompat.START)
             true
         }
     }

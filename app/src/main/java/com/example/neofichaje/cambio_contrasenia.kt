@@ -6,6 +6,7 @@ import android.text.InputType
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import android.view.View.OnClickListener
 import androidx.appcompat.widget.Toolbar
 import android.view.View.OnTouchListener
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -15,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class cambio_contrasenia : AppCompatActivity(), View.OnClickListener, OnTouchListener {
+class cambio_contrasenia : AppCompatActivity(), OnClickListener, OnTouchListener {
     private lateinit var binding: ActivityCambioContraseniaBinding
     private lateinit var menu: ActionBarDrawerToggle
     private lateinit var auth: FirebaseAuth
@@ -46,14 +47,14 @@ class cambio_contrasenia : AppCompatActivity(), View.OnClickListener, OnTouchLis
         }
     }
     private fun toolbar(){
-        val toolbar: Toolbar = findViewById(R.id.includeCambioContraseniaToolbar)
+        val toolbar = binding.includeEditarContrasenia.toolbarComun
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "CAMBIO DE CONTRASEÑA" // Cambia el título aquí
+        supportActionBar?.title = "CAMBIO DE CONTRASEÑA"
 
         menu = ActionBarDrawerToggle(
             this,
-            binding.menuCambioPass,  // Este es tu MENU ID
-            toolbar,  // Tu toolbar
+            binding.menuCambioPass,
+            toolbar,
             R.string.abrir_menu,
             R.string.cerrar_menu)
         binding.menuCambioPass.addDrawerListener(menu)

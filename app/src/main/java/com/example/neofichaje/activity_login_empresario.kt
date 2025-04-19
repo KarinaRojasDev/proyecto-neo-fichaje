@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.neofichaje.databinding.ActivityLoginEmpresarioBinding
 import com.google.android.material.snackbar.Snackbar
@@ -57,7 +56,6 @@ class activity_login_empresario : AppCompatActivity(), View.OnClickListener, Vie
                                 val puesto = document.getString("puesto")
                                 if (puesto == "administrador") {
                                     acciones()
-                                    Toast.makeText(this, "Inicio de sesión correctamente", Toast.LENGTH_SHORT).show()
                                 } else {
                                     auth.signOut()
                                     Snackbar.make(binding.root, "Acceso denegado. Esta zona es solo para administradores.", Snackbar.LENGTH_LONG).show()

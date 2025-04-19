@@ -49,14 +49,38 @@ class inicio_empleado : AppCompatActivity() {
     }
 
     private fun manejarOpcionesMenu() {
+
         binding.navView.setNavigationItemSelectedListener { opcion ->
             when (opcion.itemId) {
-                R.id.menu_fichaje -> startActivity(Intent(this, empleado_control_horario::class.java))
-                R.id.menu_vacaEmpleado -> startActivity(Intent(this, empleado_solicitud_vacaciones::class.java))
-                R.id.menu_permisoEmpleado -> startActivity(Intent(this, permisoEmpleado::class.java))
-                R.id.menu_nominaEmpleado -> startActivity(Intent(this, nominas_empleado::class.java))
-                R.id.menu_contratoEmpleado -> startActivity(Intent(this, contratoEmpleado::class.java))
-                R.id.menu_cerrarEmpleado -> finishAffinity()
+
+                R.id.menu_fichaje -> {
+                    val intent = Intent(this, empleado_control_horario::class.java)
+                    startActivity(intent)
+                }
+
+                R.id.menu_vacaEmpleado -> {
+                    val intent = Intent(this, empleado_solicitud_vacaciones::class.java)
+                    startActivity(intent)
+                }
+
+                R.id.menu_permisoEmpleado -> {
+                    val intent = Intent(this, permisoEmpleado::class.java)
+                    startActivity(intent)
+                }
+
+                R.id.menu_nominaEmpleado -> {
+                    val intent = Intent(this, nominas_empleado::class.java)
+                    startActivity(intent)
+                }
+
+                R.id.menu_contratoEmpleado -> {
+                    val intent = Intent(this, contratoEmpleado::class.java)
+                    startActivity(intent)
+                }
+
+                R.id.menu_cerrarEmpleado -> {
+                    finishAffinity()
+                }
             }
 
             binding.inicioEmpleado.closeDrawer(GravityCompat.START)

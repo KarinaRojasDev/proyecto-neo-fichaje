@@ -30,8 +30,8 @@ class nominas_empleado : AppCompatActivity() {
         supportActionBar?.title = "MIS NÓMINAS"
         menu = ActionBarDrawerToggle(
             this,
-            binding.menuNominasEmpleado,  // Este es tu MENU ID
-            barraHerramientas,  // Tu toolbar
+            binding.menuNominasEmpleado,
+            barraHerramientas,
             R.string.abrir_menu,
             R.string.cerrar_menu)
         binding.menuNominasEmpleado.addDrawerListener(menu)
@@ -44,40 +44,40 @@ class nominas_empleado : AppCompatActivity() {
     // Manejar las opciones seleccionadas en el menú lateral
     private fun manejarOpcionesMenu() {
 
-        binding.navViewGestion.setNavigationItemSelectedListener { opcion ->
+        binding.navView.setNavigationItemSelectedListener { opcion ->
             when (opcion.itemId) {
 
-                R.id.menu_perfilEmpresa -> {
-                    val intent = Intent(this, perfilEmpresario::class.java)
+                R.id.menu_fichaje -> {
+                    val intent = Intent(this, empleado_control_horario::class.java)
                     startActivity(intent)
                 }
 
-                R.id.menu_gestionEmpleados -> {
-                    val intent = Intent(this, gestionEmpleados::class.java)
+                R.id.menu_vacaEmpleado -> {
+                    val intent = Intent(this, empleado_solicitud_vacaciones::class.java)
                     startActivity(intent)
                 }
 
-                R.id.menu_asistenciaEmpleado -> {
-                    val intent = Intent(this, gestionControlAsistencia::class.java)
+                R.id.menu_permisoEmpleado -> {
+                    val intent = Intent(this, permisoEmpleado::class.java)
                     startActivity(intent)
                 }
 
-                R.id.menu_gestionVacaiones -> {
-                    val intent = Intent(this, gestionVacaciones::class.java)
+                R.id.menu_nominaEmpleado -> {
+                    val intent = Intent(this, nominas_empleado::class.java)
                     startActivity(intent)
                 }
 
-                R.id.menu_adjuntarDocumento -> {
-                    val intent = Intent(this, documentosEmpleados::class.java)
+                R.id.menu_contratoEmpleado -> {
+                    val intent = Intent(this, contratoEmpleado::class.java)
                     startActivity(intent)
                 }
 
-                R.id.menu_cerrarSesionEmpresa -> {
-                    finishAffinity()  // Cierra todas las actividades
+                R.id.menu_cerrarEmpleado -> {
+                    finishAffinity()
                 }
             }
 
-            binding.menuNominasEmpleado.closeDrawer(GravityCompat.START)  // Cerrar el menú lateral
+            binding.menuNominasEmpleado.closeDrawer(GravityCompat.START)
             true
         }
     }

@@ -1,231 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/menuEditarPerfil"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activity_empresario_perfil">
-
-    <include
-        android:id="@+id/includeEditarPerfil"
-        layout="@layout/toolbar_comun"
+    tools:context=".activity_empresario_perfil"
+    tools:openDrawer="start">
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include
+                android:id="@+id/includeEditarPerfil"
+                layout="@layout/toolbar_comun"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:id="@+id/notificationEmpresa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+                <LinearLayout
+                    android:id="@+id/layoutEmpresa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp">
 
-    <LinearLayout
-        android:id="@+id/layoutEmpresa"
-        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tv_titleEmpresa"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        app:drawableStartCompat="@drawable/ic_business"
+                        android:layout_marginEnd="8dp"
+                        android:drawablePadding="10dp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/roboto"
+                        android:text="@string/nombreEmpresa"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_nombreEmpresa"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/neoGestion"
+                        android:textSize="16sp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutNif"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/titleNif"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:text="@string/nifEmpresa"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:drawableStartCompat="@drawable/ic_nit" />
+
+                    <TextView
+                        android:id="@+id/et_passActual"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/black"
+                        android:text="@string/nif"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutEditar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <EditText
+                        android:id="@+id/et_emailEmpresa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/style_etbg"
+                        android:drawableStart="@drawable/ic_email"
+                        android:textColor="@color/black"
+                        android:drawablePadding="10dp"
+                        android:ems="20"
+                        android:hint="@string/emailEmpresa"
+                        android:inputType="textEmailAddress"
+                        android:padding="4dp"
+                        android:textColorHint="@color/celeste"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/et_fonoEmpresa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/style_etbg"
+                        android:textColor="@color/black"
+                        android:drawableStart="@drawable/ic_phone"
+                        android:drawablePadding="16dp"
+                        android:ems="20"
+                        android:hint="@string/fonoEmpresa"
+                        android:inputType="number"
+                        android:padding="4dp"
+                        android:textColorHint="@color/celeste"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/et_dirEmpresa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/style_etbg"
+                        android:textColor="@color/black"
+                        android:drawableStart="@drawable/ic_location"
+                        android:drawablePadding="16dp"
+                        android:ems="20"
+                        android:hint="@string/dirreccionEmpresa"
+                        android:inputType="text"
+                        android:padding="4dp"
+                        android:textColorHint="@color/celeste"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/et_webEmpresa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/style_etbg"
+                        android:drawableStart="@drawable/ic_web"
+                        android:drawablePadding="16dp"
+                        android:textColor="@color/black"
+                        android:ems="20"
+                        android:hint="@string/webEmpresa"
+                        android:inputType="text"
+                        android:padding="4dp"
+                        android:textColorHint="@color/celeste"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tituloAdministrador"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:text="@string/tituloEmpresario"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/et_nombreEmpresario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/style_etbg"
+                        android:textColor="@color/black"
+                        android:drawableStart="@drawable/ic_person"
+                        android:drawablePadding="10dp"
+                        android:ems="20"
+                        android:hint="@string/nombreAdministrador"
+                        android:inputType="textCapSentences|textPersonName"
+                        android:padding="4dp"
+                        android:textColorHint="@color/celeste"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/et_emailEmpresario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/style_etbg"
+                        android:textColor="@color/black"
+                        android:drawableStart="@drawable/ic_email"
+                        android:drawablePadding="10dp"
+                        android:ems="20"
+                        android:hint="@string/emailAdministrador"
+                        android:inputType="textEmailAddress"
+                        android:padding="4dp"
+                        android:textColorHint="@color/celeste"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/cargoAdministrador"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:text="@string/cargo"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="80dp" />
+
+                    <android.widget.Button
+                        android:id="@+id/btn_iniSesionEmpresa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/gradient"
+                        android:textColor="@android:color/black"
+                        android:padding="10dp"
+                        android:text="@string/btnGuardarCambios"
+                        android:textAllCaps="false"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view_empresario"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="90dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutEditar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/tv_titleEmpresa"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            app:drawableStartCompat="@drawable/ic_business"
-            android:layout_marginEnd="8dp"
-            android:drawablePadding="10dp"
-            android:fontFamily="@font/roboto"
-            android:text="@string/nombreEmpresa"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:id="@+id/tv_nombreEmpresa"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/neoGestion"
-            android:textSize="16sp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/black" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutNif"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="10dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutEditar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutEmpresa">
-
-        <TextView
-            android:id="@+id/titleNif"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:drawablePadding="10dp"
-            android:fontFamily="@font/roboto"
-            android:text="@string/nifEmpresa"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:drawableStartCompat="@drawable/ic_nit" />
-
-        <TextView
-            android:id="@+id/et_passActual"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/black"
-            android:text="@string/nif"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayoutEditar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:orientation="vertical"
-        android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <EditText
-            android:id="@+id/et_emailEmpresa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/style_etbg"
-            android:drawableStart="@drawable/ic_email"
-            android:drawablePadding="10dp"
-            android:ems="20"
-            android:hint="@string/emailEmpresa"
-            android:inputType="textEmailAddress"
-            android:padding="4dp"
-            android:textColorHint="@color/celeste"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/et_fonoEmpresa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/style_etbg"
-            android:drawableStart="@drawable/ic_phone"
-            android:drawablePadding="16dp"
-            android:ems="20"
-            android:hint="@string/fonoEmpresa"
-            android:inputType="number"
-            android:padding="4dp"
-            android:textColorHint="@color/celeste"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/et_dirEmpresa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/style_etbg"
-            android:drawableStart="@drawable/ic_location"
-            android:drawablePadding="16dp"
-            android:ems="20"
-            android:hint="@string/dirreccionEmpresa"
-            android:inputType="text"
-            android:padding="4dp"
-            android:textColorHint="@color/celeste"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/et_webEmpresa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/style_etbg"
-            android:drawableStart="@drawable/ic_web"
-            android:drawablePadding="16dp"
-            android:ems="20"
-            android:hint="@string/webEmpresa"
-            android:inputType="text"
-            android:padding="4dp"
-            android:textColorHint="@color/celeste"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tituloAdministrador"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/roboto"
-            android:text="@string/tituloEmpresario"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/et_nombreEmpresario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/style_etbg"
-            android:drawableStart="@drawable/ic_person"
-            android:drawablePadding="10dp"
-            android:ems="20"
-            android:hint="@string/nombreAdministrador"
-            android:inputType="textCapSentences|textPersonName"
-            android:padding="4dp"
-            android:textColorHint="@color/celeste"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/et_emailEmpresario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/style_etbg"
-            android:drawableStart="@drawable/ic_email"
-            android:drawablePadding="10dp"
-            android:ems="20"
-            android:hint="@string/emailAdministrador"
-            android:inputType="textEmailAddress"
-            android:padding="4dp"
-            android:textColorHint="@color/celeste"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/cargoAdministrador"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/roboto"
-            android:text="@string/cargo"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp" />
-
-        <android.widget.Button
-            android:id="@+id/btn_iniSesionEmpresa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/gradient"
-            android:padding="10dp"
-            android:text="@string/btnGuardarCambios"
-            android:textAllCaps="false"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_gravity="start"
+        app:menu="@menu/activity_inicio_empresario_menu"
+        />
+</androidx.drawerlayout.widget.DrawerLayout>

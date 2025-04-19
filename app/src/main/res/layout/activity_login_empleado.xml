@@ -42,9 +42,9 @@
             android:background="@drawable/style_etbg"
             android:hint="@string/correo"
             android:drawableStart="@drawable/ic_email"
+            android:textColor="@color/black"
             android:drawablePadding="10dp"
             android:textSize="16sp"
-            android:inputType="textCapSentences"
             android:textColorHint="@color/celeste" />
 
         <EditText
@@ -61,6 +61,7 @@
             android:inputType="textPassword"
             android:padding="6dp"
             android:textColorHint="@color/celeste"
+            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <android.widget.Button
@@ -72,6 +73,7 @@
             android:layout_gravity="center"
             android:textAllCaps="false"
             android:background="@drawable/gradient"
+            android:textColor="@android:color/black"
             android:text="@string/inicioSesion"
             android:padding="10dp"
             android:layout_marginBottom="20dp"/>
@@ -79,6 +81,7 @@
             android:id="@+id/txt_puesto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:text="@string/puesto"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="20dp"

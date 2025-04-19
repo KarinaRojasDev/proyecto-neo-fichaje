@@ -55,9 +55,6 @@
             android:name=".inicio_empleado"
             android:exported="false" />
         <activity
-            android:name=".empleado_mis_documentos"
-            android:exported="false" />
-        <activity
             android:name=".empleado_control_horario"
             android:exported="false" />
         <activity

@@ -45,26 +45,22 @@ class perfilEmpresario : AppCompatActivity(),OnClickListener {
         menu.syncState()
     }
     override fun onClick(v: View?) {
-
         when (v?.id) {
-            R.id.btn_editarPerfilEmpresa -> {
-                acciones()
+            binding.btnEditarPerfilEmpresa.id -> {
+                accionEditarPerfil()
             }
-
-            R.id.btnCambioPass -> {
+            binding.btnCambioPass.id -> {
                 accionesContrasenia()
             }
         }
     }
-    private fun acciones(){
-        val intent= Intent(this, activity_empresario_perfil ::class.java)
-        startActivity(intent)
+    private fun accionEditarPerfil(){
+        val intentEditarPerfil= Intent(this, activity_empresario_perfil ::class.java)
+        startActivity(intentEditarPerfil)
     }
     private fun accionesContrasenia() {
-        // Intent para el segundo botón (Cambiar Contraseña)
         val intentContrasenia = Intent(this, cambio_contrasenia ::class.java)
         startActivity(intentContrasenia)
-
     }
     // Configurar el menú lateral
     private fun configurarMenuLateral() {

@@ -1,140 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/menuSolicitudVaca"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".empleado_solicitud_vacaciones">
-
-    <include
-        android:id="@+id/includeVacaciones"
-        layout="@layout/toolbar_comun"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
-    <LinearLayout
-        android:id="@+id/fechaInicioVacaciones"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:layout_marginTop="130dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/textofechaInicioVaca"
-            android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawablePadding="10dp"
-            android:fontFamily="@font/roboto"
-            android:hint="@string/SeleccioneFechaInicio"
-            android:padding="10dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:drawableStartCompat="@drawable/ic_date" />
+            android:orientation="vertical">
+            <include
+                android:id="@+id/includeVacaciones"
+                layout="@layout/toolbar_comun"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <CalendarView
-            android:id="@+id/calendarioInicioVacaciones"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
 
-    <LinearLayout
-        android:id="@+id/fechaFinVacaciones"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="15dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fechaInicioVacaciones">
+                <LinearLayout
+                    android:id="@+id/fechaInicioVacaciones"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:padding="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textofechaFinVaca"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/roboto"
-            android:padding="10dp"
-            app:drawableStartCompat="@drawable/ic_date"
-            android:drawablePadding="10dp"
-            android:hint="@string/SeleccioneFechaFin"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/textofechaInicioVaca"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:hint="@string/SeleccioneFechaInicio"
+                        android:padding="10dp"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:drawableStartCompat="@drawable/ic_date" />
 
-        <CalendarView
-            android:id="@+id/calendarioFinVaca"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-    </LinearLayout>
+                    <CalendarView
+                        android:id="@+id/calendarioInicioVacaciones"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/fechaFinVacaciones"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="15dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fechaInicioVacaciones">
 
-    <TextView
-        android:id="@+id/tv_tittleComenVaca"
+                    <TextView
+                        android:id="@+id/textofechaFinVaca"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto"
+                        android:padding="10dp"
+                        app:drawableStartCompat="@drawable/ic_date"
+                        android:drawablePadding="10dp"
+                        android:textColor="@color/black"
+                        android:hint="@string/SeleccioneFechaFin"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <CalendarView
+                        android:id="@+id/calendarioFinVaca"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_tittleComenVaca"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:text="@string/comentario"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+                    <EditText
+                        android:id="@+id/id_comentarioVaca"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/rectangule"
+                        android:hint="@string/descripcion"
+                        android:inputType="textMultiLine"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="16sp"
+                        android:maxLines="5"
+                        android:minLines="3"
+                        android:padding="15dp" />
+
+                </LinearLayout>
+                <android.widget.Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/gradient"
+                    android:textColor="@android:color/black"
+                    android:padding="16dp"
+                    android:layout_gravity="center"
+                    android:text="@string/enviarSolicitud"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:padding="10dp"
-        android:layout_marginStart="10dp"
-        android:fontFamily="@font/roboto"
-        android:text="@string/comentario"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fechaFinVacaciones" />
+        android:layout_gravity="start"
+        app:menu="@menu/activity_inicio_empleado_menu" />
+</androidx.drawerlayout.widget.DrawerLayout>
 
 
-    <EditText
-        android:id="@+id/id_comentarioVaca"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/rectangule"
-        android:hint="@string/descripcion"
-        android:inputType="textMultiLine"
-        android:fontFamily="@font/roboto"
-        android:textSize="16sp"
-        android:maxLines="5"
-        android:minLines="3"
-        android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guid_solicitudVaca"
-        app:layout_constraintTop_toBottomOf="@+id/fechaFinVacaciones" />
-
-    <android.widget.Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/gradient"
-        android:padding="16dp"
-        android:text="@string/enviarSolicitud"
-        android:textAllCaps="false"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/id_comentarioVaca"
-        app:layout_constraintTop_toBottomOf="@+id/id_comentarioVaca" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guid_solicitudVaca"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.25" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
