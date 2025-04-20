@@ -56,4 +56,6 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     // Realtime Database
     implementation("com.google.firebase:firebase-database")
+    //calendario pro
+    implementation ("com.prolificinteractive:material-calendarview:1.4.3")
 }

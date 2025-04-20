@@ -43,8 +43,7 @@ class empleado_solicitud_vacaciones : AppCompatActivity() {
 
     }
     private fun configurarMenuLateral() {
-        // Si necesitas algo adicional en el futuro para configurar el NavigationView, puedes usar este método.
-        // Por ahora lo dejamos vacío o como placeholder si quieres.
+        // configurar el NavigationView
     }
 
     private fun manejarOpcionesMenu() {

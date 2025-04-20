@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <include
                 android:id="@+id/includeEditarPerfil"
                 layout="@layout/toolbar_comun"
@@ -27,13 +28,25 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:orientation="vertical"
-                android:padding="16dp">
+                >
+                <TextView
+                    android:id="@+id/tituloEmpresa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black"
+                    android:text="@string/datosEmpresa"
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"
+                    android:textStyle="bold" />
                 <LinearLayout
                     android:id="@+id/layoutEmpresa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="10dp">
 
@@ -43,7 +56,7 @@
                         android:layout_height="wrap_content"
                         app:drawableStartCompat="@drawable/ic_business"
                         android:layout_marginEnd="8dp"
-                        android:drawablePadding="10dp"
+                        android:drawablePadding="4dp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/roboto"
                         android:text="@string/nombreEmpresa"
@@ -57,7 +70,7 @@
                         android:text="@string/neoGestion"
                         android:textSize="16sp"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/black" />
+                        android:textColor="@color/black" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -74,7 +87,7 @@
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
-                        android:drawablePadding="10dp"
+                        android:drawablePadding="4dp"
                         android:fontFamily="@font/roboto"
                         android:textColor="@color/black"
                         android:text="@string/nifEmpresa"
@@ -87,7 +100,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/black"
+                        android:textColor="@color/black"
                         android:text="@string/nif"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -99,7 +112,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:paddingTop="20dp">
 
                     <EditText
                         android:id="@+id/et_emailEmpresa"
@@ -114,7 +127,7 @@
                         android:hint="@string/emailEmpresa"
                         android:inputType="textEmailAddress"
                         android:padding="4dp"
-                        android:textColorHint="@color/celeste"
+                        android:textColorHint="@color/teal_900"
                         android:textSize="16sp" />
 
                     <EditText
@@ -130,7 +143,7 @@
                         android:hint="@string/fonoEmpresa"
                         android:inputType="number"
                         android:padding="4dp"
-                        android:textColorHint="@color/celeste"
+                        android:textColorHint="@color/teal_900"
                         android:textSize="16sp" />
 
                     <EditText
@@ -146,7 +159,7 @@
                         android:hint="@string/dirreccionEmpresa"
                         android:inputType="text"
                         android:padding="4dp"
-                        android:textColorHint="@color/celeste"
+                        android:textColorHint="@color/teal_900"
                         android:textSize="16sp" />
 
                     <EditText
@@ -162,14 +175,15 @@
                         android:hint="@string/webEmpresa"
                         android:inputType="text"
                         android:padding="4dp"
-                        android:textColorHint="@color/celeste"
+                        android:textColorHint="@color/teal_900"
                         android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tituloAdministrador"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginBottom="20dp"
                         android:fontFamily="@font/roboto"
                         android:textColor="@color/black"
                         android:text="@string/tituloEmpresario"
@@ -189,7 +203,7 @@
                         android:hint="@string/nombreAdministrador"
                         android:inputType="textCapSentences|textPersonName"
                         android:padding="4dp"
-                        android:textColorHint="@color/celeste"
+                        android:textColorHint="@color/teal_900"
                         android:textSize="16sp" />
 
                     <EditText
@@ -205,7 +219,7 @@
                         android:hint="@string/emailAdministrador"
                         android:inputType="textEmailAddress"
                         android:padding="4dp"
-                        android:textColorHint="@color/celeste"
+                        android:textColorHint="@color/teal_900"
                         android:textSize="16sp" />
 
                     <TextView
@@ -220,6 +234,7 @@
                         android:textStyle="bold" />
 
                     <Spinner
+                        android:id="@+id/spinnerPuesto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="80dp" />

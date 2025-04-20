@@ -2,6 +2,7 @@ package com.example.neofichaje
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,10 @@ import com.example.neofichaje.databinding.ActivityGestionVacacionesBinding
 class gestionVacaciones : AppCompatActivity() {
     private lateinit var binding: ActivityGestionVacacionesBinding
     private lateinit var menu: ActionBarDrawerToggle
+    private lateinit var listaEmpleados:ArrayList<CharSequence>
+    private lateinit var opciones:ArrayList<CharSequence>
+    private lateinit var adapterLista:ArrayAdapter<CharSequence>
+    private lateinit var adapterOpciones:ArrayAdapter<CharSequence>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +27,24 @@ class gestionVacaciones : AppCompatActivity() {
         toolbar()
         configurarMenuLateral()
         manejarOpcionesMenu()
+        instancias()
+        instanciasOpciones()
     }
+
+    private fun instanciasOpciones() {
+        opciones= arrayListOf("Pendiente","Aceptar","Rechazar")
+        adapterOpciones=ArrayAdapter(applicationContext,android.R.layout.simple_spinner_item,opciones)
+        adapterOpciones.setDropDownViewResource(android.R.layout.simple_spinner_item)
+        binding.spinnerOpciones.adapter=adapterOpciones
+    }
+
+    private fun instancias() {
+        listaEmpleados=arrayListOf("Karina Sol Vega","Empleado 2")
+        adapterLista=ArrayAdapter(applicationContext,android.R.layout.simple_spinner_item,listaEmpleados)
+        adapterLista.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerEmpleados.adapter=adapterLista
+    }
+
     private fun toolbar() {
         val barraHerramientas = binding.includeGestionVacaciones.toolbarComun
         setSupportActionBar(barraHerramientas)
@@ -30,8 +52,8 @@ class gestionVacaciones : AppCompatActivity() {
         supportActionBar?.title = "GESTIÓN VACACIONES"
         menu = ActionBarDrawerToggle(
             this,
-            binding.menuGestionVacaciones,  // Este es tu MENU ID
-            barraHerramientas,  // Tu toolbar
+            binding.menuGestionVacaciones,
+            barraHerramientas,
             R.string.abrir_menu,
             R.string.cerrar_menu)
         binding.menuGestionVacaciones.addDrawerListener(menu)

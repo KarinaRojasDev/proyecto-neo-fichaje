@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
+import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,8 @@ import com.example.neofichaje.databinding.ActivityEmpresarioPerfilBinding
 class activity_empresario_perfil : AppCompatActivity() {
     private lateinit var binding: ActivityEmpresarioPerfilBinding
     private lateinit var menu: ActionBarDrawerToggle
+    private lateinit var puesto:ArrayList<CharSequence>
+    private lateinit var adapterPuesto: ArrayAdapter<CharSequence>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +28,15 @@ class activity_empresario_perfil : AppCompatActivity() {
         toolbar()
         configurarMenuLateral()
         manejarOpcionesMenu()
+        instancias()
 
+    }
+
+    private fun instancias() {
+        puesto= arrayListOf("Gerente","Administrador")
+        adapterPuesto=ArrayAdapter(applicationContext,android.R.layout.simple_spinner_item,puesto)
+        adapterPuesto.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerPuesto.adapter=adapterPuesto
     }
 
     private fun toolbar() {

@@ -53,7 +53,7 @@
 
     <!--EMPRESARIO-->
 
-    <!--pantalla de inicio LOGIN EMPRESARIO-->
+    <!--LOGIN EMPRESARIO-->
     <string name="puesto">Soy Administrador</string>
 
     <!--MENU EMPRESARIO-->
@@ -64,7 +64,7 @@
     <string name="perfil">Mi Perfil</string>
     <string name="cerrarSesion">Cerrar Sesión</string>
 
-    <!--pantalla de CONFIRMAR CONTRASEÑA EMPRESARIO-->
+    <!--EDITAR CONTRASEÑA-->
     <string name="titlePass">Cambio de Contraseña</string>
     <string name="passActual">Contraseña actual:</string>
     <string name="passNueva">Nueva Contraseña:</string>
@@ -75,27 +75,41 @@
     <string name="acepto">He leido y acepto los</string>
     <string name="terminos">términos y condiciones de uso.</string>
 
+    <!--GESTIÓN ADJUNTAR ARCHIVOS-->
+    <string name="doc">Seleccionar el tipo de documento:</string>
+    <string name="archivos">Subir archivos</string>
+    <string name="arrastrar">Arrastrar y soltar archivo</string>
+    <string name="select">Seleccionar empleado:</string>
+    <string name="guardar">Guardar documento</string>
 
-    <!--pantalla de configuración EMPRESARIO-->
+    <!--GESTIÓN DE VACACIONES-->
+    <string name="titulo">Listado de solicitud de vacaciones</string>
+    <string name="nuevas">Nuevas solicitudes:</string>
+    <string name="realizadas">Solicitudes realizadas:</string>
+    <string name="aplicar">Aplicar</string>
+
+
+
+    <!--pantalla de EDITAR PERFIL EMPRESA y PERFIL EMPRESA-->
+    <string name="datosEmpresa">Datos Empresa</string>
     <string name="nombreEmpresa">Nombre de Empresa:</string>
     <string name="neoGestion">Neo Gestion S.L</string>
     <string name="nifEmpresa">NIF:</string>
     <string name="nif">0123456789</string>
     <string name="emailEmpresa">Email </string>
+    <string name="email">info@neoGestion.com </string>
     <string name="fonoEmpresa">Teléfono</string>
+    <string name="fono">912345678</string>
     <string name="dirreccionEmpresa">Dirección</string>
+    <string name="dirreccion">Calle Futura 123</string>
     <string name="webEmpresa">Sitio Web</string>
+    <string name="web">www@neoGestion.com</string>
 
     <string name="tituloEmpresario">Datos del Empresario</string>
     <string name="nombreAdministrador">Nombre y Apellidos</string>
     <string name="emailAdministrador">Email Administrador:</string>
-    <string name="cargo">Puesto</string>
-    <string-array name="cargo">
-        <item>Directivo</item>
-        <item>Gerente</item>
-        <item>RRHH</item>
-        <item>Administrativo</item>
-    </string-array>
+    <string name="cargo">Puesto:</string>
+
     <string name="logoEmpresa">Logo de la Empresa</string>
     <string name="btnGuardarCambios">Guardar Cambios</string>
 </resources>

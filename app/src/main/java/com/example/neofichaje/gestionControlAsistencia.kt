@@ -12,7 +12,7 @@ import com.example.neofichaje.databinding.ActivityGestionControlAsistenciaBindin
 
 class gestionControlAsistencia : AppCompatActivity() {
     private lateinit var binding: ActivityGestionControlAsistenciaBinding
-    private lateinit var menu: ActionBarDrawerToggle//---------------------------
+    private lateinit var menu: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,29 +20,25 @@ class gestionControlAsistencia : AppCompatActivity() {
         setContentView(binding.root)
 
         toolbar()
-        configurarMenuLateral()//---------------------
-        manejarOpcionesMenu()//-----------------------
+        configurarMenuLateral()
+        manejarOpcionesMenu()
     }
 
     private fun toolbar(){
         val barraHerramientas = binding.includeGestionAsistencia.toolbarComun
         setSupportActionBar(barraHerramientas)
-
-
-        ///----------------------------------------------------------------------------------------------------
         // Cambiar el título del Toolbar
         supportActionBar?.title = "GESTIÓN CONTROL HORARIO"
         menu = ActionBarDrawerToggle(
             this,
-            binding.menuGestionAsistencia,  // Este es tu MENU ID
-            barraHerramientas,  // Tu toolbar
+            binding.menuGestionAsistencia,
+            barraHerramientas,
             R.string.abrir_menu,
             R.string.cerrar_menu)
         binding.menuGestionAsistencia.addDrawerListener(menu)
         menu.syncState()
 
     }
-
     // Configurar el menú lateral
     private fun configurarMenuLateral() {
         //  puede agregar más configuraciones

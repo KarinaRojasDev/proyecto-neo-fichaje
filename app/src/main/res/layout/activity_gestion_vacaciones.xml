@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
             <include
                 android:id="@+id/includeGestionVacaciones"
                 layout="@layout/toolbar_comun"
@@ -31,18 +32,65 @@
                 android:orientation="vertical"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginTop="300dp"> <!-- PRUEBAS CON EL MARGIN -->
-
-                <android.widget.Button
-                    android:id="@+id/btn_iniSesionEmpresa"
-                    android:layout_width="match_parent"
+                android:layout_marginTop="30dp"> <!-- PRUEBAS CON EL MARGIN -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/titulo"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20sp"
+                    android:text="@string/nuevas"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
+                <Spinner
+                    android:id="@+id/spinnerEmpleados"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="20dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="20dp">
+
+                    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                        android:id="@+id/calendarView"
+                        android:layout_width="292dp"
+                        android:layout_height="265dp"
+                        android:background="@color/rosaSuave"
+                        app:mcv_dateTextAppearance="@style/CalendarDateTextStyle"
+                        app:mcv_headerTextAppearance="@style/CalendarHeaderStyle"
+                        app:mcv_selectionColor="@color/salmon"
+                        app:mcv_showOtherDates="all"
+                        app:mcv_weekDayTextAppearance="@style/CalendarWeekStyle" />
+                </LinearLayout>
+                <Spinner
+                    android:id="@+id/spinnerOpciones"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="20dp"/>
+
+                <android.widget.Button
+                    android:id="@+id/btn_iniSesionEmpresa"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
                     android:background="@drawable/gradient"
                     android:textColor="@android:color/black"
                     android:padding="10dp"
-                    android:text="GESTION VACACIONES"
+                    android:text="@string/aplicar"
                     android:textSize="16sp"/>
             </LinearLayout>
         </LinearLayout>

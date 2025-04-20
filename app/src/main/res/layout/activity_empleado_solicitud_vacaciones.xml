@@ -51,7 +51,7 @@
                         android:drawablePadding="10dp"
                         android:fontFamily="@font/roboto"
                         android:textColor="@color/black"
-                        android:hint="@string/SeleccioneFechaInicio"
+                        android:text="@string/SeleccioneFechaInicio"
                         android:padding="10dp"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -88,7 +88,7 @@
                         app:drawableStartCompat="@drawable/ic_date"
                         android:drawablePadding="10dp"
                         android:textColor="@color/black"
-                        android:hint="@string/SeleccioneFechaFin"
+                        android:text="@string/SeleccioneFechaFin"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -130,6 +130,8 @@
                         android:hint="@string/descripcion"
                         android:inputType="textMultiLine"
                         android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/teal_900"
                         android:textSize="16sp"
                         android:maxLines="5"
                         android:minLines="3"

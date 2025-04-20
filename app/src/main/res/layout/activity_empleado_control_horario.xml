@@ -17,6 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical">
             <include
                 android:id="@+id/includeFichaje"
@@ -68,7 +70,7 @@
                             android:drawablePadding="10dp"
                             android:fontFamily="@font/roboto"
                             android:textColor="@color/black"
-                            android:hint="@string/fecha"
+                            android:text="@string/fecha"
                             android:padding="10dp"
                             android:textSize="16sp"
                             android:textStyle="bold"
@@ -98,7 +100,7 @@
                             app:drawableStartCompat="@drawable/ic_timer"
                             android:drawablePadding="10dp"
                             android:textColor="@color/black"
-                            android:hint="@string/hora"
+                            android:text="@string/hora"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -165,7 +167,7 @@
                             app:drawableStartCompat="@drawable/ic_date"
                             android:drawablePadding="10dp"
                             android:textColor="@color/black"
-                            android:hint="@string/fecha"
+                            android:text="@string/fecha"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -193,7 +195,7 @@
                             app:drawableStartCompat="@drawable/ic_timer"
                             android:drawablePadding="10dp"
                             android:textColor="@color/black"
-                            android:hint="@string/hora"
+                            android:text="@string/hora"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 

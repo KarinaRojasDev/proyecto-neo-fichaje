@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/salmon" /> <!-- Color del círculo cuando se selecciona -->
+            <corners android:radius="25dp" /> <!-- Forma circular -->
+        </shape>
+    </item>
+    <!-- Círculo cuando no está seleccionado -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" /> <!-- Fondo transparente cuando no está seleccionado -->
+            <corners android:radius="5dp" /> <!-- Forma circular -->
+        </shape>
+    </item>
+</selector>

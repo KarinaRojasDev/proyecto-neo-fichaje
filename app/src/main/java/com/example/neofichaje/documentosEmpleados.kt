@@ -2,6 +2,7 @@ package com.example.neofichaje
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,10 @@ import com.example.neofichaje.databinding.ActivityDocumentosEmpleadosBinding
 class documentosEmpleados : AppCompatActivity() {
     private lateinit var binding: ActivityDocumentosEmpleadosBinding
     private lateinit var menu: ActionBarDrawerToggle
+    private lateinit var tipoDoc:ArrayList<CharSequence>//---------
+    private lateinit var selectEmple:ArrayList<CharSequence>
+    private lateinit var adapterDoc:ArrayAdapter<CharSequence>//-----------
+    private lateinit var adapterSelect: ArrayAdapter<CharSequence>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +26,28 @@ class documentosEmpleados : AppCompatActivity() {
         toolbar()
         configurarMenuLateral()
         manejarOpcionesMenu()
+        instancias()
+        intanciasSelect()
+
     }
+
+    private fun intanciasSelect() {
+        selectEmple= arrayListOf("Karina Sol Vega","Empleado 2")
+        adapterSelect=ArrayAdapter(applicationContext,android.R.layout.simple_spinner_item,selectEmple)
+        adapterSelect.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerLista.adapter=adapterSelect
+    }
+
+    private fun instancias() {
+        tipoDoc= arrayListOf("Nómina","Contrato")
+        //para crear el adaptador
+        //necesitamos: CONTEXTO->getapplicationcontext,VISTA,LISTA DE DATOS QUE QUIERO MOSTRAR
+        adapterDoc=ArrayAdapter(applicationContext,android.R.layout.simple_spinner_item,tipoDoc)
+        adapterDoc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        //juntamos los datos con lo grafico
+        binding.spinnerDoc.adapter=adapterDoc
+    }
+
     private fun toolbar(){
         val barraHerramientas = binding.includeDocEmpleado.toolbarComun
         setSupportActionBar(barraHerramientas)

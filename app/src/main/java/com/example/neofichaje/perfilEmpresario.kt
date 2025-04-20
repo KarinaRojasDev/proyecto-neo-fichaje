@@ -37,8 +37,8 @@ class perfilEmpresario : AppCompatActivity(),OnClickListener {
         supportActionBar?.title = "MI PERFIL"
         menu = ActionBarDrawerToggle(
             this,
-            binding.menuPerfilEmpresario,  // Este es tu MENU ID
-            barraHerramientas,  // Tu toolbar
+            binding.menuPerfilEmpresario,
+            barraHerramientas,
             R.string.abrir_menu,
             R.string.cerrar_menu)
         binding.menuPerfilEmpresario.addDrawerListener(menu)
@@ -98,10 +98,10 @@ class perfilEmpresario : AppCompatActivity(),OnClickListener {
                 }
 
                 R.id.menu_cerrarSesionEmpresa -> {
-                    finishAffinity()  // Cierra todas las actividades
+                    finishAffinity()
                 }
             }
-            binding.menuPerfilEmpresario.closeDrawer(GravityCompat.START)  // Cerrar el menú lateral
+            binding.menuPerfilEmpresario.closeDrawer(GravityCompat.START)
             true
         }
     }
