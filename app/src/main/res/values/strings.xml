@@ -33,6 +33,18 @@
     <string name="botonFicharEntrada">Fichar Entrada</string>
     <string name="botonFicharSalida">Fichar Salida</string>
 
+    <!--pantalla de PERMISOS/BAJAS-->
+    <string name="permiso">Seleccione el tipo de permiso o baja que necesita</string>
+    <string name="tipoPermiso">Tipo de solicitud:</string>
+    <string name="motivo">Motivo:</string>
+    <string name="opcion">Si eligió "Otros":</string>
+    <string name="otros">Escriba el motivo aquí</string>
+    <string name="fechaInicio">Seleccione fecha de inicio</string>
+    <string name="fechaFin">Seleccione fecha final</string>
+    <string name="adjuntarPhoto">Adjuntar foto como documento</string>
+    <string name="enviar">Enviar</string>
+
+
     <!--pantalla de vacaciones-->
     <string name="tituloVacaciones">Solicitar Vacaciones </string>
     <string name="SeleccioneFechaInicio">Seleccione Fecha de Inicio</string>
@@ -87,28 +99,36 @@
     <string name="nuevas">Nuevas solicitudes:</string>
     <string name="realizadas">Solicitudes realizadas:</string>
     <string name="aplicar">Aplicar</string>
+    <string name="aprobar">Aprobar</string>
+    <string name="denegar">Denegar</string>
 
 
 
     <!--pantalla de EDITAR PERFIL EMPRESA y PERFIL EMPRESA-->
-    <string name="datosEmpresa">Datos Empresa</string>
+    <string name="datosEmpresa">Datos de la empresa</string>
     <string name="nombreEmpresa">Nombre de Empresa:</string>
     <string name="neoGestion">Neo Gestion S.L</string>
     <string name="nifEmpresa">NIF:</string>
-    <string name="nif">0123456789</string>
-    <string name="emailEmpresa">Email </string>
-    <string name="email">info@neoGestion.com </string>
-    <string name="fonoEmpresa">Teléfono</string>
+    <string name="nif">012345678-A</string>
+    <string name="emailEmpresa">Email empresa:</string>
+    <string name="email">info@neogestion.com </string>
+    <string name="fonoEmpresa">Teléfono:</string>
     <string name="fono">912345678</string>
-    <string name="dirreccionEmpresa">Dirección</string>
+    <string name="dirreccionEmpresa">Dirección:</string>
     <string name="dirreccion">Calle Futura 123</string>
-    <string name="webEmpresa">Sitio Web</string>
+    <string name="webEmpresa">Sitio Web:</string>
     <string name="web">www@neoGestion.com</string>
 
-    <string name="tituloEmpresario">Datos del Empresario</string>
-    <string name="nombreAdministrador">Nombre y Apellidos</string>
+    <string name="tituloEmpresario">Datos del Administrador</string>
+    <string name="nombreAdministrador">Nombre:</string>
+    <string name="nombreAdmin">Paola</string>
+    <string name="apellidoAdministrador">Apellidos:</string>
+    <string name="apellido">Rojas Vera</string>
     <string name="emailAdministrador">Email Administrador:</string>
+    <string name="emailAdmin">paola@neogestion.com</string>
     <string name="cargo">Puesto:</string>
+    <string name="puestoAd">Administrador</string>
+    <string name="puestoGerente">Gerente</string>
 
     <string name="logoEmpresa">Logo de la Empresa</string>
     <string name="btnGuardarCambios">Guardar Cambios</string>

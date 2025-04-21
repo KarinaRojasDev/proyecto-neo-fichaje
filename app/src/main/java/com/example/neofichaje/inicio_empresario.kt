@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import com.example.neofichaje.databinding.ActivityInicioEmpresarioBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class inicio_empresario : AppCompatActivity() {
     private lateinit var binding: ActivityInicioEmpresarioBinding
@@ -19,8 +21,8 @@ class inicio_empresario : AppCompatActivity() {
         setContentView(binding.root)
 
         configurarToolbar()
-        configurarMenuLateral()
         manejarOpcionesMenu()
+        crearSubcolecciones()
 
     }
     private fun configurarToolbar() {
@@ -40,10 +42,6 @@ class inicio_empresario : AppCompatActivity() {
 
         binding.inicioEmpresario.addDrawerListener(menu)
         menu.syncState()
-    }
-
-    private fun configurarMenuLateral() {
-        // Puedes agregar más configuraciones aquí si deseas en el futuro
     }
 
     private fun manejarOpcionesMenu() {
@@ -77,6 +75,56 @@ class inicio_empresario : AppCompatActivity() {
 
             binding.inicioEmpresario.closeDrawer(GravityCompat.START)
             true
+        }
+    }
+    private fun crearSubcolecciones() {
+        val db = FirebaseFirestore.getInstance()
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        // Obtener el documento del usuario para verificar su rol
+        val usuarioRef = db.collection("usuarios").document(uid)
+
+        usuarioRef.get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                val rol = document.getString("puesto") // Asegúrate de tener el campo "puesto"
+
+                // Si el rol es "administrador" o "empresario", creamos las subcolecciones
+                if (rol == "Administrador" || rol == "Gerente") {
+                    val subcolecciones = listOf(
+                        "gestionEmpleados",
+                        "gestionVacaciones",
+                        "gestionAsistencia",
+                        "adjuntarArchivos",
+                        "perfilEmpresa"
+                    )
+
+                    for (coleccion in subcolecciones) {
+                        val docRef = db.collection("usuarios").document(uid).collection(coleccion)
+
+                        // Verificamos si ya existe al menos un documento en la subcolección
+                        docRef.limit(1).get().addOnSuccessListener { snapshot ->
+                            if (snapshot.isEmpty) {
+                                // Puedes inicializar los documentos con algún dato básico
+                                val datoInicial = hashMapOf("init" to true)
+                                docRef.add(datoInicial)
+                                    .addOnSuccessListener {
+                                        Toast.makeText(this, "Subcolección '$coleccion' creada", Toast.LENGTH_SHORT).show()
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Toast.makeText(this, "Error en '$coleccion': ${e.message}", Toast.LENGTH_SHORT).show()
+                                    }
+                            }
+                        }
+                    }
+                } else {
+                    // Si el rol no es administrador o empresario, no hacemos nada
+                    Toast.makeText(this, "El usuario no tiene el rol adecuado para crear subcolecciones.", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "Usuario no encontrado.", Toast.LENGTH_SHORT).show()
+            }
+        }.addOnFailureListener { e ->
+            Toast.makeText(this, "Error al obtener datos del usuario: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 }

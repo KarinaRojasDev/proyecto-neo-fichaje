@@ -1,7 +1,10 @@
 package com.example.neofichaje
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.View.OnClickListener
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,8 +12,9 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.neofichaje.databinding.ActivityEmpleadoControlHorarioBinding
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 
-class empleado_control_horario : AppCompatActivity() {
+class empleado_control_horario : AppCompatActivity(),OnClickListener {
     private  lateinit var binding: ActivityEmpleadoControlHorarioBinding
     private lateinit var menu: ActionBarDrawerToggle
 
@@ -23,6 +27,44 @@ class empleado_control_horario : AppCompatActivity() {
         toolbar()
         configurarMenuLateral()
         manejarOpcionesMenu()
+        mostrarFechaActual()
+        configurarCalendarios()
+
+        binding.tvInicioFecha.setOnClickListener(this)
+        binding.tvFinFecha.setOnClickListener(this)
+    }
+    override fun onClick(v: View?) {
+        when(v?.id){
+            binding.tvInicioFecha.id ->{
+                toggleCalendario(binding.calendarioFecha)
+            }
+            binding.tvFinFecha.id->{
+                toggleCalendario(binding.calendario2Fecha)
+            }
+        }
+    }
+    @SuppressLint("SetTextI18n")
+    private fun configurarCalendarios() {
+        binding.calendarioFecha.setOnDateChangedListener { _, date, _ ->
+            binding.tvInicioFecha.text = "Fecha: ${date.day}/${date.month}/${date.year}"
+            binding.calendarioFecha.visibility = View.GONE
+        }
+
+        binding.calendario2Fecha.setOnDateChangedListener { _, date, _ ->
+            binding.tvFinFecha.text = "Fecha: ${date.day}/${date.month}/${date.year}"
+            binding.calendario2Fecha.visibility = View.GONE
+        }
+    }
+
+    private fun toggleCalendario(calendario: MaterialCalendarView) {
+        calendario.visibility = if (calendario.visibility == View.GONE) View.VISIBLE else View.GONE
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun mostrarFechaActual() {
+        val hoy = com.prolificinteractive.materialcalendarview.CalendarDay.today()
+        binding.tvInicioFecha.text = "Fecha: ${hoy.day}/${hoy.month}/${hoy.year}"
+        binding.tvFinFecha.text = "Fecha: ${hoy.day}/${hoy.month}/${hoy.year}"
     }
     private fun toolbar(){
         val barraHerramientas = binding.includeFichaje.toolbarComun
@@ -84,4 +126,6 @@ class empleado_control_horario : AppCompatActivity() {
             true
         }
     }
+
+
 }

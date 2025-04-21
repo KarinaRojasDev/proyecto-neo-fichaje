@@ -57,7 +57,7 @@ class activity_login_empresario : AppCompatActivity(), View.OnClickListener, Vie
                         .addOnSuccessListener { document ->
                             if (document.exists()) {
                                 val puesto = document.getString("puesto")
-                                if (puesto == "administrador") {
+                                if (puesto == "Administrador") {
                                     acciones()
                                 } else {
                                     auth.signOut()

@@ -15,9 +15,7 @@ class gestionVacaciones : AppCompatActivity() {
     private lateinit var binding: ActivityGestionVacacionesBinding
     private lateinit var menu: ActionBarDrawerToggle
     private lateinit var listaEmpleados:ArrayList<CharSequence>
-    private lateinit var opciones:ArrayList<CharSequence>
     private lateinit var adapterLista:ArrayAdapter<CharSequence>
-    private lateinit var adapterOpciones:ArrayAdapter<CharSequence>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,16 +26,8 @@ class gestionVacaciones : AppCompatActivity() {
         configurarMenuLateral()
         manejarOpcionesMenu()
         instancias()
-        instanciasOpciones()
+        binding.radioGrupo.checkedRadioButtonId
     }
-
-    private fun instanciasOpciones() {
-        opciones= arrayListOf("Pendiente","Aceptar","Rechazar")
-        adapterOpciones=ArrayAdapter(applicationContext,android.R.layout.simple_spinner_item,opciones)
-        adapterOpciones.setDropDownViewResource(android.R.layout.simple_spinner_item)
-        binding.spinnerOpciones.adapter=adapterOpciones
-    }
-
     private fun instancias() {
         listaEmpleados=arrayListOf("Karina Sol Vega","Empleado 2")
         adapterLista=ArrayAdapter(applicationContext,android.R.layout.simple_spinner_item,listaEmpleados)

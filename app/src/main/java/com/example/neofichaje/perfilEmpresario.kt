@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -11,23 +12,30 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.neofichaje.databinding.ActivityPerfilEmpresarioBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 
 class perfilEmpresario : AppCompatActivity(),OnClickListener {
     private lateinit var binding: ActivityPerfilEmpresarioBinding
     private lateinit var menu: ActionBarDrawerToggle
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       binding=ActivityPerfilEmpresarioBinding.inflate(layoutInflater)
+        binding=ActivityPerfilEmpresarioBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
 
         binding.btnEditarPerfilEmpresa.setOnClickListener(this)
         binding.btnCambioPass.setOnClickListener(this)
         toolbar()
-        configurarMenuLateral()
         manejarOpcionesMenu()
+
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+        cargarDatosPerfilDesdeFirebase()
+
 
     }
     private fun toolbar() {
@@ -62,10 +70,52 @@ class perfilEmpresario : AppCompatActivity(),OnClickListener {
         val intentContrasenia = Intent(this, cambio_contrasenia ::class.java)
         startActivity(intentContrasenia)
     }
-    // Configurar el menú lateral
-    private fun configurarMenuLateral() {
-        //  puede agregar más configuraciones
+    private fun cargarDatosPerfilDesdeFirebase() {
+        val uid = auth.currentUser?.uid ?: return
+        val usuarioRef = db.collection("usuarios").document(uid)
+
+        usuarioRef.get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                val nombreEmpresa = document.getString("nombre_empresa")
+                val nif = document.getString("nif")
+                val email = document.getString("email_empresa")
+                val fono = document.getString("fono")
+                val direccion = document.getString("direccion")
+                val sitioWeb = document.getString("sitio_web")
+                val nombreAdmin = document.getString("nombre_admin")
+                val apellidos = document.getString("apellidos")
+                val emailAdmin = document.getString("email_admin")
+                val puesto = document.getString("puesto") ?: ""
+
+
+                // Asignar los datos al TextView correspondiente
+                binding.tvNombreEmpresa.text = nombreEmpresa
+                binding.tvNif.text = nif
+                binding.tvEmail.text = email
+                binding.tvFono.text = fono
+                binding.tvDir.text = direccion
+                binding.tvWww.text = sitioWeb
+                binding.tvNombre.text = nombreAdmin
+                binding.tvApellidos.text = apellidos
+                binding.tvEmailAd.text = emailAdmin
+                binding.tvPuesto.text = puesto
+
+                verificarPermisoEdicion(puesto)
+            }
+        }.addOnFailureListener { exception ->
+            Toast.makeText(this, "Error al cargar datos: ${exception.message}", Toast.LENGTH_SHORT).show()
+        }
     }
+    // Implementación de la función para verificar permisos
+    private fun verificarPermisoEdicion(puesto: String) {
+        // Suponiendo que solo los Gerentes pueden editar el perfil
+        if (puesto == "Administrador" || puesto=="Gerente") {
+            binding.btnEditarPerfilEmpresa.isEnabled = true
+        } else {
+            binding.btnEditarPerfilEmpresa.isEnabled = false
+        }
+    }
+
     // Manejar las opciones seleccionadas en el menú lateral
     private fun manejarOpcionesMenu() {
 
