@@ -21,6 +21,8 @@ class perfilEmpresario : AppCompatActivity(),OnClickListener {
     private lateinit var menu: ActionBarDrawerToggle
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private lateinit var editarPerfilLauncher: androidx.activity.result.ActivityResultLauncher<Intent>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +37,7 @@ class perfilEmpresario : AppCompatActivity(),OnClickListener {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         cargarDatosPerfilDesdeFirebase()
-
+        configurarEditarPerfilLauncher()
 
     }
     private fun toolbar() {
@@ -62,10 +64,44 @@ class perfilEmpresario : AppCompatActivity(),OnClickListener {
             }
         }
     }
-    private fun accionEditarPerfil(){
-        val intentEditarPerfil= Intent(this, activity_empresario_perfil ::class.java)
-        startActivity(intentEditarPerfil)
+    private fun accionEditarPerfil() {
+        val intentEditarPerfil = Intent(this, activity_empresario_perfil::class.java).apply {
+            putExtra("nombre_empresa", binding.tvNombreEmpresa.text.toString())
+            putExtra("nif", binding.tvNif.text.toString())
+            putExtra("email_empresa", binding.tvEmail.text.toString())
+            putExtra("fono", binding.tvFono.text.toString())
+            putExtra("direccion", binding.tvDir.text.toString())
+            putExtra("sitio_web", binding.tvWww.text.toString())
+            putExtra("nombre_admin", binding.tvNombre.text.toString())
+            putExtra("apellidos", binding.tvApellidos.text.toString())
+            putExtra("email_admin", binding.tvEmailAd.text.toString())
+            putExtra("puesto", binding.tvPuesto.text.toString())
+        }
+
+        editarPerfilLauncher.launch(intentEditarPerfil)
     }
+    private fun configurarEditarPerfilLauncher() {
+        editarPerfilLauncher = registerForActivityResult(
+            androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val data = result.data
+                val extras = data?.extras ?: return@registerForActivityResult
+
+                binding.tvEmail.text = extras.getString("email_empresa", "")
+                binding.tvFono.text = extras.getString("fono", "")
+                binding.tvDir.text = extras.getString("direccion", "")
+                binding.tvWww.text = extras.getString("sitio_web", "")
+                binding.tvNombre.text = extras.getString("nombre_admin", "")
+                binding.tvApellidos.text = extras.getString("apellidos", "")
+                binding.tvEmailAd.text = extras.getString("email_admin", "")
+                binding.tvPuesto.text = extras.getString("puesto", "")
+
+                Toast.makeText(this, "Perfil actualizado con éxito", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     private fun accionesContrasenia() {
         val intentContrasenia = Intent(this, cambio_contrasenia ::class.java)
         startActivity(intentContrasenia)
@@ -74,47 +110,38 @@ class perfilEmpresario : AppCompatActivity(),OnClickListener {
         val uid = auth.currentUser?.uid ?: return
         val usuarioRef = db.collection("usuarios").document(uid)
 
-        usuarioRef.get().addOnSuccessListener { document ->
-            if (document.exists()) {
-                val nombreEmpresa = document.getString("nombre_empresa")
-                val nif = document.getString("nif")
-                val email = document.getString("email_empresa")
-                val fono = document.getString("fono")
-                val direccion = document.getString("direccion")
-                val sitioWeb = document.getString("sitio_web")
-                val nombreAdmin = document.getString("nombre_admin")
-                val apellidos = document.getString("apellidos")
-                val emailAdmin = document.getString("email_admin")
-                val puesto = document.getString("puesto") ?: ""
+        usuarioRef.get().addOnSuccessListener { doc ->
+            if (doc.exists()) {
+                val empresaId = doc.getString("empresa_id") ?: return@addOnSuccessListener
 
+                // 💙 Cargamos los datos de la empresa
+                cargarDatosEmpresa(empresaId)
 
-                // Asignar los datos al TextView correspondiente
-                binding.tvNombreEmpresa.text = nombreEmpresa
-                binding.tvNif.text = nif
-                binding.tvEmail.text = email
-                binding.tvFono.text = fono
-                binding.tvDir.text = direccion
-                binding.tvWww.text = sitioWeb
-                binding.tvNombre.text = nombreAdmin
-                binding.tvApellidos.text = apellidos
-                binding.tvEmailAd.text = emailAdmin
-                binding.tvPuesto.text = puesto
-
-                verificarPermisoEdicion(puesto)
+                // Datos del admin (puedes mostrarlos también)
+                binding.tvNombre.text = doc.getString("nombre_admin")
+                binding.tvApellidos.text = doc.getString("apellidos")
+                binding.tvEmailAd.text = doc.getString("email_admin")
+                binding.tvPuesto.text = doc.getString("puesto")
             }
-        }.addOnFailureListener { exception ->
-            Toast.makeText(this, "Error al cargar datos: ${exception.message}", Toast.LENGTH_SHORT).show()
         }
     }
-    // Implementación de la función para verificar permisos
-    private fun verificarPermisoEdicion(puesto: String) {
-        // Suponiendo que solo los Gerentes pueden editar el perfil
-        if (puesto == "Administrador" || puesto=="Gerente") {
-            binding.btnEditarPerfilEmpresa.isEnabled = true
-        } else {
-            binding.btnEditarPerfilEmpresa.isEnabled = false
+    private fun cargarDatosEmpresa(empresaId: String) {
+        val empresaRef = db.collection("empresas").document(empresaId)
+
+        empresaRef.get().addOnSuccessListener { empresa ->
+            if (empresa.exists()) {
+                binding.tvNombreEmpresa.text = empresa.getString("nombre_empresa")
+                binding.tvNif.text = empresa.getString("nif")
+                binding.tvEmail.text = empresa.getString("email_empresa")
+                binding.tvFono.text = empresa.getString("fono")
+                binding.tvDir.text = empresa.getString("direccion")
+                binding.tvWww.text = empresa.getString("sitio_web")
+            }
+        }.addOnFailureListener {
+            Toast.makeText(this, "Error al cargar datos de empresa", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     // Manejar las opciones seleccionadas en el menú lateral
     private fun manejarOpcionesMenu() {

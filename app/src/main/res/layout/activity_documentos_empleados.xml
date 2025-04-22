@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".documentosEmpleados"
-    tools:openDrawer="start">
+    tools:openDrawer="">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -28,27 +28,23 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="40dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/doc"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
-                        android:textSize="16sp"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"/>
-                    <Spinner
-                        android:id="@+id/spinnerDoc"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
+                    android:text="@string/doc"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
+                <Spinner
+                    android:id="@+id/spinnerDoc"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    />
                 <android.widget.Button
                     android:id="@+id/btnSubirArchivo"
                     android:layout_width="wrap_content"
@@ -75,27 +71,24 @@
                     android:maxLines="5"
                     android:minLines="3"
                     android:padding="15dp" />
-                <LinearLayout
-                    android:layout_width="match_parent"
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/select"
-                        android:textSize="16sp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"/>
-                    <Spinner
-                        android:id="@+id/spinnerLista"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/select"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spinnerLista"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"/>
 
                 <android.widget.Button
                     android:id="@+id/btnGuardarDocumento"

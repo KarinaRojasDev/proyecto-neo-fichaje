@@ -64,10 +64,10 @@
                         android:textSize="16sp"/>
 
                     <TextView
-                        android:id="@+id/tv_nombreEmpresa"
+                        android:id="@+id/tvNombreEmpresa"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/neoGestion"
+                        android:text=""
                         android:textSize="16sp"
                         android:layout_weight="1"
                         android:textColor="@color/black" />
@@ -96,12 +96,12 @@
                         app:drawableStartCompat="@drawable/ic_nit" />
 
                     <TextView
-                        android:id="@+id/et_passActual"
+                        android:id="@+id/tvNif"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textColor="@color/black"
-                        android:text="@string/nif"
+                        android:text=""
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -115,7 +115,7 @@
                     android:paddingTop="20dp">
 
                     <EditText
-                        android:id="@+id/et_emailEmpresa"
+                        android:id="@+id/etEmailEmpresa"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
@@ -131,7 +131,7 @@
                         android:textSize="16sp" />
 
                     <EditText
-                        android:id="@+id/et_fonoEmpresa"
+                        android:id="@+id/etFonoEmpresa"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -147,7 +147,7 @@
                         android:textSize="16sp" />
 
                     <EditText
-                        android:id="@+id/et_dirEmpresa"
+                        android:id="@+id/etDirEmpresa"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -163,7 +163,7 @@
                         android:textSize="16sp" />
 
                     <EditText
-                        android:id="@+id/et_webEmpresa"
+                        android:id="@+id/etWebEmpresa"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -191,7 +191,7 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/et_nombreEmpresario"
+                        android:id="@+id/etNombreAdmin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -206,7 +206,7 @@
                         android:textColorHint="@color/teal_900"
                         android:textSize="16sp" />
                     <EditText
-                        android:id="@+id/et_apellidoEmpresario"
+                        android:id="@+id/etApellidoAdmin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -222,7 +222,7 @@
                         android:textSize="16sp" />
 
                     <EditText
-                        android:id="@+id/et_emailEmpresario"
+                        android:id="@+id/etEmailAdmin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -255,7 +255,7 @@
                         android:layout_marginStart="80dp" />
 
                     <android.widget.Button
-                        android:id="@+id/btn_iniSesionEmpresa"
+                        android:id="@+id/btnGuardarCambios"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

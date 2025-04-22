@@ -31,10 +31,35 @@ class activity_empresario_perfil : AppCompatActivity(),OnClickListener {
         toolbar()
         manejarOpcionesMenu()
         instancias()
+        cargarDatosDesdeIntent()
         cargarDatosPerfilDesdeFirebase()
-        binding.btnIniSesionEmpresa.setOnClickListener(this)
+        binding.btnGuardarCambios.setOnClickListener(this)
 
     }
+
+    private fun cargarDatosDesdeIntent() {
+        val extras = intent.extras
+        if (extras != null) {
+            binding.tvNombreEmpresa.text = extras.getString("nombre_empresa", "")
+            binding.tvNif.text = extras.getString("nif", "")
+
+            binding.etEmailEmpresa.setText(extras.getString("email_empresa", ""))
+            binding.etFonoEmpresa.setText(extras.getString("fono", ""))
+            binding.etDirEmpresa.setText(extras.getString("direccion", ""))
+            binding.etWebEmpresa.setText(extras.getString("sitio_web", ""))
+            binding.etNombreAdmin.setText(extras.getString("nombre_admin", ""))
+            binding.etApellidoAdmin.setText(extras.getString("apellidos", ""))
+            binding.etEmailAdmin.setText(extras.getString("email_admin", ""))
+
+            // Para el Spinner
+            val puestoRecibido = extras.getString("puesto", "")
+            val posicionSeleccionada = puesto.indexOf(puestoRecibido)
+            if (posicionSeleccionada >= 0) {
+                binding.spinnerPuesto.setSelection(posicionSeleccionada)
+            }
+        }
+    }
+
 
     private fun instancias() {
         puesto= arrayListOf("Seleccionar puesto","Gerente","Administrador")
@@ -63,40 +88,70 @@ class activity_empresario_perfil : AppCompatActivity(),OnClickListener {
     }
     override fun onClick(v: View?) {
         when(v?.id){
-            binding.btnIniSesionEmpresa.id ->{
+            binding.btnGuardarCambios.id ->{
+                Toast.makeText(this, "Botón pulsado", Toast.LENGTH_SHORT).show()
                 clicBoton()
             }
         }
     }
-    private fun clicBoton(){
-        if (binding.etEmailEmpresa.text.isEmpty() || binding.etNombreEmpresario.text.isEmpty()||
+    private fun clicBoton() {
+        if (binding.etEmailEmpresa.text.isEmpty() || binding.etNombreAdmin.text.isEmpty() ||
             binding.spinnerPuesto.selectedItem == null ||
             binding.spinnerPuesto.selectedItem.toString() == "Seleccionar puesto") {
             Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
             return
         }
+
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        val ref = FirebaseDatabase.getInstance().getReference("usuarios").child(uid)
+        val ref = com.google.firebase.firestore.FirebaseFirestore.getInstance().collection("usuarios").document(uid)
+
+        val emailEmpresa = binding.etEmailEmpresa.text.toString()
+        val fono = binding.etFonoEmpresa.text.toString()
+        val direccion = binding.etDirEmpresa.text.toString()
+        val sitioWeb = binding.etWebEmpresa.text.toString()
+        val nombreAdmin = binding.etNombreAdmin.text.toString()
+        val apellidos = binding.etApellidoAdmin.text.toString()
+        val emailAdmin = binding.etEmailAdmin.text.toString()
+        val puesto = binding.spinnerPuesto.selectedItem.toString()
 
         val updates = mapOf(
-            "email_empresa" to binding.etEmailEmpresa.text.toString(),
-            "fono_empresa" to binding.etFonoEmpresa.text.toString(), // si lo usas
-            "direccion" to binding.etDirEmpresa.text.toString(),
-            "sitio_web" to binding.etWebEmpresa.text.toString(),
-            "nombre_admin" to binding.etNombreEmpresario.text.toString(),
-            "apellidos" to binding.etApellidoEmpresario.text.toString(),
-            "email_admin" to binding.etEmailEmpresario.text.toString(),
-            "puesto" to binding.spinnerPuesto.selectedItem.toString()
+            "email_empresa" to emailEmpresa,
+            "fono" to fono,
+            "direccion" to direccion,
+            "sitio_web" to sitioWeb,
+            "nombre_admin" to nombreAdmin,
+            "apellidos" to apellidos,
+            "email_admin" to emailAdmin,
+            "puesto" to puesto
         )
 
+        ref.update(updates).addOnSuccessListener {
+            Toast.makeText(this, "Perfil actualizado correctamente ", Toast.LENGTH_SHORT).show()
 
-        ref.updateChildren(updates).addOnSuccessListener {
-            Toast.makeText(this, "Perfil actualizado correctamente", Toast.LENGTH_SHORT).show()
-            cargarDatosPerfilDesdeFirebase() // volvés a la pantalla anterior
+            val bundle = Bundle().apply {
+                putString("email_empresa", emailEmpresa)
+                putString("fono", fono)
+                putString("direccion", direccion)
+                putString("sitio_web", sitioWeb)
+                putString("nombre_admin", nombreAdmin)
+                putString("apellidos", apellidos)
+                putString("email_admin", emailAdmin)
+                putString("puesto", puesto)
+            }
+
+            val intent = Intent().apply {
+                putExtras(bundle)
+            }
+
+            setResult(RESULT_OK, intent)
+            finish()
+
         }.addOnFailureListener {
-            Toast.makeText(this, "Error al actualizar perfil", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Error al actualizar perfil ", Toast.LENGTH_SHORT).show()
         }
     }
+
+
     private fun cargarDatosPerfilDesdeFirebase() {
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val ref = FirebaseDatabase.getInstance().getReference("usuarios").child(uid)
@@ -106,36 +161,18 @@ class activity_empresario_perfil : AppCompatActivity(),OnClickListener {
             binding.etFonoEmpresa.setText(snapshot.child("fono_empresa").value.toString())
             binding.etDirEmpresa.setText(snapshot.child("direccion").value.toString())
             binding.etWebEmpresa.setText(snapshot.child("sitio_web").value.toString())
-            binding.etNombreEmpresario.setText(snapshot.child("nombre_admin").value.toString())
-            binding.etApellidoEmpresario.setText(snapshot.child("apellidos").value.toString())
-            binding.etEmailEmpresario.setText(snapshot.child("email_admin").value.toString())
+            binding.etNombreAdmin.setText(snapshot.child("nombre_admin").value.toString())
+            binding.etApellidoAdmin.setText(snapshot.child("apellidos").value.toString())
+            binding.etEmailAdmin.setText(snapshot.child("email_admin").value.toString())
 
             val puestoActual = snapshot.child("puesto").value.toString()
             val index = puesto.indexOf(puestoActual)
             if (index != -1) {
                 binding.spinnerPuesto.setSelection(index)
             }
-
-            verificarPermisoEdicion(puestoActual)
         }
     }
-    private fun verificarPermisoEdicion(puesto: String) {
-        val editable = (puesto == "Gerente" || puesto == "Administrador")
 
-        binding.etEmailEmpresa.isEnabled = editable
-        binding.etFonoEmpresa.isEnabled = editable
-        binding.etDirEmpresa.isEnabled = editable
-        binding.etWebEmpresa.isEnabled = editable
-        binding.etNombreEmpresario.isEnabled = editable
-        binding.etApellidoEmpresario.isEnabled = editable
-        binding.etEmailEmpresario.isEnabled = editable
-        binding.spinnerPuesto.isEnabled = editable
-        binding.btnIniSesionEmpresa.isEnabled = editable
-
-        if (!editable) {
-            Toast.makeText(this, "Solo un Gerente o Administrador puede editar el perfil", Toast.LENGTH_LONG).show()
-        }
-    }
     private fun manejarOpcionesMenu() {
         binding.navViewEmpresario.setNavigationItemSelectedListener { opcion ->
             when (opcion.itemId) {
@@ -169,6 +206,4 @@ class activity_empresario_perfil : AppCompatActivity(),OnClickListener {
             true
         }
     }
-
-
 }

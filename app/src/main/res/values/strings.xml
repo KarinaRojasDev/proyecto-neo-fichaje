@@ -90,7 +90,7 @@
     <!--GESTIÓN ADJUNTAR ARCHIVOS-->
     <string name="doc">Seleccionar el tipo de documento:</string>
     <string name="archivos">Subir archivos</string>
-    <string name="arrastrar">Arrastrar y soltar archivo</string>
+    <string name="arrastrar">Seleccione el archivo</string>
     <string name="select">Seleccionar empleado:</string>
     <string name="guardar">Guardar documento</string>
 
@@ -129,6 +129,8 @@
     <string name="cargo">Puesto:</string>
     <string name="puestoAd">Administrador</string>
     <string name="puestoGerente">Gerente</string>
+    <string name="btnEditarPerfil">Editar Perfil</string>
+    <string name="btnCambiarPass">Cambiar Contraseña</string>
 
     <string name="logoEmpresa">Logo de la Empresa</string>
     <string name="btnGuardarCambios">Guardar Cambios</string>
