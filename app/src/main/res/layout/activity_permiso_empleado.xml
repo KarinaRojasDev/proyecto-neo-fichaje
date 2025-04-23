@@ -162,11 +162,12 @@
                 </LinearLayout>
                 <android.widget.Button
                     android:id="@+id/btnTomarFoto"
-                    android:layout_width="match_parent"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/adjuntarPhoto"
                     android:drawableStart="@drawable/ic_photo"
+                    android:layout_gravity="center"
                     android:padding="10dp"
                     android:textSize="14sp"
                     android:textColor="@color/black"

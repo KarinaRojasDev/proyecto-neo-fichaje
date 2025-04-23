@@ -45,17 +45,19 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+    // Firebase (BoM y dependencias sin versiones)
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-database-ktx")
+    implementation("com.google.firebase:firebase-functions-ktx")
+
+    // Calendario
+    implementation("com.prolificinteractive:material-calendarview:1.4.3")
+
+    // Tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    // Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:30.0.0"))
-    // Firebase Autentication
-    implementation("com.google.firebase:firebase-auth")
-    // Firestore
-    implementation("com.google.firebase:firebase-firestore")
-    // Realtime Database
-    implementation("com.google.firebase:firebase-database")
-    //calendario pro
-    implementation ("com.prolificinteractive:material-calendarview:1.4.3")
 }

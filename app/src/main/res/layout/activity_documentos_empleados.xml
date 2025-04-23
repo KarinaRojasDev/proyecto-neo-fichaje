@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".documentosEmpleados"
-    tools:openDrawer="">
+    tools:openDrawer="start">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -51,13 +51,15 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:background="@drawable/gradient"
+                    android:drawablePadding="10dp"
                     android:textColor="@android:color/black"
+                    android:drawableStart="@drawable/ic_folder"
                     android:padding="10dp"
                     android:text="@string/archivos"
                     android:textSize="16sp"/>
                 <EditText
                     android:id="@+id/etSubirArchivos"
-                    android:layout_width="match_parent"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:background="@drawable/rectangule"
@@ -66,6 +68,7 @@
                     android:inputType="textMultiLine"
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/black"
+                    android:layout_gravity="center"
                     android:textColorHint="@color/teal_900"
                     android:textSize="16sp"
                     android:maxLines="5"

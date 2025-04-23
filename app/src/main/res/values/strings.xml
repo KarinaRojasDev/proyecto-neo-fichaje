@@ -76,6 +76,22 @@
     <string name="perfil">Mi Perfil</string>
     <string name="cerrarSesion">Cerrar Sesión</string>
 
+    <!--LISTA DE EMPLEADOS Y EDITAR O AÑADIR-->
+    <string name="lista">Lista de empleados</string>
+    <string name="datosEmpleado">Datos del empleado</string>
+    <string name="apellidos">Apellidos</string>
+    <string name="emailEmpleado">Email</string>
+    <string name="nombre">Nombre</string>
+    <string name="numEmpleado">Número de empleado</string>
+    <string name="telefono">Número de teléfono</string>
+    <string name="direccion">Dirección</string>
+    <string name="puestoEmpleado">Puesto</string>
+    <string name="btnAgregar">Agregar</string>
+    <string name="editar">editar</string>
+    <string name="agregar">Agregar nuevos empleados</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="passEmpleado">Contraseña</string>
+
     <!--EDITAR CONTRASEÑA-->
     <string name="titlePass">Cambio de Contraseña</string>
     <string name="passActual">Contraseña actual:</string>
@@ -107,25 +123,17 @@
     <!--pantalla de EDITAR PERFIL EMPRESA y PERFIL EMPRESA-->
     <string name="datosEmpresa">Datos de la empresa</string>
     <string name="nombreEmpresa">Nombre de Empresa:</string>
-    <string name="neoGestion">Neo Gestion S.L</string>
     <string name="nifEmpresa">NIF:</string>
-    <string name="nif">012345678-A</string>
     <string name="emailEmpresa">Email empresa:</string>
-    <string name="email">info@neogestion.com </string>
     <string name="fonoEmpresa">Teléfono:</string>
-    <string name="fono">912345678</string>
     <string name="dirreccionEmpresa">Dirección:</string>
-    <string name="dirreccion">Calle Futura 123</string>
     <string name="webEmpresa">Sitio Web:</string>
-    <string name="web">www@neoGestion.com</string>
+
 
     <string name="tituloEmpresario">Datos del Administrador</string>
     <string name="nombreAdministrador">Nombre:</string>
-    <string name="nombreAdmin">Paola</string>
     <string name="apellidoAdministrador">Apellidos:</string>
-    <string name="apellido">Rojas Vera</string>
     <string name="emailAdministrador">Email Administrador:</string>
-    <string name="emailAdmin">paola@neogestion.com</string>
     <string name="cargo">Puesto:</string>
     <string name="puestoAd">Administrador</string>
     <string name="puestoGerente">Gerente</string>
