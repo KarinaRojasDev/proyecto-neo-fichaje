@@ -2,6 +2,8 @@ package com.example.neofichaje
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
@@ -30,7 +32,6 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
         setContentView(binding.root)
 
         toolbar()
-        configurarMenuLateral()
         manejarOpcionesMenu()
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
@@ -53,6 +54,7 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
             }
         }
     }
+
     private fun eliminarEmpleadoSeleccionado() {
         val seleccionado = binding.spinnerLista.selectedItem?.toString() ?: return
 
@@ -69,37 +71,23 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
                     if (nombreCompleto == seleccionado) {
                         val idEmpleado = doc.id
 
+                        Log.d("ELIMINAR", "ID enviado al backend: $idEmpleado")
                         // Llamada a función cloud para borrar por completo el empleado
                         FirebaseFunctions.getInstance()
                             .getHttpsCallable("borrarEmpleado")
-                            .call(mapOf("uid" to idEmpleado))
+                            .call(hashMapOf("uid" to idEmpleado))
                             .addOnSuccessListener {
                                 Toast.makeText(this, "Empleado eliminado correctamente", Toast.LENGTH_SHORT).show()
-                                cargarEmpleadosEnSpinner() // actualizar lista
+                                cargarEmpleadosEnSpinner()
                             }
-                            .addOnFailureListener {
-                                Toast.makeText(this, "Error al eliminar el empleado", Toast.LENGTH_SHORT).show()
+                            .addOnFailureListener { e ->
+                                Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
                             }
 
                         break
                     }
                 }
             }
-    }
-
-    private fun eliminarSubcolecciones(empleadoId: String) {
-        val subcolecciones = listOf("contrato", "controlHorario", "nominas", "permisos_bajas", "vacaciones")
-
-        for (coleccion in subcolecciones) {
-            db.collection("usuarios").document(empleadoId)
-                .collection(coleccion)
-                .get()
-                .addOnSuccessListener { docs ->
-                    for (doc in docs) {
-                        doc.reference.delete()
-                    }
-                }
-        }
     }
 
 
@@ -116,7 +104,7 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
                     empleados.add("$nombre $apellidos")
                 }
 
-                // ❤️ Spinner personalizado con color negro
+                //Spinner personalizado con color negro
                 val adaptador = object : ArrayAdapter<String>(
                     this,
                     android.R.layout.simple_spinner_item,
@@ -237,10 +225,6 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
             R.string.cerrar_menu)
         binding.menuGestionEmpleados.addDrawerListener(menu)
         menu.syncState()
-    }
-    // Configurar el menú lateral
-    private fun configurarMenuLateral() {
-        //  puede agregar más configuraciones
     }
     // Manejar las opciones seleccionadas en el menú lateral
     private fun manejarOpcionesMenu() {
