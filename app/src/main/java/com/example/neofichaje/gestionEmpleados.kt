@@ -247,7 +247,7 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
 
                     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                         val view = super.getDropDownView(position, convertView, parent)
-                        (view as TextView).setTextColor(ContextCompat.getColor(context, android.R.color.white))
+                        (view as TextView).setTextColor(ContextCompat.getColor(context, android.R.color.black))
                         return view
                     }
                 }

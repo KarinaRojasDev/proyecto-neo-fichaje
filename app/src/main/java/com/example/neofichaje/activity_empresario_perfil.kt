@@ -90,7 +90,6 @@ class activity_empresario_perfil : AppCompatActivity(),OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id){
             binding.btnGuardarCambios.id ->{
-                Toast.makeText(this, "Botón pulsado", Toast.LENGTH_SHORT).show()
                 clicBoton()
             }
         }

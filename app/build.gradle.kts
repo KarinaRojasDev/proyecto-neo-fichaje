@@ -44,11 +44,12 @@ dependencies {
 
     // Firebase KTX
     implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.firebase:firebase-firestore-ktx:23.0.3")
+    implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-database-ktx:20.0.0")
     implementation ("com.google.firebase:firebase-storage-ktx:20.0.0")
 
     // Otros
+    implementation("androidx.recyclerview:recyclerview:1.3.1")
     implementation("com.prolificinteractive:material-calendarview:1.4.3")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

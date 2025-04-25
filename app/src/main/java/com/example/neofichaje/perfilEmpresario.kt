@@ -98,7 +98,6 @@ class perfilEmpresario : AppCompatActivity(),OnClickListener {
                 binding.tvEmailAd.text = extras.getString("email", "")
                 binding.tvPuesto.text = extras.getString("puesto", "")
 
-                Toast.makeText(this, "Perfil actualizado con éxito", Toast.LENGTH_SHORT).show()
             }
         }
     }

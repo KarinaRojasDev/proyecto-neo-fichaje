@@ -28,25 +28,31 @@ class inicio_empleado : AppCompatActivity() {
         configurarToolbar()
         manejarOpcionesMenu()
         mostrarNotificacionesEmpleado()
-        limpiarNotificacionNomina()
-        limpiarNotificacionContrato()
 
     }
     private fun mostrarNotificacionesEmpleado() {
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val db = FirebaseFirestore.getInstance()
 
-        db.collection("usuarios").document(uid).get()
-            .addOnSuccessListener { doc ->
-                val notiNomina = doc.getString("tvNominas")
-                val notiContrato = doc.getString("tvContrato")
+        db.collection("usuarios").document(uid)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null || snapshot == null || !snapshot.exists()) {
+                    Toast.makeText(this, "Error al cargar notificaciones", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
+
+                val notiNomina = snapshot.getString("tvNominas")
+                val notiContrato = snapshot.getString("tvContrato")
 
                 if (!notiNomina.isNullOrBlank()) {
                     binding.nomina.visibility = View.VISIBLE
                     binding.tvNominas.text = notiNomina
                     binding.nomina.setOnClickListener {
                         startActivity(Intent(this, nominas_empleado::class.java))
+                        limpiarNotificacionNomina() // ← limpiar cuando hace clic
                     }
+                } else {
+                    binding.nomina.visibility = View.GONE
                 }
 
                 if (!notiContrato.isNullOrBlank()) {
@@ -54,11 +60,11 @@ class inicio_empleado : AppCompatActivity() {
                     binding.tvContrato.text = notiContrato
                     binding.contrato.setOnClickListener {
                         startActivity(Intent(this, contratoEmpleado::class.java))
+                        limpiarNotificacionContrato()
                     }
+                } else {
+                    binding.contrato.visibility = View.GONE
                 }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Error al cargar notificaciones", Toast.LENGTH_SHORT).show()
             }
     }
     private fun limpiarNotificacionNomina() {

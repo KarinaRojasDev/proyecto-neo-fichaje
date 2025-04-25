@@ -71,7 +71,6 @@ class activity_login_empresario : AppCompatActivity(), OnClickListener, OnTouchL
                         .addOnSuccessListener { document ->
                             if (document.exists()) {
                                 val puesto = document.getString("puesto") ?: ""
-                                Toast.makeText(this, "Puesto encontrado: $puesto", Toast.LENGTH_SHORT).show()
                                 when (puesto) {
                                     "Administrador", "RRHH", "Gerente" -> {
                                         val intent = Intent(this, inicio_empresario::class.java)

@@ -134,7 +134,7 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
 
                     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                         val view = super.getDropDownView(position, convertView, parent)
-                        (view as TextView).setTextColor(ContextCompat.getColor(context, android.R.color.white))
+                        (view as TextView).setTextColor(ContextCompat.getColor(context, android.R.color.black))
                         return view
                     }
                 }
@@ -163,7 +163,7 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
-                (view as TextView).setTextColor(ContextCompat.getColor(context, android.R.color.white))
+                (view as TextView).setTextColor(ContextCompat.getColor(context, android.R.color.black))
                 return view
             }
         }
@@ -195,7 +195,6 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
             val puesto = adminDoc.getString("puesto") ?: ""
             val empresaId = adminDoc.getString("empresa_id") ?: ""
 
-            // Ahora sí, primero cargamos los datos del empleado
             db.collection("usuarios").document(uidEmpleado).get()
                 .addOnSuccessListener { empleadoDoc ->
                     val nombre = empleadoDoc.getString("nombre") ?: ""
@@ -216,13 +215,26 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
                                 "uidEmpleado" to uidEmpleado
                             )
 
-                            // Guardar en subcolección del usuario (empleado)
                             db.collection("usuarios")
                                 .document(uidEmpleado)
                                 .collection(tipoDoc)
                                 .add(datos)
+                                .addOnSuccessListener {
+                                    // 1. Actualizar TextView indirectamente
+                                    val campoNoti = if (tipoDoc == "nominas") "tvNominas" else "tvContrato"
+                                    db.collection("usuarios")
+                                        .document(uidEmpleado)
+                                        .update(campoNoti, "Tienes un nuevo $tipoDoc disponible")
 
-                            // Solo guardar en empresa si es administrador y tiene empresa_id
+                                    // 2. (Opcional) Enviar notificación push
+                                    // enviarNotificacionAlEmpleado(uidEmpleado, tipoDoc)
+
+                                    Toast.makeText(this, "Documento y notificación enviados", Toast.LENGTH_LONG).show()
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(this, "Error guardando en usuario: ${it.message}", Toast.LENGTH_SHORT).show()
+                                }
+
                             if (puesto == "Administrador" && empresaId.isNotBlank()) {
                                 val rutaEmpresa = when (tipoDoc) {
                                     "nominas" -> "gestionNominas"
@@ -234,30 +246,16 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
                                     .document(empresaId)
                                     .collection(rutaEmpresa)
                                     .add(datos)
-                                    .addOnSuccessListener {
-                                        Toast.makeText(this, "Documento guardado correctamente ", Toast.LENGTH_LONG).show()
-                                    }
-                                    .addOnFailureListener { e ->
-                                        Toast.makeText(this, "Error al guardar en empresa: ${e.message}", Toast.LENGTH_LONG).show()
-                                    }
-                            } else {
-                                Toast.makeText(this, "No se guardó en empresa (no empresa_id o no Admin)", Toast.LENGTH_SHORT).show()
                             }
-
-                            // Actualizar notificación en el empleado
-                            val campoNoti = if (tipoDoc == "nominas") "tvNominas" else "tvContrato"
-                            db.collection("usuarios")
-                                .document(uidEmpleado)
-                                .update(campoNoti, "Tienes una nueva $tipoDoc disponible")
                         }
                     }.addOnFailureListener {
                         Toast.makeText(this, "Error al subir archivo: ${it.message}", Toast.LENGTH_LONG).show()
                     }
                 }.addOnFailureListener {
-                    Toast.makeText(this, "Error al cargar datos del empleado", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error cargando empleado", Toast.LENGTH_SHORT).show()
                 }
         }.addOnFailureListener {
-            Toast.makeText(this, "Error al cargar datos del administrador", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Error cargando administrador", Toast.LENGTH_SHORT).show()
         }
     }
 
