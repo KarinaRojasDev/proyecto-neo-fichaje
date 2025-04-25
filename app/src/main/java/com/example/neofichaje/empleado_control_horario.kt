@@ -25,7 +25,6 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
         setContentView(binding.root)
 
         toolbar()
-        configurarMenuLateral()
         manejarOpcionesMenu()
         mostrarFechaActual()
         configurarCalendarios()
@@ -82,10 +81,6 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
         binding.menuFichaje.addDrawerListener(menu)
         menu.syncState()
 
-    }
-    private fun configurarMenuLateral() {
-        // Si necesitas algo adicional en el futuro para configurar el NavigationView, puedes usar este método.
-        // Por ahora lo dejamos vacío o como placeholder si quieres.
     }
 
     private fun manejarOpcionesMenu() {

@@ -77,17 +77,16 @@ class cambio_contrasenia : AppCompatActivity(), OnClickListener, OnTouchListener
             return
         }
 
-        //-------------------------------------------------
+
         // Intenta iniciar sesión con un usuario temporal
         FirebaseFirestore.getInstance()
-            .collection("usuarios") // o "administradores" según tu colección
+            .collection("usuarios")
             .whereEqualTo("email_admin", pass)
             .get()
             .addOnSuccessListener { documentos ->
                 if (!documentos.isEmpty) {
                     //  Si existe el email en Firestore
-                    FirebaseAuth.getInstance().signInWithEmailAndPassword(pass, "098765a") // OJO AQUI TENGO LA CONTRASEÑA PERO PARA QUE FUNCIONE CORRECTAMENTE
-                        // TENGO QUE HACER UN INTENT Y PASAR ESA CONTRASEÑA DE LA PANTALLA CONFIGURACION EMPRESARIO
+                    FirebaseAuth.getInstance().signInWithEmailAndPassword(pass, "098765a")
                         .addOnSuccessListener { authResult ->
                             val usuario = authResult.user
 
@@ -112,6 +111,7 @@ class cambio_contrasenia : AppCompatActivity(), OnClickListener, OnTouchListener
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         when (v?.id) {
             binding.etPassActual.id -> {

@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.neofichaje.databinding.ActivityEmpresarioPerfilBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 
 class activity_empresario_perfil : AppCompatActivity(),OnClickListener {
     private lateinit var binding: ActivityEmpresarioPerfilBinding
@@ -103,8 +104,10 @@ class activity_empresario_perfil : AppCompatActivity(),OnClickListener {
         }
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        val ref = com.google.firebase.firestore.FirebaseFirestore.getInstance().collection("usuarios").document(uid)
+        val db = FirebaseFirestore.getInstance()
+        val usuariosRef = db.collection("usuarios").document(uid)
 
+        // Datos a actualizar
         val emailEmpresa = binding.etEmailEmpresa.text.toString()
         val fono = binding.etFonoEmpresa.text.toString()
         val direccion = binding.etDirEmpresa.text.toString()
@@ -114,47 +117,60 @@ class activity_empresario_perfil : AppCompatActivity(),OnClickListener {
         val emailAdmin = binding.etEmailAdmin.text.toString()
         val puesto = binding.spinnerPuesto.selectedItem.toString()
 
-        val updates = mapOf(
-            "emailEmpresa" to emailEmpresa,
-            "telefonoEmpresa" to fono,
-            "direccionEmpresa" to direccion,
-            "web" to sitioWeb,
-            "nombre" to nombreAdmin,
-            "apellidos" to apellidos,
-            "email" to emailAdmin,
-            "puesto" to puesto
-        )
+        // Primero, obtener empresa_id del documento de usuario
+        usuariosRef.get().addOnSuccessListener { doc ->
+            if (doc.exists()) {
+                val empresaId = doc.getString("empresa_id") ?: return@addOnSuccessListener
 
-        ref.update(updates).addOnSuccessListener {
-            Toast.makeText(this, "Perfil actualizado correctamente ", Toast.LENGTH_SHORT).show()
+                // Actualizar usuario (solo datos del admin)
+                usuariosRef.update(
+                    mapOf(
+                        "nombre" to nombreAdmin,
+                        "apellidos" to apellidos,
+                        "email" to emailAdmin,
+                        "puesto" to puesto
+                    )
+                )
 
-            val bundle = Bundle().apply {
-                putString("emailEmpresa", emailEmpresa)
-                putString("telefonoEmpresa", fono)
-                putString("direccionEmpresa", direccion)
-                putString("web", sitioWeb)
-                putString("nombre", nombreAdmin)
-                putString("apellidos", apellidos)
-                putString("email", emailAdmin)
-                putString("puesto", puesto)
+                // Actualizar empresa
+                val empresaRef = db.collection("empresas").document(empresaId)
+                empresaRef.update(
+                    mapOf(
+                        "emailEmpresa" to emailEmpresa,
+                        "telefonoEmpresa" to fono,
+                        "direccionEmpresa" to direccion,
+                        "web" to sitioWeb
+                    )
+                ).addOnSuccessListener {
+                    Toast.makeText(this, "Perfil actualizado correctamente", Toast.LENGTH_SHORT).show()
+
+                    val bundle = Bundle().apply {
+                        putString("emailEmpresa", emailEmpresa)
+                        putString("telefonoEmpresa", fono)
+                        putString("direccionEmpresa", direccion)
+                        putString("web", sitioWeb)
+                        putString("nombre", nombreAdmin)
+                        putString("apellidos", apellidos)
+                        putString("email", emailAdmin)
+                        putString("puesto", puesto)
+                    }
+
+                    val intent = Intent().apply {
+                        putExtras(bundle)
+                    }
+
+                    setResult(RESULT_OK, intent)
+                    finish()
+                }.addOnFailureListener {
+                    Toast.makeText(this, "Error al actualizar los datos de la empresa", Toast.LENGTH_SHORT).show()
+                }
             }
-
-            val intent = Intent().apply {
-                putExtras(bundle)
-            }
-
-            setResult(RESULT_OK, intent)
-            finish()
-
-        }.addOnFailureListener {
-            Toast.makeText(this, "Error al actualizar perfil ", Toast.LENGTH_SHORT).show()
         }
     }
 
-
     private fun cargarDatosPerfilDesdeFirebase() {
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        val ref = FirebaseDatabase.getInstance().getReference("usuarios").child(uid)
+        val ref = FirebaseDatabase.getInstance().getReference("empresas").child(uid)
 
         ref.get().addOnSuccessListener { snapshot ->
             binding.etEmailEmpresa.setText(snapshot.child("emailEmpresa").value.toString())

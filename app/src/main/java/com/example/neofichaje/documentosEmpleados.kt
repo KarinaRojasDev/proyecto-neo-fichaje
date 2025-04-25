@@ -148,7 +148,7 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
             }
     }
     private fun acciones() {
-        listaTipoDoc = arrayListOf("Nóminas", "Contrato")
+        listaTipoDoc = arrayListOf("Nominas", "Contrato")
 
         val adaptadorDoc = object : ArrayAdapter<CharSequence>(
             this,
@@ -184,46 +184,80 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
         val uidEmpleado = empleadosMap[nombreEmpleado] ?: return
         val uidAdmin = auth.currentUser?.uid ?: return
 
-        db.collection("usuarios").document(uidAdmin).get().addOnSuccessListener { adminDoc ->
-            val empresaId = adminDoc.getString("empresa_id") ?: return@addOnSuccessListener
+        val usuarioRef = db.collection("usuarios").document(uidAdmin)
 
-            val nombreArchivo = "${tipoDoc}_${System.currentTimeMillis()}.pdf"
-            val storageRef = FirebaseStorage.getInstance().reference
-                .child("documentos/$nombreArchivo")
-
-            storageRef.putFile(uri).addOnSuccessListener {
-                storageRef.downloadUrl.addOnSuccessListener { url ->
-                    val datos = hashMapOf(
-                        "nombre" to nombreArchivo,
-                        "url" to url.toString(),
-                        "fecha" to FieldValue.serverTimestamp()
-                    )
-
-                    // Subcolección del empleado
-                    db.collection("usuarios")
-                        .document(uidEmpleado)
-                        .collection(tipoDoc)
-                        .add(datos)
-
-                    // Subcolección de la empresa
-                    db.collection("empresas")
-                        .document(empresaId)
-                        .collection(tipoDoc)
-                        .add(datos)
-
-                    // Notificación
-                    val campoNoti = if (tipoDoc == "nominas") "tvNominas" else "tvContrato"
-                    db.collection("usuarios")
-                        .document(uidEmpleado)
-                        .update(campoNoti, "Tienes una nueva ${tipoDoc} disponible")
-
-                    Toast.makeText(this, " ${tipoDoc} enviada correctamente", Toast.LENGTH_LONG).show()
-                }
-            }.addOnFailureListener {
-                Toast.makeText(this, "Error al subir documento: ${it.message}", Toast.LENGTH_LONG).show()
+        usuarioRef.get().addOnSuccessListener { adminDoc ->
+            if (!adminDoc.exists()) {
+                Toast.makeText(this, "Administrador no encontrado", Toast.LENGTH_SHORT).show()
+                return@addOnSuccessListener
             }
+
+            val puesto = adminDoc.getString("puesto") ?: ""
+            val empresaId = adminDoc.getString("empresa_id") ?: ""
+
+            // Ahora sí, primero cargamos los datos del empleado
+            db.collection("usuarios").document(uidEmpleado).get()
+                .addOnSuccessListener { empleadoDoc ->
+                    val nombre = empleadoDoc.getString("nombre") ?: ""
+                    val apellidos = empleadoDoc.getString("apellidos") ?: ""
+
+                    val nombreArchivo = "${tipoDoc}_${System.currentTimeMillis()}.pdf"
+                    val storageRef = FirebaseStorage.getInstance().reference
+                        .child("documentos/$uidEmpleado/$tipoDoc/$nombreArchivo")
+
+                    storageRef.putFile(uri).addOnSuccessListener {
+                        storageRef.downloadUrl.addOnSuccessListener { url ->
+                            val datos = hashMapOf(
+                                "nombreArchivo" to nombreArchivo,
+                                "url" to url.toString(),
+                                "fecha" to FieldValue.serverTimestamp(),
+                                "nombreEmpleado" to nombre,
+                                "apellidosEmpleado" to apellidos,
+                                "uidEmpleado" to uidEmpleado
+                            )
+
+                            // Guardar en subcolección del usuario (empleado)
+                            db.collection("usuarios")
+                                .document(uidEmpleado)
+                                .collection(tipoDoc)
+                                .add(datos)
+
+                            // Solo guardar en empresa si es administrador y tiene empresa_id
+                            if (puesto == "Administrador" && empresaId.isNotBlank()) {
+                                val rutaEmpresa = when (tipoDoc) {
+                                    "nominas" -> "gestionNominas"
+                                    "contrato" -> "gestionContratos"
+                                    else -> "otrosDocumentos"
+                                }
+
+                                db.collection("empresas")
+                                    .document(empresaId)
+                                    .collection(rutaEmpresa)
+                                    .add(datos)
+                                    .addOnSuccessListener {
+                                        Toast.makeText(this, "Documento guardado correctamente ", Toast.LENGTH_LONG).show()
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Toast.makeText(this, "Error al guardar en empresa: ${e.message}", Toast.LENGTH_LONG).show()
+                                    }
+                            } else {
+                                Toast.makeText(this, "No se guardó en empresa (no empresa_id o no Admin)", Toast.LENGTH_SHORT).show()
+                            }
+
+                            // Actualizar notificación en el empleado
+                            val campoNoti = if (tipoDoc == "nominas") "tvNominas" else "tvContrato"
+                            db.collection("usuarios")
+                                .document(uidEmpleado)
+                                .update(campoNoti, "Tienes una nueva $tipoDoc disponible")
+                        }
+                    }.addOnFailureListener {
+                        Toast.makeText(this, "Error al subir archivo: ${it.message}", Toast.LENGTH_LONG).show()
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(this, "Error al cargar datos del empleado", Toast.LENGTH_SHORT).show()
+                }
         }.addOnFailureListener {
-            Toast.makeText(this, "No se pudo obtener el ID de empresa", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Error al cargar datos del administrador", Toast.LENGTH_SHORT).show()
         }
     }
 

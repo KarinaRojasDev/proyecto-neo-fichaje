@@ -2,6 +2,7 @@ package com.example.neofichaje
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -26,6 +27,53 @@ class inicio_empleado : AppCompatActivity() {
 
         configurarToolbar()
         manejarOpcionesMenu()
+        mostrarNotificacionesEmpleado()
+        limpiarNotificacionNomina()
+        limpiarNotificacionContrato()
+
+    }
+    private fun mostrarNotificacionesEmpleado() {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("usuarios").document(uid).get()
+            .addOnSuccessListener { doc ->
+                val notiNomina = doc.getString("tvNominas")
+                val notiContrato = doc.getString("tvContrato")
+
+                if (!notiNomina.isNullOrBlank()) {
+                    binding.nomina.visibility = View.VISIBLE
+                    binding.tvNominas.text = notiNomina
+                    binding.nomina.setOnClickListener {
+                        startActivity(Intent(this, nominas_empleado::class.java))
+                    }
+                }
+
+                if (!notiContrato.isNullOrBlank()) {
+                    binding.contrato.visibility = View.VISIBLE
+                    binding.tvContrato.text = notiContrato
+                    binding.contrato.setOnClickListener {
+                        startActivity(Intent(this, contratoEmpleado::class.java))
+                    }
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Error al cargar notificaciones", Toast.LENGTH_SHORT).show()
+            }
+    }
+    private fun limpiarNotificacionNomina() {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        FirebaseFirestore.getInstance()
+            .collection("usuarios")
+            .document(uid)
+            .update("tvNominas", "")
+    }
+    private fun limpiarNotificacionContrato() {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        FirebaseFirestore.getInstance()
+            .collection("usuarios")
+            .document(uid)
+            .update("tvContrato", "")
     }
     private fun configurarToolbar() {
         val barraHerramientas = binding.includeInicioEmpleado.toolbarComun
