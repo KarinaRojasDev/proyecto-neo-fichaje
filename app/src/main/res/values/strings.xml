@@ -21,7 +21,8 @@
     <!--INICIO NOTIFICACIONES empleado-->
     <string name="horas">Notificación de Horas</string>
     <string name="vacaciones">Notificación de Vacaciones</string>
-    <string name="Nominas">Notificación Mis Nóminas</string>
+    <string name="nominasEmple">Notificación Mis Nóminas</string>
+    <string name="contratoEmple">Notificación Mi Contrato</string>
 
 
     <!--pantalla de fichaje empleado-->
@@ -65,8 +66,17 @@
 
     <!--EMPRESARIO-->
 
+    <!--ADMINISTRADOR REGISTRO-->
+    <string name="empresaId">ID para la empresa</string>
+    <string name="telefonoAdmin">Teléfono</string>
+    <string name="puestoAdmin">Administrador</string>
+    <string name="puestoA">Puesto:</string>
+    <string name="pass">Contraseña</string>
+
     <!--LOGIN EMPRESARIO-->
     <string name="puesto">Soy Administrador</string>
+    <string name="registro">Registrarse</string>
+    <string name="cambioPass">Olvide mi contraseña</string>
 
     <!--MENU EMPRESARIO-->
     <string name="gestionEmpleados">Gestión de Empleados</string>
@@ -119,24 +129,22 @@
     <string name="denegar">Denegar</string>
 
 
-
     <!--pantalla de EDITAR PERFIL EMPRESA y PERFIL EMPRESA-->
     <string name="datosEmpresa">Datos de la empresa</string>
-    <string name="nombreEmpresa">Nombre de Empresa:</string>
-    <string name="nifEmpresa">NIF:</string>
-    <string name="emailEmpresa">Email empresa:</string>
-    <string name="fonoEmpresa">Teléfono:</string>
-    <string name="dirreccionEmpresa">Dirección:</string>
-    <string name="webEmpresa">Sitio Web:</string>
+    <string name="nombreEmpresa">Nombre de Empresa</string>
+    <string name="nifEmpresa">NIF</string>
+    <string name="emailEmpresa">Email empresa</string>
+    <string name="fonoEmpresa">Teléfono</string>
+    <string name="dirreccionEmpresa">Dirección</string>
+    <string name="webEmpresa">Sitio Web</string>
 
 
     <string name="tituloEmpresario">Datos del Administrador</string>
-    <string name="nombreAdministrador">Nombre:</string>
-    <string name="apellidoAdministrador">Apellidos:</string>
-    <string name="emailAdministrador">Email Administrador:</string>
+    <string name="nombreAdministrador">Nombre</string>
+    <string name="apellidoAdministrador">Apellidos</string>
+    <string name="emailAdministrador">Email Administrador</string>
     <string name="cargo">Puesto:</string>
     <string name="puestoAd">Administrador</string>
-    <string name="puestoGerente">Gerente</string>
     <string name="btnEditarPerfil">Editar Perfil</string>
     <string name="btnCambiarPass">Cambiar Contraseña</string>
 

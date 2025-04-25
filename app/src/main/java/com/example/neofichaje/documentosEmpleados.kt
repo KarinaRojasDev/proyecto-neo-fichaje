@@ -4,9 +4,6 @@ package com.example.neofichaje
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.Manifest
-import androidx.core.content.ContextCompat
-
 
 import android.net.Uri
 import android.os.Build
@@ -14,47 +11,63 @@ import android.os.Bundle
 import android.provider.OpenableColumns
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import com.example.neofichaje.databinding.ActivityDocumentosEmpleadosBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+
 
 class documentosEmpleados : AppCompatActivity(),OnClickListener {
     private lateinit var binding: ActivityDocumentosEmpleadosBinding
-
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+    private var empleadosMap: Map<String, String> = emptyMap()
     private lateinit var menu: ActionBarDrawerToggle
-
     private lateinit var listaTipoDoc:ArrayList<CharSequence>
-    private lateinit var listaSelectEmple:ArrayList<CharSequence>
-    private lateinit var adapterDoc:ArrayAdapter<CharSequence>
-    private lateinit var adapterSelect: ArrayAdapter<CharSequence>
-
     private lateinit var lanzadorArchivo: ActivityResultLauncher<Intent>
+    private var archivoUriSeleccionado: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityDocumentosEmpleadosBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
 
         toolbar()
         manejarOpcionesMenu()
-        inicializarSpinners()
-
-
         inicializarLanzadorDeArchivo()
-
+        acciones()
+        cargarEmpleadosEnSpinner()
         binding.btnSubirArchivo.setOnClickListener(this)
+        binding.btnGuardarDocumento.setOnClickListener(this)
 
     }
     override fun onClick(v: View?) {
         when(v?.id){
             binding.btnSubirArchivo.id->{
                 abrirSelectorDeArchivosPDF()
+            }
+            binding.btnGuardarDocumento.id->{
+                val uri = archivoUriSeleccionado
+                if (uri != null) {
+                    guardarDocumento(uri)
+                } else {
+                    Toast.makeText(this, "Selecciona un archivo PDF primero", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -64,6 +77,7 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
             if (resultado.resultCode == RESULT_OK) {
                 val uri = resultado.data?.data
                 uri?.let {
+                    archivoUriSeleccionado = it
                     val nombre = obtenerNombreArchivo(it)
                     binding.etSubirArchivos.setText("Archivo seleccionado: $nombre")
                 }
@@ -89,18 +103,128 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
         return nombre
     }
 
+    private fun cargarEmpleadosEnSpinner() {
+        val empleados = mutableListOf("Selecciona un empleado")
+        val listaEmpleados = mutableMapOf<String, String>()
 
 
-    private fun inicializarSpinners() {
-        listaSelectEmple= arrayListOf("Karina Sol Vega","Empleado 2")
-        adapterSelect=ArrayAdapter(applicationContext,android.R.layout.simple_spinner_item,listaSelectEmple)
-        adapterSelect.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerLista.adapter=adapterSelect
+        db.collection("usuarios")
+            .whereEqualTo("puesto", "Tecnico")
+            .get()
+            .addOnSuccessListener { documentos ->
+                for (doc in documentos) {
+                    val nombre = doc.getString("nombre") ?: ""
+                    val apellidos = doc.getString("apellidos") ?: ""
+                    val nombreCompleto = "$nombre $apellidos"
+                    empleados.add(nombreCompleto)
+                    listaEmpleados[nombreCompleto] = doc.id
+                }
+                empleadosMap = listaEmpleados.toMap()
 
-        listaTipoDoc= arrayListOf("Nómina","Contrato")
-        adapterDoc=ArrayAdapter(applicationContext,android.R.layout.simple_spinner_item,listaTipoDoc)
-        adapterDoc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerDoc.adapter=adapterDoc
+                val adaptador = object : ArrayAdapter<String>(
+                    this,
+                    android.R.layout.simple_spinner_item,
+                    empleados
+                ) {
+                    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                        val view = super.getView(position, convertView, parent)
+                        (view as TextView).setTextColor(ContextCompat.getColor(context, android.R.color.black))
+                        return view
+                    }
+
+                    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                        val view = super.getDropDownView(position, convertView, parent)
+                        (view as TextView).setTextColor(ContextCompat.getColor(context, android.R.color.white))
+                        return view
+                    }
+                }
+
+                adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                binding.spinnerLista.adapter = adaptador
+
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Error al cargar empleados", Toast.LENGTH_SHORT).show()
+            }
+    }
+    private fun acciones() {
+        listaTipoDoc = arrayListOf("Nóminas", "Contrato")
+
+        val adaptadorDoc = object : ArrayAdapter<CharSequence>(
+            this,
+            android.R.layout.simple_spinner_item,
+            listaTipoDoc
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).setTextColor(ContextCompat.getColor(context, android.R.color.black))
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                (view as TextView).setTextColor(ContextCompat.getColor(context, android.R.color.white))
+                return view
+            }
+        }
+
+        adaptadorDoc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerDoc.adapter = adaptadorDoc
+    }
+
+    private fun guardarDocumento(uri: Uri) {
+        val tipoDoc = binding.spinnerDoc.selectedItem.toString().lowercase()
+        val nombreEmpleado = binding.spinnerLista.selectedItem.toString()
+
+        if (tipoDoc.isBlank() || nombreEmpleado == "Selecciona un empleado") {
+            Toast.makeText(this, "Selecciona tipo de documento y empleado", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val uidEmpleado = empleadosMap[nombreEmpleado] ?: return
+        val uidAdmin = auth.currentUser?.uid ?: return
+
+        db.collection("usuarios").document(uidAdmin).get().addOnSuccessListener { adminDoc ->
+            val empresaId = adminDoc.getString("empresa_id") ?: return@addOnSuccessListener
+
+            val nombreArchivo = "${tipoDoc}_${System.currentTimeMillis()}.pdf"
+            val storageRef = FirebaseStorage.getInstance().reference
+                .child("documentos/$nombreArchivo")
+
+            storageRef.putFile(uri).addOnSuccessListener {
+                storageRef.downloadUrl.addOnSuccessListener { url ->
+                    val datos = hashMapOf(
+                        "nombre" to nombreArchivo,
+                        "url" to url.toString(),
+                        "fecha" to FieldValue.serverTimestamp()
+                    )
+
+                    // Subcolección del empleado
+                    db.collection("usuarios")
+                        .document(uidEmpleado)
+                        .collection(tipoDoc)
+                        .add(datos)
+
+                    // Subcolección de la empresa
+                    db.collection("empresas")
+                        .document(empresaId)
+                        .collection(tipoDoc)
+                        .add(datos)
+
+                    // Notificación
+                    val campoNoti = if (tipoDoc == "nominas") "tvNominas" else "tvContrato"
+                    db.collection("usuarios")
+                        .document(uidEmpleado)
+                        .update(campoNoti, "Tienes una nueva ${tipoDoc} disponible")
+
+                    Toast.makeText(this, " ${tipoDoc} enviada correctamente", Toast.LENGTH_LONG).show()
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, "Error al subir documento: ${it.message}", Toast.LENGTH_LONG).show()
+            }
+        }.addOnFailureListener {
+            Toast.makeText(this, "No se pudo obtener el ID de empresa", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun toolbar(){
@@ -160,3 +284,5 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
         }
     }
 }
+
+

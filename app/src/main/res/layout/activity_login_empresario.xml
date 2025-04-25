@@ -15,7 +15,7 @@
         android:layout_width="350dp"
         android:layout_height="350dp"
         android:scaleType="fitXY"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:src="@mipmap/img_banner_empresario"
         app:layout_constraintBottom_toTopOf="@+id/ll_loginEmpresa"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
         android:id="@+id/ll_loginEmpresa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/style_etbg"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,7 +37,10 @@
             android:id="@+id/et_correo_empresa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
             android:padding="6dp"
             android:ems="20"
             android:background="@drawable/style_etbg"
@@ -53,7 +56,9 @@
             android:id="@+id/et_contrasenia_empresa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
             android:background="@drawable/style_etbg"
             android:drawableStart="@drawable/ic_lock"
             android:drawableEnd="@drawable/ic_eye"
@@ -79,6 +84,25 @@
             android:padding="10dp"
             android:textSize="16sp"
             android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/tvRegistrarse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/registro"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            />
+        <TextView
+            android:id="@+id/tvCambiarPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/cambioPass"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            />
 
     </LinearLayout>
 

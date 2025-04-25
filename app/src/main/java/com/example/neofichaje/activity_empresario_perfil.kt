@@ -40,16 +40,16 @@ class activity_empresario_perfil : AppCompatActivity(),OnClickListener {
     private fun cargarDatosDesdeIntent() {
         val extras = intent.extras
         if (extras != null) {
-            binding.tvNombreEmpresa.text = extras.getString("nombre_empresa", "")
+            binding.tvNombreEmpresa.text = extras.getString("nombreEmpresa", "")
             binding.tvNif.text = extras.getString("nif", "")
 
-            binding.etEmailEmpresa.setText(extras.getString("email_empresa", ""))
-            binding.etFonoEmpresa.setText(extras.getString("fono", ""))
-            binding.etDirEmpresa.setText(extras.getString("direccion", ""))
-            binding.etWebEmpresa.setText(extras.getString("sitio_web", ""))
-            binding.etNombreAdmin.setText(extras.getString("nombre_admin", ""))
+            binding.etEmailEmpresa.setText(extras.getString("emailEmpresa", ""))
+            binding.etFonoEmpresa.setText(extras.getString("telefonoEmpresa", ""))
+            binding.etDirEmpresa.setText(extras.getString("direccionEmpresa", ""))
+            binding.etWebEmpresa.setText(extras.getString("web", ""))
+            binding.etNombreAdmin.setText(extras.getString("nombre", ""))
             binding.etApellidoAdmin.setText(extras.getString("apellidos", ""))
-            binding.etEmailAdmin.setText(extras.getString("email_admin", ""))
+            binding.etEmailAdmin.setText(extras.getString("email", ""))
 
             // Para el Spinner
             val puestoRecibido = extras.getString("puesto", "")
@@ -115,13 +115,13 @@ class activity_empresario_perfil : AppCompatActivity(),OnClickListener {
         val puesto = binding.spinnerPuesto.selectedItem.toString()
 
         val updates = mapOf(
-            "email_empresa" to emailEmpresa,
-            "fono" to fono,
-            "direccion" to direccion,
-            "sitio_web" to sitioWeb,
-            "nombre_admin" to nombreAdmin,
+            "emailEmpresa" to emailEmpresa,
+            "telefonoEmpresa" to fono,
+            "direccionEmpresa" to direccion,
+            "web" to sitioWeb,
+            "nombre" to nombreAdmin,
             "apellidos" to apellidos,
-            "email_admin" to emailAdmin,
+            "email" to emailAdmin,
             "puesto" to puesto
         )
 
@@ -129,13 +129,13 @@ class activity_empresario_perfil : AppCompatActivity(),OnClickListener {
             Toast.makeText(this, "Perfil actualizado correctamente ", Toast.LENGTH_SHORT).show()
 
             val bundle = Bundle().apply {
-                putString("email_empresa", emailEmpresa)
-                putString("fono", fono)
-                putString("direccion", direccion)
-                putString("sitio_web", sitioWeb)
-                putString("nombre_admin", nombreAdmin)
+                putString("emailEmpresa", emailEmpresa)
+                putString("telefonoEmpresa", fono)
+                putString("direccionEmpresa", direccion)
+                putString("web", sitioWeb)
+                putString("nombre", nombreAdmin)
                 putString("apellidos", apellidos)
-                putString("email_admin", emailAdmin)
+                putString("email", emailAdmin)
                 putString("puesto", puesto)
             }
 
@@ -157,13 +157,13 @@ class activity_empresario_perfil : AppCompatActivity(),OnClickListener {
         val ref = FirebaseDatabase.getInstance().getReference("usuarios").child(uid)
 
         ref.get().addOnSuccessListener { snapshot ->
-            binding.etEmailEmpresa.setText(snapshot.child("email_empresa").value.toString())
-            binding.etFonoEmpresa.setText(snapshot.child("fono_empresa").value.toString())
-            binding.etDirEmpresa.setText(snapshot.child("direccion").value.toString())
-            binding.etWebEmpresa.setText(snapshot.child("sitio_web").value.toString())
-            binding.etNombreAdmin.setText(snapshot.child("nombre_admin").value.toString())
+            binding.etEmailEmpresa.setText(snapshot.child("emailEmpresa").value.toString())
+            binding.etFonoEmpresa.setText(snapshot.child("telefonoEmpresa").value.toString())
+            binding.etDirEmpresa.setText(snapshot.child("direccionEmpresa").value.toString())
+            binding.etWebEmpresa.setText(snapshot.child("web").value.toString())
+            binding.etNombreAdmin.setText(snapshot.child("nombre").value.toString())
             binding.etApellidoAdmin.setText(snapshot.child("apellidos").value.toString())
-            binding.etEmailAdmin.setText(snapshot.child("email_admin").value.toString())
+            binding.etEmailAdmin.setText(snapshot.child("email").value.toString())
 
             val puestoActual = snapshot.child("puesto").value.toString()
             val index = puesto.indexOf(puestoActual)

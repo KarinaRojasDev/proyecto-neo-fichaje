@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".inicio_empleado"
-    tools:openDrawer="start">
+    tools:openDrawer="">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/gradient"
                 android:orientation="vertical"
+                android:visibility="gone"
                 android:layout_margin="10dp"
                 android:padding="16dp">
 
@@ -66,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/gradient"
                 android:orientation="vertical"
+                android:visibility="gone"
                 android:layout_margin="10dp"
                 android:padding="16dp">
 
@@ -84,6 +86,72 @@
 
                 <TextView
                     android:id="@+id/tv_vacacionesEmpleado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangule"
+                    android:padding="20dp"
+                    android:textColor="@color/black"
+                    android:text="0"
+                    android:textSize="18sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/contrato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_margin="10dp"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvTitleContrato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_reunded"
+                    android:drawablePadding="8dp"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:text="@string/contratoEmple"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/ic_notification" />
+
+                <TextView
+                    android:id="@+id/tvContrato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangule"
+                    android:padding="20dp"
+                    android:textColor="@color/black"
+                    android:text="0"
+                    android:textSize="18sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/nomina"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient"
+                android:orientation="vertical"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvTitleNominas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_reunded"
+                    android:drawablePadding="8dp"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:text="@string/nominasEmple"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/ic_notification" />
+
+                <TextView
+                    android:id="@+id/tvNominas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rectangule"

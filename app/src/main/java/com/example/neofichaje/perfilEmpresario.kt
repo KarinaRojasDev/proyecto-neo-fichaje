@@ -66,15 +66,16 @@ class perfilEmpresario : AppCompatActivity(),OnClickListener {
     }
     private fun accionEditarPerfil() {
         val intentEditarPerfil = Intent(this, activity_empresario_perfil::class.java).apply {
-            putExtra("nombre_empresa", binding.tvNombreEmpresa.text.toString())
+
+            putExtra("nombreEmpresa", binding.tvNombreEmpresa.text.toString())
             putExtra("nif", binding.tvNif.text.toString())
-            putExtra("email_empresa", binding.tvEmail.text.toString())
-            putExtra("fono", binding.tvFono.text.toString())
-            putExtra("direccion", binding.tvDir.text.toString())
-            putExtra("sitio_web", binding.tvWww.text.toString())
-            putExtra("nombre_admin", binding.tvNombre.text.toString())
+            putExtra("emailEmpresa", binding.tvEmail.text.toString())
+            putExtra("telefonoEmpresa", binding.tvFono.text.toString())
+            putExtra("direccionEmpresa", binding.tvDir.text.toString())
+            putExtra("web", binding.tvWww.text.toString())
+            putExtra("nombre", binding.tvNombre.text.toString())
             putExtra("apellidos", binding.tvApellidos.text.toString())
-            putExtra("email_admin", binding.tvEmailAd.text.toString())
+            putExtra("email", binding.tvEmailAd.text.toString())
             putExtra("puesto", binding.tvPuesto.text.toString())
         }
 
@@ -88,13 +89,13 @@ class perfilEmpresario : AppCompatActivity(),OnClickListener {
                 val data = result.data
                 val extras = data?.extras ?: return@registerForActivityResult
 
-                binding.tvEmail.text = extras.getString("email_empresa", "")
-                binding.tvFono.text = extras.getString("fono", "")
-                binding.tvDir.text = extras.getString("direccion", "")
-                binding.tvWww.text = extras.getString("sitio_web", "")
-                binding.tvNombre.text = extras.getString("nombre_admin", "")
+                binding.tvEmail.text = extras.getString("emailEmpresa", "")
+                binding.tvFono.text = extras.getString("telefonoEmpresa", "")
+                binding.tvDir.text = extras.getString("direccionEmpresa", "")
+                binding.tvWww.text = extras.getString("web", "")
+                binding.tvNombre.text = extras.getString("nombre", "")
                 binding.tvApellidos.text = extras.getString("apellidos", "")
-                binding.tvEmailAd.text = extras.getString("email_admin", "")
+                binding.tvEmailAd.text = extras.getString("email", "")
                 binding.tvPuesto.text = extras.getString("puesto", "")
 
                 Toast.makeText(this, "Perfil actualizado con éxito", Toast.LENGTH_SHORT).show()
@@ -113,14 +114,12 @@ class perfilEmpresario : AppCompatActivity(),OnClickListener {
         usuarioRef.get().addOnSuccessListener { doc ->
             if (doc.exists()) {
                 val empresaId = doc.getString("empresa_id") ?: return@addOnSuccessListener
-
-                // 💙 Cargamos los datos de la empresa
                 cargarDatosEmpresa(empresaId)
 
                 // Datos del admin (puedes mostrarlos también)
-                binding.tvNombre.text = doc.getString("nombre_admin")
+                binding.tvNombre.text = doc.getString("nombre")
                 binding.tvApellidos.text = doc.getString("apellidos")
-                binding.tvEmailAd.text = doc.getString("email_admin")
+                binding.tvEmailAd.text = doc.getString("email")
                 binding.tvPuesto.text = doc.getString("puesto")
             }
         }
@@ -130,12 +129,12 @@ class perfilEmpresario : AppCompatActivity(),OnClickListener {
 
         empresaRef.get().addOnSuccessListener { empresa ->
             if (empresa.exists()) {
-                binding.tvNombreEmpresa.text = empresa.getString("nombre_empresa")
+                binding.tvNombreEmpresa.text = empresa.getString("nombreEmpresa")
                 binding.tvNif.text = empresa.getString("nif")
-                binding.tvEmail.text = empresa.getString("email_empresa")
-                binding.tvFono.text = empresa.getString("fono")
-                binding.tvDir.text = empresa.getString("direccion")
-                binding.tvWww.text = empresa.getString("sitio_web")
+                binding.tvEmail.text = empresa.getString("emailEmpresa")
+                binding.tvFono.text = empresa.getString("telefonoEmpresa")
+                binding.tvDir.text = empresa.getString("direccionEmpresa")
+                binding.tvWww.text = empresa.getString("web")
             }
         }.addOnFailureListener {
             Toast.makeText(this, "Error al cargar datos de empresa", Toast.LENGTH_SHORT).show()
@@ -183,3 +182,4 @@ class perfilEmpresario : AppCompatActivity(),OnClickListener {
         }
     }
 }
+

@@ -4,14 +4,15 @@
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="true" />
-
-    <!-- Permiso para acceder a la cámara -->
+        android:required="true" /> <!-- Permiso para acceder a la cámara -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.READ_MEDIA_DOCUMENTS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
-
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
 
     <application
         android:allowBackup="true"
@@ -23,6 +24,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NeoFichaje"
         tools:targetApi="31">
+        <activity
+            android:name=".registroUsuario"
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -59,7 +63,7 @@
             android:name=".nominas_empleado"
             android:exported="false" />
         <activity
-            android:name=".login_empleado"
+            android:name=".activity_login_empresario"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -84,9 +88,6 @@
             android:exported="false" />
         <activity
             android:name=".activity_empresario_perfil"
-            android:exported="false" />
-        <activity
-            android:name=".activity_login_empresario"
             android:exported="false" />
     </application>
 

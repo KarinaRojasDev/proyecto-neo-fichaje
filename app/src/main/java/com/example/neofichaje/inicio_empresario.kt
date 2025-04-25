@@ -23,7 +23,6 @@ class inicio_empresario : AppCompatActivity() {
         configurarToolbar()
         manejarOpcionesMenu()
         crearSubcolecciones()
-
     }
     private fun configurarToolbar() {
         val barraHerramientas = binding.includeInicioEmpresario.toolbarComun
@@ -89,7 +88,7 @@ class inicio_empresario : AppCompatActivity() {
                 val rol = document.getString("puesto") // Asegúrate de tener el campo "puesto"
 
                 // Si el rol es "administrador" o "empresario", creamos las subcolecciones
-                if (rol == "Administrador" || rol == "Gerente") {
+                if (rol == "Administrador" ) {
                     val subcolecciones = listOf(
                         "gestionEmpleados",
                         "gestionVacaciones",

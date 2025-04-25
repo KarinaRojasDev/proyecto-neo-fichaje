@@ -6,13 +6,16 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnTouchListener
+import android.view.View.OnClickListener
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.neofichaje.databinding.ActivityLoginEmpresarioBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class activity_login_empresario : AppCompatActivity(), View.OnClickListener, View.OnTouchListener  {
+class activity_login_empresario : AppCompatActivity(), OnClickListener, OnTouchListener {
     private lateinit var binding: ActivityLoginEmpresarioBinding
     private lateinit var auth: FirebaseAuth
     private var esVisible = false
@@ -28,6 +31,7 @@ class activity_login_empresario : AppCompatActivity(), View.OnClickListener, Vie
 
         binding.btnIniSesionEmpresa.setOnClickListener(this)
         binding.etContraseniaEmpresa.setOnTouchListener(this)
+        binding.tvRegistrarse.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -35,8 +39,17 @@ class activity_login_empresario : AppCompatActivity(), View.OnClickListener, Vie
             binding.btnIniSesionEmpresa.id -> {
                 iniciarSesion()
             }
+            binding.tvRegistrarse.id->{
+                accionesIntent()
+            }
         }
     }
+
+    private fun accionesIntent() {
+        val intent = Intent(this, registroUsuario::class.java)
+        startActivity(intent)
+    }
+
     private fun iniciarSesion() {
         val correo = binding.etCorreoEmpresa.text.toString().trim()
         val contrasenia = binding.etContraseniaEmpresa.text.toString().trim()
@@ -49,39 +62,46 @@ class activity_login_empresario : AppCompatActivity(), View.OnClickListener, Vie
         auth.signInWithEmailAndPassword(correo, contrasenia)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val userId = auth.currentUser?.uid
+
+                    val userId = auth.currentUser?.uid ?: return@addOnCompleteListener
                     val db = FirebaseFirestore.getInstance()
 
-                    db.collection("usuarios").document(userId!!)
+                    db.collection("usuarios").document(userId)
                         .get()
                         .addOnSuccessListener { document ->
                             if (document.exists()) {
-                                val puesto = document.getString("puesto")
-                                if (puesto == "Administrador") {
-                                    acciones()
-                                } else {
-                                    auth.signOut()
-                                    Snackbar.make(binding.root, "Acceso denegado. Esta zona es solo para administradores.", Snackbar.LENGTH_LONG).show()
+                                val puesto = document.getString("puesto") ?: ""
+                                Toast.makeText(this, "Puesto encontrado: $puesto", Toast.LENGTH_SHORT).show()
+                                when (puesto) {
+                                    "Administrador", "RRHH", "Gerente" -> {
+                                        val intent = Intent(this, inicio_empresario::class.java)
+                                        startActivity(intent)
+                                    }
+                                    "Tecnico" -> {
+                                        val intent = Intent(this, inicio_empleado::class.java)
+                                        startActivity(intent)
+                                    }
+                                    else -> {
+                                        auth.signOut()
+                                        Snackbar.make(binding.root, "Puesto no reconocido o no autorizado", Snackbar.LENGTH_LONG).show()
+                                    }
                                 }
                             } else {
                                 auth.signOut()
-                                Snackbar.make(binding.root, "No se encontró información del usuario.", Snackbar.LENGTH_LONG).show()
+                                Snackbar.make(binding.root, "No se encontró el usuario", Snackbar.LENGTH_LONG).show()
                             }
                         }
                         .addOnFailureListener {
                             auth.signOut()
-                            Snackbar.make(binding.root, "Error al verificar el rol del usuario.", Snackbar.LENGTH_LONG).show()
+                            Snackbar.make(binding.root, "Error al verificar el puesto del usuario.", Snackbar.LENGTH_LONG).show()
                         }
 
                 } else {
-                    Snackbar.make(binding.root, "El correo o la contraseña son incorrectos. Por favor, verifica e intenta nuevamente.", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.root, "Correo o contraseña incorrectos.", Snackbar.LENGTH_LONG).show()
                 }
             }
     }
-    private fun acciones(){
-        val intent= Intent(this, inicio_empresario ::class.java)
-        startActivity(intent)
-    }
+
     private fun limpiar(){
         binding.etCorreoEmpresa.text.clear()
         binding.etContraseniaEmpresa.text.clear()
@@ -102,6 +122,7 @@ class activity_login_empresario : AppCompatActivity(), View.OnClickListener, Vie
         campoContrasenia.setSelection(campoContrasenia.text.length)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         when (v?.id) {
             binding.etContraseniaEmpresa.id -> {
