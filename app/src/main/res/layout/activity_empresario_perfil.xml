@@ -6,7 +6,7 @@
     android:id="@+id/menuEditarPerfil"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/fondo"
     tools:context=".activity_empresario_perfil"
     tools:openDrawer="start">
     <ScrollView

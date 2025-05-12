@@ -6,8 +6,9 @@
     android:id="@+id/menuSolicitudVaca"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".empleado_solicitud_vacaciones">
+    android:background="@color/fondo"
+    tools:context=".empleado_solicitud_vacaciones"
+    tools:openDrawer="start">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">

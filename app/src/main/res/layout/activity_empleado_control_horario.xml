@@ -6,7 +6,7 @@
     android:id="@+id/menuFichaje"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/fondo"
     tools:context=".empleado_control_horario"
     tools:openDrawer="start">
 
@@ -17,7 +17,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
             android:orientation="vertical">
             <include
                 android:id="@+id/includeFichaje"

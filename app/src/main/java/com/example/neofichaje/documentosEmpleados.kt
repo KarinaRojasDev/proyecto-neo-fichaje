@@ -39,6 +39,9 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
     private lateinit var lanzadorArchivo: ActivityResultLauncher<Intent>
     private var archivoUriSeleccionado: Uri? = null
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityDocumentosEmpleadosBinding.inflate(layoutInflater)
@@ -175,6 +178,7 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
     private fun guardarDocumento(uri: Uri) {
         val tipoDoc = binding.spinnerDoc.selectedItem.toString().lowercase()
         val nombreEmpleado = binding.spinnerLista.selectedItem.toString()
+        val tituloDocumento = binding.etTituloDocumento.text.toString().trim()
 
         if (tipoDoc.isBlank() || nombreEmpleado == "Selecciona un empleado") {
             Toast.makeText(this, "Selecciona tipo de documento y empleado", Toast.LENGTH_SHORT).show()
@@ -212,7 +216,8 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
                                 "fecha" to FieldValue.serverTimestamp(),
                                 "nombreEmpleado" to nombre,
                                 "apellidosEmpleado" to apellidos,
-                                "uidEmpleado" to uidEmpleado
+                                "uidEmpleado" to uidEmpleado,
+                                "tituloDocumento" to tituloDocumento
                             )
 
                             db.collection("usuarios")

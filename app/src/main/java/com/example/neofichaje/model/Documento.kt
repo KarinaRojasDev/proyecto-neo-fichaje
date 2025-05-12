@@ -1,6 +1,7 @@
 package com.example.neofichaje.model
 
 class Documento {
-    val nombreArchivo: String = ""
-    val url: String = ""
+    var nombreArchivo: String = ""
+    var url: String = ""
+    var tituloDocumento: String? = null
 }

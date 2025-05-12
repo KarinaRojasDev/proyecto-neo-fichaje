@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.neofichaje.adapter.DocumentoAdapter
 import com.example.neofichaje.databinding.ActivityNominasEmpleadoBinding
@@ -17,6 +18,7 @@ class nominas_empleado : AppCompatActivity() {
     private lateinit var menu: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         binding = ActivityNominasEmpleadoBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -77,9 +79,11 @@ class nominas_empleado : AppCompatActivity() {
                 }
 
                 val listaNominas = mutableListOf<Documento>()
-                for (doc in snapshot.documents) {
+                snapshot.documents.forEach { doc ->
                     val documento = doc.toObject(Documento::class.java)
-                    documento?.let { listaNominas.add(it) }
+                    if (documento != null && documento.url.isNotEmpty()) {
+                        listaNominas.add(documento)
+                    }
                 }
 
                 val adapter = DocumentoAdapter(this, listaNominas)

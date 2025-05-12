@@ -77,6 +77,9 @@
     <string name="puesto">Soy Administrador</string>
     <string name="registro">Registrarse</string>
     <string name="cambioPass">Olvide mi contraseña</string>
+    <string name="google">Iniciar sesión con Google</string>
+    <string name="default_web_client_id">tu-id-de-cliente-web-de-firebase</string>
+
 
     <!--MENU EMPRESARIO-->
     <string name="gestionEmpleados">Gestión de Empleados</string>
@@ -119,6 +122,7 @@
     <string name="arrastrar">Seleccione el archivo</string>
     <string name="select">Seleccionar empleado:</string>
     <string name="guardar">Guardar documento</string>
+    <string name="tituloDoc">Título del documento (Enero, Febrero…)</string>
 
     <!--GESTIÓN DE VACACIONES-->
     <string name="titulo">Listado de solicitud de vacaciones</string>

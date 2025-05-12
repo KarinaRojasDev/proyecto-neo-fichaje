@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:elevation="4dp"
+    android:background="@color/white"
     android:radius="12dp">
 
     <TextView

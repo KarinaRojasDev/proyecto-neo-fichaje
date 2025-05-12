@@ -24,7 +24,8 @@ class DocumentoAdapter(
     override fun onBindViewHolder(holder: DocumentoViewHolder, position: Int) {
         val documento = listaDocumentos[position]
 
-        holder.binding.nombreDocumento.text = documento.nombreArchivo
+        holder.binding.nombreDocumento.text =
+            if (!documento.tituloDocumento.isNullOrEmpty()) documento.tituloDocumento else documento.nombreArchivo
 
         holder.binding.root.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)

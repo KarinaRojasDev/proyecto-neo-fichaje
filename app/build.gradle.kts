@@ -45,8 +45,12 @@ dependencies {
     // Firebase KTX
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation("com.google.firebase:firebase-database-ktx:20.0.0")
-    implementation ("com.google.firebase:firebase-storage-ktx:20.0.0")
+    implementation("com.google.firebase:firebase-database-ktx")
+    implementation ("com.google.firebase:firebase-storage-ktx")
+    // Google
+    implementation ("com.google.android.libraries.identity.googleid:googleid:1.1.0")
+
+
 
     // Otros
     implementation("androidx.recyclerview:recyclerview:1.3.1")
@@ -56,6 +60,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    //implementation(libs.play.services.auth)
 
     // Test
     testImplementation(libs.junit)

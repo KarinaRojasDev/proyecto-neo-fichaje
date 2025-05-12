@@ -6,9 +6,9 @@
     android:id="@+id/menuGestionVacaciones"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/fondo"
     tools:context=".gestionVacaciones"
-    tools:openDrawer="">
+    tools:openDrawer="start">
 
     <ScrollView
         android:layout_width="match_parent"

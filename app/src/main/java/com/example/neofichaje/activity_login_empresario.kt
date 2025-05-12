@@ -8,17 +8,20 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import android.view.View.OnClickListener
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.neofichaje.databinding.ActivityLoginEmpresarioBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
+
+
 class activity_login_empresario : AppCompatActivity(), OnClickListener, OnTouchListener {
     private lateinit var binding: ActivityLoginEmpresarioBinding
     private lateinit var auth: FirebaseAuth
     private var esVisible = false
+
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +35,8 @@ class activity_login_empresario : AppCompatActivity(), OnClickListener, OnTouchL
         binding.btnIniSesionEmpresa.setOnClickListener(this)
         binding.etContraseniaEmpresa.setOnTouchListener(this)
         binding.tvRegistrarse.setOnClickListener(this)
+        binding.btnGoogle.setOnClickListener(this)
+
     }
 
     override fun onClick(v: View?) {
@@ -41,6 +46,9 @@ class activity_login_empresario : AppCompatActivity(), OnClickListener, OnTouchL
             }
             binding.tvRegistrarse.id->{
                 accionesIntent()
+            }
+            binding.btnGoogle.id -> {
+
             }
         }
     }

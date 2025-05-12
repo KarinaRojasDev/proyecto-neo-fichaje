@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.neofichaje.adapter.DocumentoAdapter
 import com.example.neofichaje.databinding.ActivityContratoEmpleadoBinding
@@ -18,6 +19,7 @@ class contratoEmpleado : AppCompatActivity() {
     private lateinit var menu: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         binding = ActivityContratoEmpleadoBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -78,9 +80,15 @@ class contratoEmpleado : AppCompatActivity() {
                 }
 
                 val listaContratos = mutableListOf<Documento>()
-                for (doc in snapshot.documents) {
+
+                // evitamos documentos vacíos o duplicados
+                snapshot.documents.forEach { doc ->
                     val documento = doc.toObject(Documento::class.java)
-                    documento?.let { listaContratos.add(it) }
+                    if (documento != null && documento.url.isNotEmpty()) {
+                        // Asignamos nombre fijo al documento
+                        documento.nombreArchivo = "Contrato de trabajo"
+                        listaContratos.add(documento)
+                    }
                 }
 
                 if (listaContratos.isEmpty()) {
@@ -95,8 +103,6 @@ class contratoEmpleado : AppCompatActivity() {
                         visibility = View.VISIBLE
                     }
                 }
-
             }
-
     }
 }

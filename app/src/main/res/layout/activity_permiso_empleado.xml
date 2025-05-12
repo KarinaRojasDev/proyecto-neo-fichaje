@@ -6,9 +6,9 @@
     android:id="@+id/menuPermiso"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/fondo"
     tools:context=".permisoEmpleado"
-    tools:openDrawer="start">
+    tools:openDrawer="">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
