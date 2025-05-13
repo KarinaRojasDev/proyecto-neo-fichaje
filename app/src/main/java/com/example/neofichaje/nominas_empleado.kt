@@ -25,7 +25,6 @@ class nominas_empleado : AppCompatActivity() {
         setContentView(binding.root)
 
         configurarToolbar()
-        configurarMenuLateral()
         manejarOpcionesMenu()
         cargarNominas()
     }
@@ -46,9 +45,6 @@ class nominas_empleado : AppCompatActivity() {
         menu.syncState()
     }
 
-    private fun configurarMenuLateral() {
-        // Aquí puedes personalizar el menú si lo necesitas
-    }
 
     private fun manejarOpcionesMenu() {
         binding.navViewGestion.setNavigationItemSelectedListener { opcion ->

@@ -181,7 +181,7 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
         var tituloDocumento = binding.etTituloDocumento.text.toString().trim()
 
         if (tipoDoc == "nominas") {
-            tituloDocumento = tituloDocumento.replace(Regex("\\bnomina\\b", RegexOption.IGNORE_CASE), "Nómina")
+            tituloDocumento = tituloDocumento.replace(Regex("\\bnomina\\b", RegexOption.IGNORE_CASE), "Nómina de")
         }
 
         if (tipoDoc.isBlank() || nombreEmpleado == "Selecciona un empleado") {
@@ -232,8 +232,28 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
 
                                     Toast.makeText(this, "Documento y notificación enviados", Toast.LENGTH_LONG).show()
                                     limpiarCampos()
-                                }
 
+                                    val notificacion = when (tipoDoc) {
+                                        "nominas" -> "Tienes la  ${tituloDocumento.ifEmpty { "este mes" }} disponible"
+
+                                        "contrato" -> "Tienes tu contrato disponible"
+                                        else -> null
+                                    }
+                                    notificacion?.let { mensaje ->
+                                        val campo =
+                                            if (tipoDoc == "nominas") "tvNominas" else "tvContrato"
+                                        db.collection("usuarios")
+                                            .document(uidEmpleado)
+                                            .update(campo, mensaje)
+                                            .addOnFailureListener { e ->
+                                                Toast.makeText(
+                                                    this,
+                                                    "Error al enviar notificación: ${e.message}",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                    }
+                                }
                                 .addOnFailureListener {
                                     Toast.makeText(
                                         this,

@@ -1,7 +1,14 @@
 package com.example.neofichaje
 
+import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.View.OnClickListener
+import android.widget.CalendarView
+import android.widget.CalendarView.OnDateChangeListener
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,11 +16,18 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.neofichaje.databinding.ActivityEmpleadoSolicitudVacacionesBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Calendar
 
-class empleado_solicitud_vacaciones : AppCompatActivity() {
+class empleado_solicitud_vacaciones : AppCompatActivity(),OnClickListener{
 
     private lateinit var binding: ActivityEmpleadoSolicitudVacacionesBinding
     private lateinit var menu: ActionBarDrawerToggle
+    private var fechaInicio: String? = null
+    private var fechaFin: String? = null
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,10 +35,108 @@ class empleado_solicitud_vacaciones : AppCompatActivity() {
         binding = ActivityEmpleadoSolicitudVacacionesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+
         toolbar()
-        configurarMenuLateral()
         manejarOpcionesMenu()
+        binding.textofechaInicioVaca.setOnClickListener(this)
+        binding.textofechaFinVaca.setOnClickListener(this)
+        binding.btnEnviarSolicitud.setOnClickListener(this)
     }
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            binding.textofechaInicioVaca.id -> {
+                abrirCalendario(true)
+            }
+            binding.textofechaFinVaca.id -> {
+                if (fechaInicio != null) {
+                    abrirCalendario(false)
+                } else {
+                    Toast.makeText(this, "Primero selecciona la fecha de inicio", Toast.LENGTH_SHORT).show()
+                }
+            }
+            binding.btnEnviarSolicitud.id -> {
+                enviarSolicitud()
+            }
+        }
+    }
+    @SuppressLint("SetTextI18n")
+    private fun abrirCalendario(seleccionInicio: Boolean) {
+        val calendario = Calendar.getInstance()
+        val año = calendario.get(Calendar.YEAR)
+        val mes = calendario.get(Calendar.MONTH)
+        val dia = calendario.get(Calendar.DAY_OF_MONTH)
+
+        val datePicker = DatePickerDialog(this, { _, year, month, dayOfMonth ->
+            val fechaSeleccionada = "${dayOfMonth.toString().padStart(2, '0')}/${(month + 1).toString().padStart(2, '0')}/$year"
+            if (seleccionInicio) {
+                fechaInicio = fechaSeleccionada
+                binding.textofechaInicioVaca.text = "Fecha inicio: $fechaInicio"
+            } else {
+                fechaFin = fechaSeleccionada
+                binding.textofechaFinVaca.text = "Fecha fin: $fechaFin"
+            }
+        }, año, mes, dia)
+
+        datePicker.show()
+    }
+
+    private fun enviarSolicitud() {
+        val comentario = binding.idComentarioVaca.text.toString()
+        val uidEmpleado = auth.currentUser?.uid ?: return
+
+        if (fechaInicio.isNullOrEmpty() || fechaFin.isNullOrEmpty()) {
+            Toast.makeText(this, "Selecciona las fechas de inicio y fin", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        db.collection("usuarios").document(uidEmpleado).get().addOnSuccessListener { doc ->
+            val nombre = doc.getString("nombre") ?: "Empleado"
+            val apellidos = doc.getString("apellidos") ?: ""
+            val empresaId = doc.getString("empresa_id") ?: return@addOnSuccessListener
+            val añoActual = Calendar.getInstance().get(Calendar.YEAR).toString()
+            val nombreDoc = "vacaciones $añoActual $nombre $apellidos"
+
+            val datosVacaciones = hashMapOf(
+                "fechaInicio" to fechaInicio,
+                "fechaFin" to fechaFin,
+                "comentario" to comentario,
+                "estado" to "pendiente"
+            )
+
+            // Guardar en usuarios
+            db.collection("usuarios")
+                .document(uidEmpleado)
+                .collection("vacaciones")
+                .document(nombreDoc)
+                .set(datosVacaciones)
+
+            // Guardar en empresas (con año_nombreEmpleado como documento)
+            val nombreEmpresaDoc = "${añoActual}_${nombre}_${apellidos}"
+            db.collection("empresas")
+                .document(empresaId)
+                .collection("gestionVacaciones")
+                .document(nombreEmpresaDoc)
+                .set(datosVacaciones)
+
+            // Escribir notificación en usuarios
+            val mensajeNotificacion = "Ha solicitado vacaciones del $fechaInicio al $fechaFin"
+            db.collection("usuarios")
+                .document(uidEmpleado)
+                .update("tvVacacionesEmpleado", mensajeNotificacion)
+
+            // Limpiar la pantalla (NO salir)
+            binding.textofechaInicioVaca.text = getString(R.string.SeleccioneFechaInicio)
+            binding.textofechaFinVaca.text = getString(R.string.SeleccioneFechaFin)
+            binding.idComentarioVaca.text?.clear()
+            fechaInicio = null
+            fechaFin = null
+
+            Toast.makeText(this, "Solicitud enviada correctamente", Toast.LENGTH_LONG).show()
+        }
+    }
+
     private fun toolbar(){
         val barraHerramientas = binding.includeVacaciones.toolbarComun
         setSupportActionBar(barraHerramientas)
@@ -42,10 +154,6 @@ class empleado_solicitud_vacaciones : AppCompatActivity() {
         menu.syncState()
 
     }
-    private fun configurarMenuLateral() {
-        // configurar el NavigationView
-    }
-
     private fun manejarOpcionesMenu() {
 
         binding.navView.setNavigationItemSelectedListener { opcion ->

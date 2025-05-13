@@ -62,19 +62,63 @@ class DocumentoAdapter(
 
     private fun eliminarDocumento(documentId: String, position: Int) {
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        FirebaseFirestore.getInstance()
-            .collection("usuarios")
-            .document(uid)
-            .collection(tipoDoc)
-            .document(documentId)
-            .delete()
+        val db = FirebaseFirestore.getInstance()
+        val storage = com.google.firebase.storage.FirebaseStorage.getInstance()
+        val documento = listaDocumentos[position]
+
+        //  eliminar de Storage
+        val storageRef = storage.reference
+            .child("documentos/$uid/$tipoDoc/${documento.nombreArchivo}")
+        storageRef.delete()
             .addOnSuccessListener {
-                Toast.makeText(context, "Documento eliminado", Toast.LENGTH_SHORT).show()
-                listaDocumentos.removeAt(position)
-                notifyItemRemoved(position)
+                // eliminar de usuarios Firestore
+                db.collection("usuarios")
+                    .document(uid)
+                    .collection(tipoDoc)
+                    .document(documentId)
+                    .delete()
+                    .addOnSuccessListener {
+                        //  buscar empresaId y eliminar también de empresa
+                        db.collection("usuarios")
+                            .document(uid)
+                            .get()
+                            .addOnSuccessListener { userDoc ->
+                                val empresaId = userDoc.getString("empresa_id")
+                                if (!empresaId.isNullOrEmpty()) {
+                                    val rutaEmpresa = when (tipoDoc) {
+                                        "nominas" -> "gestionNominas"
+                                        "contrato" -> "gestionContratos"
+                                        else -> "otrosDocumentos"
+                                    }
+
+                                    db.collection("empresas")
+                                        .document(empresaId)
+                                        .collection(rutaEmpresa)
+                                        .whereEqualTo("nombreArchivo", documento.nombreArchivo)
+                                        .get()
+                                        .addOnSuccessListener { docs ->
+                                            for (doc in docs) {
+                                                db.collection("empresas")
+                                                    .document(empresaId)
+                                                    .collection(rutaEmpresa)
+                                                    .document(doc.id)
+                                                    .delete()
+                                            }
+                                        }
+                                }
+                            }
+
+                        // actualiza el RecyclerView
+                        Toast.makeText(context, "Documento eliminado correctamente", Toast.LENGTH_SHORT).show()
+                        listaDocumentos.removeAt(position)
+                        notifyItemRemoved(position)
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(context, "Error eliminando Firestore: ${it.message}", Toast.LENGTH_SHORT).show()
+                    }
             }
             .addOnFailureListener {
-                Toast.makeText(context, "Error eliminando: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Error eliminando archivo PDF: ${it.message}", Toast.LENGTH_SHORT).show()
             }
     }
 }

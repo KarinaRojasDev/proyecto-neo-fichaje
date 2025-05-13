@@ -1,5 +1,6 @@
 package com.example.neofichaje
 
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -13,10 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import java.text.SimpleDateFormat
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Locale
-//import androidx.core.view.ViewCompat
-//import androidx.core.view.WindowInsetsCompat
-//import android.widget.Toast
-//import androidx.activity.enableEdgeToEdge
+
 
 class inicio_empleado : AppCompatActivity(), OnClickListener {
     private lateinit var binding: ActivityInicioEmpleadoBinding
@@ -56,6 +54,7 @@ class inicio_empleado : AppCompatActivity(), OnClickListener {
 
                 val notiNomina = snapshot.getString("tvNominas")
                 val notiContrato = snapshot.getString("tvContrato")
+                val notiVacaciones = snapshot.getString("tvVacacionesEmpleado")
 
                 if (!notiNomina.isNullOrEmpty()) {
                     binding.nomina.visibility = View.VISIBLE
@@ -80,10 +79,23 @@ class inicio_empleado : AppCompatActivity(), OnClickListener {
                 } else {
                     binding.contrato.visibility = View.GONE
                 }
+                if (!notiVacaciones.isNullOrEmpty()) {
+                    binding.notificationVacaciones.visibility = View.VISIBLE
+                    binding.tvVacacionesEmpleado.text = notiVacaciones
+                    binding.notificationVacaciones.setOnClickListener {
+                        //  podemos abrir un historial de vacaciones
+                        // o simplemente limpiar la notificación
+                        db.collection("usuarios").document(uid).update("tvVacacionesEmpleado", "")
+                        binding.notificationVacaciones.visibility = View.GONE
+                    }
+                } else {
+                    binding.notificationVacaciones.visibility = View.GONE
+                }
             }
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun comprobarEstadoFichaje() {
         val uidEmpleado = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
