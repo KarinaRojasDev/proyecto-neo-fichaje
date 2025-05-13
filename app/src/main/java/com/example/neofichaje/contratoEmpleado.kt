@@ -3,6 +3,7 @@ package com.example.neofichaje
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +26,6 @@ class contratoEmpleado : AppCompatActivity() {
         setContentView(binding.root)
 
         configurarToolbar()
-        configurarMenuLateral()
         manejarOpcionesMenu()
         cargarContratos()
     }
@@ -46,13 +46,10 @@ class contratoEmpleado : AppCompatActivity() {
         menu.syncState()
     }
 
-    private fun configurarMenuLateral() {
-        // Puedes agregar configuraciones aquí si necesitas
-    }
-
     private fun manejarOpcionesMenu() {
         binding.navViewGestion.setNavigationItemSelectedListener { opcion ->
             when (opcion.itemId) {
+                R.id.inicioEmpleado-> startActivity(Intent(this, inicio_empleado::class.java))
                 R.id.menu_fichaje -> startActivity(Intent(this, empleado_control_horario::class.java))
                 R.id.menu_vacaEmpleado -> startActivity(Intent(this, empleado_solicitud_vacaciones::class.java))
                 R.id.menu_permisoEmpleado -> startActivity(Intent(this, permisoEmpleado::class.java))
@@ -83,9 +80,13 @@ class contratoEmpleado : AppCompatActivity() {
 
                 // evitamos documentos vacíos o duplicados
                 snapshot.documents.forEach { doc ->
-                    val documento = doc.toObject(Documento::class.java)
-                    if (documento != null && documento.url.isNotEmpty()) {
-                        // Asignamos nombre fijo al documento
+                    val documento = Documento(
+                        id = doc.id,
+                        nombreArchivo = doc.getString("nombreArchivo") ?: "",
+                        url = doc.getString("url") ?: "",
+                        tituloDocumento = doc.getString("tituloDocumento") ?: ""
+                    )
+                    if (documento.url.isNotEmpty()) {
                         documento.nombreArchivo = "Contrato de trabajo"
                         listaContratos.add(documento)
                     }
@@ -96,7 +97,7 @@ class contratoEmpleado : AppCompatActivity() {
                     binding.tvMensajeVacio.visibility = View.VISIBLE
                 } else {
                     binding.tvMensajeVacio.visibility = View.GONE
-                    val adapter = DocumentoAdapter(this, listaContratos)
+                    val adapter = DocumentoAdapter(this, listaContratos,"contrato")
                     binding.recyclerViewContratos.apply {
                         layoutManager = LinearLayoutManager(this@contratoEmpleado)
                         this.adapter = adapter

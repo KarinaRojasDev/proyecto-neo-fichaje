@@ -23,7 +23,6 @@ class gestionVacaciones : AppCompatActivity() {
         setContentView(binding.root)
 
         toolbar()
-        configurarMenuLateral()
         manejarOpcionesMenu()
         instancias()
         binding.radioGrupo.checkedRadioButtonId
@@ -49,16 +48,16 @@ class gestionVacaciones : AppCompatActivity() {
         binding.menuGestionVacaciones.addDrawerListener(menu)
         menu.syncState()
     }
-    // Configurar el menú lateral
-    private fun configurarMenuLateral() {
-        //  puede agregar más configuraciones
-    }
+
     // Manejar las opciones seleccionadas en el menú lateral
     private fun manejarOpcionesMenu() {
 
         binding.navViewGestion.setNavigationItemSelectedListener { opcion ->
             when (opcion.itemId) {
-
+                R.id.inicioEmpresario -> {
+                    val intent = Intent(this, inicio_empresario::class.java)
+                    startActivity(intent)
+                }
                 R.id.menu_perfilEmpresa -> {
                     val intent = Intent(this, perfilEmpresario::class.java)
                     startActivity(intent)

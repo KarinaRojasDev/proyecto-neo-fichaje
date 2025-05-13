@@ -212,7 +212,10 @@ class cambio_contrasenia : AppCompatActivity(), OnClickListener, OnTouchListener
 
         binding.navViewGestion.setNavigationItemSelectedListener { opcion ->
             when (opcion.itemId) {
-
+                R.id.inicioEmpresario -> {
+                    val intent = Intent(this, inicio_empresario::class.java)
+                    startActivity(intent)
+                }
                 R.id.menu_perfilEmpresa -> {
                     val intent = Intent(this, perfilEmpresario::class.java)
                     startActivity(intent)

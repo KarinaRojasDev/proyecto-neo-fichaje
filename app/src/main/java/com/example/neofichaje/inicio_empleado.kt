@@ -1,22 +1,27 @@
 package com.example.neofichaje
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
+import android.view.View.OnClickListener
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.neofichaje.databinding.ActivityInicioEmpleadoBinding
 import com.google.firebase.auth.FirebaseAuth
+import java.text.SimpleDateFormat
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Locale
+//import androidx.core.view.ViewCompat
+//import androidx.core.view.WindowInsetsCompat
+//import android.widget.Toast
+//import androidx.activity.enableEdgeToEdge
 
-class inicio_empleado : AppCompatActivity() {
+class inicio_empleado : AppCompatActivity(), OnClickListener {
     private lateinit var binding: ActivityInicioEmpleadoBinding
     private lateinit var menu: ActionBarDrawerToggle
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,12 +29,21 @@ class inicio_empleado : AppCompatActivity() {
         binding = ActivityInicioEmpleadoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         configurarToolbar()
         manejarOpcionesMenu()
         mostrarNotificacionesEmpleado()
+        comprobarEstadoFichaje()
+        binding.notificationEmpleados.setOnClickListener(this)
 
     }
+    override fun onClick(v: View?) {
+        when(v?.id){
+            binding.notificationEmpleados.id->{
+                startActivity(Intent(this, empleado_control_horario::class.java))
+            }
+        }
+    }
+
     private fun mostrarNotificacionesEmpleado() {
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val db = FirebaseFirestore.getInstance()
@@ -37,49 +51,57 @@ class inicio_empleado : AppCompatActivity() {
         db.collection("usuarios").document(uid)
             .addSnapshotListener { snapshot, error ->
                 if (error != null || snapshot == null || !snapshot.exists()) {
-                    Toast.makeText(this, "Error al cargar notificaciones", Toast.LENGTH_SHORT).show()
                     return@addSnapshotListener
                 }
 
                 val notiNomina = snapshot.getString("tvNominas")
                 val notiContrato = snapshot.getString("tvContrato")
 
-                if (!notiNomina.isNullOrBlank()) {
+                if (!notiNomina.isNullOrEmpty()) {
                     binding.nomina.visibility = View.VISIBLE
                     binding.tvNominas.text = notiNomina
                     binding.nomina.setOnClickListener {
+                        // Al pulsar, abre pantalla y borra notificación
                         startActivity(Intent(this, nominas_empleado::class.java))
-                        limpiarNotificacionNomina() // ← limpiar cuando hace clic
+                        db.collection("usuarios").document(uid).update("tvNominas", "")
                     }
                 } else {
                     binding.nomina.visibility = View.GONE
                 }
 
-                if (!notiContrato.isNullOrBlank()) {
+                if (!notiContrato.isNullOrEmpty()) {
                     binding.contrato.visibility = View.VISIBLE
                     binding.tvContrato.text = notiContrato
                     binding.contrato.setOnClickListener {
+                        // Al pulsar, abre pantalla y borra notificación
                         startActivity(Intent(this, contratoEmpleado::class.java))
-                        limpiarNotificacionContrato()
+                        db.collection("usuarios").document(uid).update("tvContrato", "")
                     }
                 } else {
                     binding.contrato.visibility = View.GONE
                 }
             }
     }
-    private fun limpiarNotificacionNomina() {
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+
+    private fun comprobarEstadoFichaje() {
+        val uidEmpleado = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val nombreDoc = "controlHorario_${sdf.format(System.currentTimeMillis())}"
+
         FirebaseFirestore.getInstance()
-            .collection("usuarios")
-            .document(uid)
-            .update("tvNominas", "")
-    }
-    private fun limpiarNotificacionContrato() {
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        FirebaseFirestore.getInstance()
-            .collection("usuarios")
-            .document(uid)
-            .update("tvContrato", "")
+            .collection("usuarios").document(uidEmpleado)
+            .collection("controlHorario").document(nombreDoc)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists() && document.getString("estado") == "abierto") {
+                    val horaEntrada = document.getString("horaEntrada") ?: ""
+                    binding.notificationEmpleados.visibility = View.VISIBLE
+                    binding.tvRegisterHours.text = "Has fichado a las $horaEntrada"
+                } else {
+                    binding.notificationEmpleados.visibility = View.GONE
+                }
+            }
     }
     private fun configurarToolbar() {
         val barraHerramientas = binding.includeInicioEmpleado.toolbarComun
@@ -103,6 +125,10 @@ class inicio_empleado : AppCompatActivity() {
 
         binding.navView.setNavigationItemSelectedListener { opcion ->
             when (opcion.itemId) {
+                R.id.inicioEmpleado->{
+                    val intent= Intent(this, inicio_empleado::class.java)
+                    startActivity(intent)
+                }
 
                 R.id.menu_fichaje -> {
                     val intent = Intent(this, empleado_control_horario::class.java)
@@ -137,5 +163,9 @@ class inicio_empleado : AppCompatActivity() {
             binding.inicioEmpleado.closeDrawer(GravityCompat.START)
             true
         }
+    }
+    override  fun onResume(){
+        super.onResume()
+        comprobarEstadoFichaje()
     }
 }

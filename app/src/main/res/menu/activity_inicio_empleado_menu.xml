@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:id="@+id/inicioEmpleado"
+            android:icon="@drawable/ic_home"
+            android:title="@string/inicio"/>
+    </group>
     <item android:title="@string/misDocumentos">
         <menu>
             <item

@@ -40,8 +40,6 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
     private var archivoUriSeleccionado: Uri? = null
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityDocumentosEmpleadosBinding.inflate(layoutInflater)
@@ -57,6 +55,7 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
         cargarEmpleadosEnSpinner()
         binding.btnSubirArchivo.setOnClickListener(this)
         binding.btnGuardarDocumento.setOnClickListener(this)
+
 
     }
     override fun onClick(v: View?) {
@@ -175,10 +174,15 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
         binding.spinnerDoc.adapter = adaptadorDoc
     }
 
+
     private fun guardarDocumento(uri: Uri) {
         val tipoDoc = binding.spinnerDoc.selectedItem.toString().lowercase()
         val nombreEmpleado = binding.spinnerLista.selectedItem.toString()
-        val tituloDocumento = binding.etTituloDocumento.text.toString().trim()
+        var tituloDocumento = binding.etTituloDocumento.text.toString().trim()
+
+        if (tipoDoc == "nominas") {
+            tituloDocumento = tituloDocumento.replace(Regex("\\bnomina\\b", RegexOption.IGNORE_CASE), "Nómina")
+        }
 
         if (tipoDoc.isBlank() || nombreEmpleado == "Selecciona un empleado") {
             Toast.makeText(this, "Selecciona tipo de documento y empleado", Toast.LENGTH_SHORT).show()
@@ -195,6 +199,7 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
                 Toast.makeText(this, "Administrador no encontrado", Toast.LENGTH_SHORT).show()
                 return@addOnSuccessListener
             }
+
 
             val puesto = adminDoc.getString("puesto") ?: ""
             val empresaId = adminDoc.getString("empresa_id") ?: ""
@@ -219,27 +224,25 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
                                 "uidEmpleado" to uidEmpleado,
                                 "tituloDocumento" to tituloDocumento
                             )
-
+                            //guardamos en la bbdd  los dic. del empleado
                             db.collection("usuarios")
                                 .document(uidEmpleado)
                                 .collection(tipoDoc)
-                                .add(datos)
-                                .addOnSuccessListener {
-                                    // 1. Actualizar TextView indirectamente
-                                    val campoNoti = if (tipoDoc == "nominas") "tvNominas" else "tvContrato"
-                                    db.collection("usuarios")
-                                        .document(uidEmpleado)
-                                        .update(campoNoti, "Tienes un nuevo $tipoDoc disponible")
-
-                                    // 2. (Opcional) Enviar notificación push
-                                    // enviarNotificacionAlEmpleado(uidEmpleado, tipoDoc)
+                                .add(datos) .addOnSuccessListener {
 
                                     Toast.makeText(this, "Documento y notificación enviados", Toast.LENGTH_LONG).show()
-                                }
-                                .addOnFailureListener {
-                                    Toast.makeText(this, "Error guardando en usuario: ${it.message}", Toast.LENGTH_SHORT).show()
+                                    limpiarCampos()
                                 }
 
+                                .addOnFailureListener {
+                                    Toast.makeText(
+                                        this,
+                                        "Error guardando en usuario: ${it.message}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                            //guardamos los documentos en la empresa de cada empleado
                             if (puesto == "Administrador" && empresaId.isNotBlank()) {
                                 val rutaEmpresa = when (tipoDoc) {
                                     "nominas" -> "gestionNominas"
@@ -253,15 +256,24 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
                                     .add(datos)
                             }
                         }
-                    }.addOnFailureListener {
+                    } .addOnFailureListener {
                         Toast.makeText(this, "Error al subir archivo: ${it.message}", Toast.LENGTH_LONG).show()
                     }
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Error cargando empleado", Toast.LENGTH_SHORT).show()
                 }
-        }.addOnFailureListener {
-            Toast.makeText(this, "Error cargando administrador", Toast.LENGTH_SHORT).show()
+                .addOnFailureListener {
+                    Toast.makeText(this, "Error cargando empleado: ${it.message}", Toast.LENGTH_SHORT).show()
+                }
         }
+            .addOnFailureListener {
+                Toast.makeText(this, "Error cargando administrador: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+    private fun limpiarCampos() {
+        binding.etTituloDocumento.setText("")
+        binding.etSubirArchivos.setText("")
+        archivoUriSeleccionado = null
+        binding.spinnerLista.setSelection(0) // Selecciona "Selecciona un empleado"
+        binding.spinnerDoc.setSelection(0)   // Selecciona primer item (si tienes "Nominas"/"Contrato")
     }
 
     private fun toolbar(){
@@ -285,7 +297,10 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
 
         binding.navViewGestion.setNavigationItemSelectedListener { opcion ->
             when (opcion.itemId) {
-
+                R.id.inicioEmpresario -> {
+                    val intent = Intent(this, inicio_empresario::class.java)
+                    startActivity(intent)
+                }
                 R.id.menu_perfilEmpresa -> {
                     val intent = Intent(this, perfilEmpresario::class.java)
                     startActivity(intent)

@@ -142,7 +142,10 @@ class permisoEmpleado : AppCompatActivity(),OnClickListener,OnItemSelectedListen
 
         binding.navView.setNavigationItemSelectedListener { opcion ->
             when (opcion.itemId) {
-
+                R.id.inicioEmpleado->{
+                    val intent= Intent(this, inicio_empleado::class.java)
+                    startActivity(intent)
+                }
                 R.id.menu_fichaje -> {
                     val intent = Intent(this, empleado_control_horario::class.java)
                     startActivity(intent)

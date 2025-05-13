@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/fondo"
     tools:context=".empleado_control_horario"
-    tools:openDrawer="start">
+    tools:openDrawer="">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -123,11 +123,13 @@
                     android:textAllCaps="false"
                     android:background="@drawable/gradient"
                     android:textColor="@android:color/black"
+                    android:drawableStart="@drawable/ic_location"
                     android:text="@string/botonFicharEntrada"
                     android:padding="10dp"
                     android:textSize="16sp"
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="16dp"/>
+
 
                 <!--LAYOUT 2 OJO-->
                 <TextView
@@ -225,6 +227,7 @@
                     android:background="@drawable/gradient"
                     android:textColor="@android:color/black"
                     android:text="@string/botonFicharSalida"
+                    android:drawableStart="@drawable/ic_location"
                     android:padding="10dp"
                     android:textSize="16sp"
                     android:layout_marginBottom="16dp"

@@ -1,7 +1,8 @@
 package com.example.neofichaje.model
 
-class Documento {
-    var nombreArchivo: String = ""
-    var url: String = ""
-    var tituloDocumento: String? = null
-}
+data class Documento (
+    var id: String = "",
+    var nombreArchivo: String = "",
+    var url: String = "",
+    var tituloDocumento: String = ""
+)

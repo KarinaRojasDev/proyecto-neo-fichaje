@@ -59,6 +59,8 @@
     <string name="ver">Ver </string>
     <string name="descargar">Descargar </string>
     <string name="contratoLaboral">Contrato Laboral</string>
+    <string name="mensaje">No tienes contratos disponibles aún</string>
+    <string name="mensajeNomina">No hay nóminas disponibles</string>
 
     <!--TITULOS BARRA de inicio-->
     <string name="bar_title">Inicio</string>
@@ -82,6 +84,7 @@
 
 
     <!--MENU EMPRESARIO-->
+    <string name="inicio">Inicio</string>
     <string name="gestionEmpleados">Gestión de Empleados</string>
     <string name="gestionAsistencia">Gestión Asistencia</string>
     <string name="gestionVacaciones">Gestión Vacaciones</string>
@@ -154,4 +157,8 @@
 
     <string name="logoEmpresa">Logo de la Empresa</string>
     <string name="btnGuardarCambios">Guardar Cambios</string>
+
+    <!--item_documentos-->
+    <string name="nombreDoc">Nombre del documento</string>
+    <string name="opciones">Opciones</string>
 </resources>

@@ -1,49 +1,117 @@
 package com.example.neofichaje
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import android.view.View.OnClickListener
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.neofichaje.databinding.ActivityEmpleadoControlHorarioBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.prolificinteractive.materialcalendarview.DayViewDecorator
+import com.prolificinteractive.materialcalendarview.DayViewFacade
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
+import com.prolificinteractive.materialcalendarview.spans.DotSpan
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+//import android.widget.TimePicker
+//import androidx.core.view.GravityCompat
 
+@Suppress("LABEL_NAME_CLASH")
 class empleado_control_horario : AppCompatActivity(),OnClickListener {
-    private  lateinit var binding: ActivityEmpleadoControlHorarioBinding
+    private lateinit var binding: ActivityEmpleadoControlHorarioBinding
     private lateinit var menu: ActionBarDrawerToggle
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding= ActivityEmpleadoControlHorarioBinding.inflate(layoutInflater)
+        binding = ActivityEmpleadoControlHorarioBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         toolbar()
         manejarOpcionesMenu()
         mostrarFechaActual()
-        configurarCalendarios()
 
         binding.tvInicioFecha.setOnClickListener(this)
         binding.tvFinFecha.setOnClickListener(this)
+        binding.tvInicioHora.setOnClickListener(this)
+        binding.tvFinHora.setOnClickListener(this)
+        binding.btnFichajeEntrada.setOnClickListener(this)
+        binding.btnFichajeFin.setOnClickListener(this)
+
+        configurarCalendarios()
+        resetearCamposEntrada()
+
     }
+
     override fun onClick(v: View?) {
-        when(v?.id){
-            binding.tvInicioFecha.id ->{
-                toggleCalendario(binding.calendarioFecha)
+        when (v?.id) {
+            binding.tvInicioFecha.id -> {
+                ajusteCalendarios(binding.calendarioFecha)
             }
-            binding.tvFinFecha.id->{
-                toggleCalendario(binding.calendario2Fecha)
+
+            binding.tvFinFecha.id -> {
+                ajusteCalendarios(binding.calendario2Fecha)
+            }
+
+
+            binding.tvInicioHora.id -> {
+                mostrarTimePicker("entrada")
+            }
+
+            binding.tvFinHora.id -> {
+                mostrarTimePicker("salida")
+            }
+
+            binding.btnFichajeEntrada.id -> {
+                checkLocationPermissionAndSave("entrada")
+            }
+
+            binding.btnFichajeFin.id -> {
+                checkLocationPermissionAndSave("salida")
             }
         }
     }
+
+
+    private fun ajusteCalendarios(calendario: MaterialCalendarView) {
+        calendario.visibility = if (calendario.visibility == View.GONE) View.VISIBLE else View.GONE
+    }
+
     @SuppressLint("SetTextI18n")
     private fun configurarCalendarios() {
+        val hoy = CalendarDay.today()
+        val decorator = object : DayViewDecorator {
+            override fun shouldDecorate(day: CalendarDay): Boolean {
+                return day == hoy
+            }
+
+            override fun decorate(view: DayViewFacade) {
+                view.addSpan(DotSpan(8f, ContextCompat.getColor(this@empleado_control_horario, R.color.black)))
+            }
+        }
+        binding.calendarioFecha.addDecorator(decorator)
+        binding.calendario2Fecha.addDecorator(decorator)
+
         binding.calendarioFecha.setOnDateChangedListener { _, date, _ ->
             binding.tvInicioFecha.text = "Fecha: ${date.day}/${date.month}/${date.year}"
             binding.calendarioFecha.visibility = View.GONE
@@ -55,39 +123,217 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
         }
     }
 
-    private fun toggleCalendario(calendario: MaterialCalendarView) {
-        calendario.visibility = if (calendario.visibility == View.GONE) View.VISIBLE else View.GONE
+
+    @SuppressLint("SetTextI18n")
+    private fun mostrarTimePicker(tipo: String) {
+        val calendar = Calendar.getInstance()
+        val horaActual = calendar.get(Calendar.HOUR_OF_DAY)
+        val minutoActual = calendar.get(Calendar.MINUTE)
+
+        val timePickerDialog = android.app.TimePickerDialog(
+            this,
+            { _, hourOfDay, minute ->
+                val horaFormateada = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute)
+                if (tipo == "entrada") {
+                    binding.tvInicioHora.text = "Hora: $horaFormateada"
+                } else {
+                    binding.tvFinHora.text = "Hora: $horaFormateada"
+                }
+            },
+            horaActual,
+            minutoActual,
+            true
+        )
+        timePickerDialog.show()
     }
+
 
     @SuppressLint("SetTextI18n")
     private fun mostrarFechaActual() {
-        val hoy = com.prolificinteractive.materialcalendarview.CalendarDay.today()
+        val hoy = CalendarDay.today()
         binding.tvInicioFecha.text = "Fecha: ${hoy.day}/${hoy.month}/${hoy.year}"
         binding.tvFinFecha.text = "Fecha: ${hoy.day}/${hoy.month}/${hoy.year}"
     }
-    private fun toolbar(){
+    private fun checkLocationPermissionAndSave(tipo: String) {
+        if (!validarDatos(tipo)) return
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            guardarFichaje(tipo)
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+        }
+    }
+    private fun validarDatos(tipo: String): Boolean {
+        val fecha = if (tipo == "entrada") binding.tvInicioFecha.text.toString() else binding.tvFinFecha.text.toString()
+        val hora = if (tipo == "entrada") binding.tvInicioHora.text.toString() else binding.tvFinHora.text.toString()
+
+        if (fecha.isBlank() || hora.contains("Seleccione")) {
+            Toast.makeText(this, "Selecciona primero la fecha y hora antes de fichar", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
+    @SuppressLint("MissingPermission")
+    private fun guardarFichaje(tipo: String) {
+        val uidEmpleado = auth.currentUser?.uid ?: return
+
+        // Desactivar botones para evitar doble click rápido
+        binding.btnFichajeEntrada.isEnabled = false
+        binding.btnFichajeFin.isEnabled = false
+
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            db.collection("usuarios").document(uidEmpleado).get().addOnSuccessListener { userDoc ->
+                val empresaId = userDoc.getString("empresa_id") ?: ""
+                val nombre = userDoc.getString("nombre") ?: ""
+                val apellidos = userDoc.getString("apellidos") ?: ""
+
+                if (empresaId.isEmpty()) {
+                    Toast.makeText(this, "Error: El empleado no tiene asignada una empresa", Toast.LENGTH_LONG).show()
+                    binding.btnFichajeEntrada.isEnabled = true
+                    binding.btnFichajeFin.isEnabled = true
+                    return@addOnSuccessListener
+                }
+
+                // Definir nombres de documentos
+                val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val fechaActual = sdf.format(System.currentTimeMillis())
+                val nombreDocUsuarios = "controlHorario_$fechaActual"
+                val nombreLimpio = nombre.replace(" ", "_")
+                val apellidosLimpio = apellidos.replace(" ", "_")
+                val nombreDocEmpresas = "controlHorario_${fechaActual}_${nombreLimpio}_${apellidosLimpio}"
+
+                val docRefUsuarios = db.collection("usuarios").document(uidEmpleado)
+                    .collection("controlHorario").document(nombreDocUsuarios)
+
+                val docRefEmpresas = db.collection("empresas").document(empresaId)
+                    .collection("gestionControlHorario").document(nombreDocEmpresas)
+
+                // Consultar si existe fichaje del día
+                docRefUsuarios.get().addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val horaSalida = document.getString("horaSalida")
+                        if (tipo == "entrada" && horaSalida.isNullOrEmpty()) {
+                            Toast.makeText(this, "Ya has fichado entrada hoy. Debes fichar salida primero.", Toast.LENGTH_LONG).show()
+                        } else if (tipo == "salida") {
+                            val datosSalida = mapOf(
+                                "horaSalida" to binding.tvFinHora.text.toString().replace("Hora: ", ""),
+                                "latitudSalida" to (location?.latitude ?: 0.0),
+                                "longitudSalida" to (location?.longitude ?: 0.0),
+                                "timestampSalida" to FieldValue.serverTimestamp(),
+                                "estado" to "cerrado"
+                            )
+                            // Actualizar salida
+                            docRefUsuarios.update(datosSalida)
+                            docRefEmpresas.update(datosSalida)
+
+                            Toast.makeText(this, "Fichaje de salida registrado", Toast.LENGTH_SHORT).show()
+                            resetearCamposEntrada()
+                        } else if (tipo == "entrada" && !horaSalida.isNullOrEmpty()) {
+                            // Si ya cerró, permitir nueva entrada (nuevo día)
+                            val datosEntrada = hashMapOf(
+                                "fecha" to binding.tvInicioFecha.text.toString(),
+                                "uidEmpleado" to uidEmpleado,
+                                "nombreEmpleado" to nombre,
+                                "apellidosEmpleado" to apellidos,
+                                "horaEntrada" to binding.tvInicioHora.text.toString().replace("Hora: ", ""),
+                                "latitudEntrada" to (location?.latitude ?: 0.0),
+                                "longitudEntrada" to (location?.longitude ?: 0.0),
+                                "timestampEntrada" to FieldValue.serverTimestamp(),
+                                "estado" to "abierto"
+                            )
+                            docRefUsuarios.set(datosEntrada)
+                            docRefEmpresas.set(datosEntrada)
+
+                            Toast.makeText(this, "Nuevo fichaje de entrada registrado", Toast.LENGTH_SHORT).show()
+                            resetearCamposEntrada()
+                        }
+                    } else {
+                        if (tipo == "entrada") {
+                            // Si no existe, crear primer fichaje del día
+                            val datosEntrada = hashMapOf(
+                                "fecha" to binding.tvInicioFecha.text.toString(),
+                                "uidEmpleado" to uidEmpleado,
+                                "nombreEmpleado" to nombre,
+                                "apellidosEmpleado" to apellidos,
+                                "horaEntrada" to binding.tvInicioHora.text.toString().replace("Hora: ", ""),
+                                "latitudEntrada" to (location?.latitude ?: 0.0),
+                                "longitudEntrada" to (location?.longitude ?: 0.0),
+                                "timestampEntrada" to FieldValue.serverTimestamp(),
+                                "estado" to "abierto"
+                            )
+                            docRefUsuarios.set(datosEntrada)
+                            docRefEmpresas.set(datosEntrada)
+
+                            Toast.makeText(this, "Fichaje de entrada registrado", Toast.LENGTH_SHORT).show()
+                            resetearCamposEntrada()
+                        } else {
+                            Toast.makeText(this, "Primero debes fichar entrada.", Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                    // Rehabilitar botones al finalizar
+                    binding.btnFichajeEntrada.isEnabled = true
+                    binding.btnFichajeFin.isEnabled = true
+                }
+            }
+        }
+    }
+    @SuppressLint("SetTextI18n")
+    private fun cargarHoraFichajeEntrada() {
+        val uidEmpleado = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val nombreDoc = "controlHorario_${sdf.format(System.currentTimeMillis())}"
+
+        FirebaseFirestore.getInstance()
+            .collection("usuarios").document(uidEmpleado)
+            .collection("controlHorario").document(nombreDoc)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists() && document.getString("estado") == "abierto") {
+                    val horaEntrada = document.getString("horaEntrada") ?: ""
+                    binding.tvInicioHora.text = "Hora: $horaEntrada"
+                } else {
+                    resetearCamposEntrada()
+                }
+            }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        cargarHoraFichajeEntrada()
+    }
+    @SuppressLint("SetTextI18n")
+    private fun resetearCamposEntrada() {
+        val hoy = CalendarDay.today()
+        binding.tvInicioFecha.text = "Seleccione fecha inicio: ${hoy.day}/${hoy.month}/${hoy.year}"
+        binding.tvFinFecha.text = "Seleccione fecha final: ${hoy.day}/${hoy.month}/${hoy.year}"
+        binding.tvInicioHora.text = "Seleccione hora de inicio "
+        binding.tvFinHora.text = "Seleccione hora final "
+    }
+
+
+    private fun toolbar() {
         val barraHerramientas = binding.includeFichaje.toolbarComun
         setSupportActionBar(barraHerramientas)
-
-        // Cambiar el título del Toolbar
         supportActionBar?.title = "CONTROL HORARIO"
         menu = ActionBarDrawerToggle(
             this,
-            binding.menuFichaje, barraHerramientas,
+            binding.menuFichaje,
+            barraHerramientas,
             R.string.abrir_menu,
             R.string.cerrar_menu
         )
-
         binding.menuFichaje.addDrawerListener(menu)
         menu.syncState()
-
     }
 
     private fun manejarOpcionesMenu() {
 
         binding.navView.setNavigationItemSelectedListener { opcion ->
             when (opcion.itemId) {
-
+                R.id.inicioEmpleado->{
+                    val intent= Intent(this, inicio_empleado::class.java)
+                    startActivity(intent)
+                }
                 R.id.menu_fichaje -> {
                     val intent = Intent(this, empleado_control_horario::class.java)
                     startActivity(intent)
@@ -121,6 +367,4 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
             true
         }
     }
-
-
 }

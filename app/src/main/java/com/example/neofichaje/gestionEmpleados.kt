@@ -24,6 +24,7 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
     private lateinit var db: FirebaseFirestore
     private var empleadosMap: Map<String, String> = emptyMap()
     private var uidEmpleadoEditando: String? = null
+    private var empresaIdSeleccionado: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,13 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+
+        val uidAdmin = auth.currentUser?.uid ?: return
+        db.collection("usuarios").document(uidAdmin).get()
+            .addOnSuccessListener { doc ->
+                empresaIdSeleccionado = doc.getString("empresa_id")
+            }
+
         toolbar()
         manejarOpcionesMenu()
         cargarEmpleadosEnSpinner()
@@ -110,7 +118,8 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
                 "telefono" to telefono,
                 "direccion" to direccion,
                 "puesto" to puesto,
-                "numEmpleado" to numEmpleado
+                "numEmpleado" to numEmpleado,
+                "empresa_id" to empresaIdSeleccionado!!
             )
 
             db.collection("usuarios").document(uid)
@@ -144,7 +153,8 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
                     "telefono" to telefono,
                     "direccion" to direccion,
                     "puesto" to puesto,
-                    "numEmpleado" to numEmpleado
+                    "numEmpleado" to numEmpleado,
+                    "empresa_id" to empresaIdSeleccionado!!
                 )
 
                 db.collection("usuarios")
@@ -291,7 +301,10 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
 
         binding.navViewGestion.setNavigationItemSelectedListener { opcion ->
             when (opcion.itemId) {
-
+                R.id.inicioEmpresario -> {
+                    val intent = Intent(this, inicio_empresario::class.java)
+                    startActivity(intent)
+                }
                 R.id.menu_perfilEmpresa -> {
                     val intent = Intent(this, perfilEmpresario::class.java)
                     startActivity(intent)
