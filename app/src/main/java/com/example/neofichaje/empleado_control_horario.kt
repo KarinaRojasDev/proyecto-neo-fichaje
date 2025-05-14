@@ -2,6 +2,7 @@ package com.example.neofichaje
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -20,11 +21,6 @@ import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.prolificinteractive.materialcalendarview.CalendarDay
-import com.prolificinteractive.materialcalendarview.DayViewDecorator
-import com.prolificinteractive.materialcalendarview.DayViewFacade
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView
-import com.prolificinteractive.materialcalendarview.spans.DotSpan
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -58,7 +54,6 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
         binding.btnFichajeEntrada.setOnClickListener(this)
         binding.btnFichajeFin.setOnClickListener(this)
 
-        configurarCalendarios()
         resetearCamposEntrada()
 
     }
@@ -66,11 +61,11 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             binding.tvInicioFecha.id -> {
-                ajusteCalendarios(binding.calendarioFecha)
+                abrirCalendario(true)
             }
 
             binding.tvFinFecha.id -> {
-                ajusteCalendarios(binding.calendario2Fecha)
+                abrirCalendario(false)
             }
 
 
@@ -91,36 +86,23 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
             }
         }
     }
-
-
-    private fun ajusteCalendarios(calendario: MaterialCalendarView) {
-        calendario.visibility = if (calendario.visibility == View.GONE) View.VISIBLE else View.GONE
-    }
-
     @SuppressLint("SetTextI18n")
-    private fun configurarCalendarios() {
-        val hoy = CalendarDay.today()
-        val decorator = object : DayViewDecorator {
-            override fun shouldDecorate(day: CalendarDay): Boolean {
-                return day == hoy
+    private fun abrirCalendario(seleccionInicio: Boolean) {
+        val calendario = Calendar.getInstance()
+        val año = calendario.get(Calendar.YEAR)
+        val mes = calendario.get(Calendar.MONTH)
+        val dia = calendario.get(Calendar.DAY_OF_MONTH)
+
+        val datePicker = DatePickerDialog(this, { _, year, month, dayOfMonth ->
+            val fechaSeleccionada = "${dayOfMonth.toString().padStart(2, '0')}/${(month + 1).toString().padStart(2, '0')}/$year"
+            if (seleccionInicio) {
+                binding.tvInicioFecha.text = "Fecha: $fechaSeleccionada"
+            } else {
+                binding.tvFinFecha.text = "Fecha: $fechaSeleccionada"
             }
+        }, año, mes, dia)
 
-            override fun decorate(view: DayViewFacade) {
-                view.addSpan(DotSpan(8f, ContextCompat.getColor(this@empleado_control_horario, R.color.black)))
-            }
-        }
-        binding.calendarioFecha.addDecorator(decorator)
-        binding.calendario2Fecha.addDecorator(decorator)
-
-        binding.calendarioFecha.setOnDateChangedListener { _, date, _ ->
-            binding.tvInicioFecha.text = "Fecha: ${date.day}/${date.month}/${date.year}"
-            binding.calendarioFecha.visibility = View.GONE
-        }
-
-        binding.calendario2Fecha.setOnDateChangedListener { _, date, _ ->
-            binding.tvFinFecha.text = "Fecha: ${date.day}/${date.month}/${date.year}"
-            binding.calendario2Fecha.visibility = View.GONE
-        }
+        datePicker.show()
     }
 
 
@@ -150,9 +132,9 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
 
     @SuppressLint("SetTextI18n")
     private fun mostrarFechaActual() {
-        val hoy = CalendarDay.today()
-        binding.tvInicioFecha.text = "Fecha: ${hoy.day}/${hoy.month}/${hoy.year}"
-        binding.tvFinFecha.text = "Fecha: ${hoy.day}/${hoy.month}/${hoy.year}"
+
+        binding.tvInicioFecha.text = "Seleccione fecha inicio"
+        binding.tvFinFecha.text = "Seleccione fecha final"
     }
     private fun checkLocationPermissionAndSave(tipo: String) {
         if (!validarDatos(tipo)) return
@@ -303,11 +285,10 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
     }
     @SuppressLint("SetTextI18n")
     private fun resetearCamposEntrada() {
-        val hoy = CalendarDay.today()
-        binding.tvInicioFecha.text = "Seleccione fecha inicio: ${hoy.day}/${hoy.month}/${hoy.year}"
-        binding.tvFinFecha.text = "Seleccione fecha final: ${hoy.day}/${hoy.month}/${hoy.year}"
-        binding.tvInicioHora.text = "Seleccione hora de inicio "
-        binding.tvFinHora.text = "Seleccione hora final "
+        binding.tvInicioFecha.text = "Seleccione fecha inicio"
+        binding.tvFinFecha.text = "Seleccione fecha final"
+        binding.tvInicioHora.text = "Seleccione hora de inicio"
+        binding.tvFinHora.text = "Seleccione hora final"
     }
 
 

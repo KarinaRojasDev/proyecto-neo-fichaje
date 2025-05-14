@@ -6,15 +6,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
-import android.widget.CalendarView
-import android.widget.CalendarView.OnDateChangeListener
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.neofichaje.databinding.ActivityEmpleadoSolicitudVacacionesBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -126,7 +121,11 @@ class empleado_solicitud_vacaciones : AppCompatActivity(),OnClickListener{
                 .document(uidEmpleado)
                 .update("tvVacacionesEmpleado", mensajeNotificacion)
 
-            // Limpiar la pantalla (NO salir)
+            // Escribir notificación al empresario
+            db.collection("empresas").document(empresaId)
+                .update("tvVacacionesEmpresa", "$nombre $apellidos ha solicitado vacaciones del $fechaInicio al $fechaFin (Pendiente)")
+
+            // Limpiar la pantalla
             binding.textofechaInicioVaca.text = getString(R.string.SeleccioneFechaInicio)
             binding.textofechaFinVaca.text = getString(R.string.SeleccioneFechaFin)
             binding.idComentarioVaca.text?.clear()

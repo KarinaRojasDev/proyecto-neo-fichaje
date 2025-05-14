@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.play.services.location)
+    implementation(libs.androidx.material3.android)
     //implementation(libs.play.services.auth)
 
     // Test

@@ -160,6 +160,72 @@
                     android:text="0"
                     android:textSize="18sp" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/permiso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient"
+                android:orientation="vertical"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvTitlePermisos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_reunded"
+                    android:drawablePadding="8dp"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:text="Solicitud de permiso/baja"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/ic_notification" />
+
+                <TextView
+                    android:id="@+id/tvPermisos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangule"
+                    android:padding="20dp"
+                    android:textColor="@color/black"
+                    android:text="0"
+                    android:textSize="18sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/solicitudLeida"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient"
+                android:orientation="vertical"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvsolicitudLeida"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_reunded"
+                    android:drawablePadding="8dp"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:text="Solicitud Aceptada"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/ic_notification" />
+
+                <TextView
+                    android:id="@+id/tvsolicitudAceptada"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangule"
+                    android:padding="20dp"
+                    android:textColor="@color/black"
+                    android:text="0"
+                    android:textSize="18sp" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

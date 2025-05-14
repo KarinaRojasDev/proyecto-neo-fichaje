@@ -58,10 +58,16 @@
                         android:textStyle="bold"
                         app:drawableStartCompat="@drawable/ic_date" />
 
-                    <CalendarView
+                    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                         android:id="@+id/calendarioInicioVacaciones"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="292dp"
+                        android:layout_height="265dp"
+                        android:background="@color/rosaSuave"
+                        app:mcv_dateTextAppearance="@style/CalendarDateTextStyle"
+                        app:mcv_headerTextAppearance="@style/CalendarHeaderStyle"
+                        app:mcv_selectionColor="@color/salmon"
+                        app:mcv_showOtherDates="all"
+                        app:mcv_weekDayTextAppearance="@style/CalendarWeekStyle"
                         android:visibility="gone" />
                 </LinearLayout>
                 <LinearLayout
@@ -93,10 +99,16 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                    <CalendarView
+                    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                         android:id="@+id/calendarioFinVacaciones"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="292dp"
+                        android:layout_height="265dp"
+                        android:background="@color/rosaSuave"
+                        app:mcv_dateTextAppearance="@style/CalendarDateTextStyle"
+                        app:mcv_headerTextAppearance="@style/CalendarHeaderStyle"
+                        app:mcv_selectionColor="@color/salmon"
+                        app:mcv_showOtherDates="all"
+                        app:mcv_weekDayTextAppearance="@style/CalendarWeekStyle"
                         android:visibility="gone" />
                 </LinearLayout>
                 <LinearLayout

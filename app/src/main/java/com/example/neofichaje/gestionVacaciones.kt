@@ -1,21 +1,29 @@
 package com.example.neofichaje
 
+
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.neofichaje.databinding.ActivityGestionVacacionesBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class gestionVacaciones : AppCompatActivity() {
     private lateinit var binding: ActivityGestionVacacionesBinding
     private lateinit var menu: ActionBarDrawerToggle
-    private lateinit var listaEmpleados:ArrayList<CharSequence>
-    private lateinit var adapterLista:ArrayAdapter<CharSequence>
+    private var listaEmpleados: ArrayList<CharSequence> = arrayListOf()
+    private val mapaVacaciones = mutableMapOf<String, Pair<String, String>>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,14 +32,7 @@ class gestionVacaciones : AppCompatActivity() {
 
         toolbar()
         manejarOpcionesMenu()
-        instancias()
-        binding.radioGrupo.checkedRadioButtonId
-    }
-    private fun instancias() {
-        listaEmpleados=arrayListOf("Karina Sol Vega","Empleado 2")
-        adapterLista=ArrayAdapter(applicationContext,android.R.layout.simple_spinner_item,listaEmpleados)
-        adapterLista.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerEmpleados.adapter=adapterLista
+        cargarSolicitudesVacaciones()
     }
 
     private fun toolbar() {
@@ -47,6 +48,76 @@ class gestionVacaciones : AppCompatActivity() {
             R.string.cerrar_menu)
         binding.menuGestionVacaciones.addDrawerListener(menu)
         menu.syncState()
+    }
+    private fun cargarSolicitudesVacaciones() {
+        val db = FirebaseFirestore.getInstance()
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        db.collection("usuarios").document(uid).get().addOnSuccessListener { doc ->
+            val empresaId = doc.getString("empresa_id") ?: return@addOnSuccessListener
+
+            db.collection("empresas").document(empresaId)
+                .collection("gestionVacaciones")
+                .addSnapshotListener { documentos, error ->
+                    if (error != null || documentos == null) return@addSnapshotListener
+
+                    listaEmpleados.clear()
+                    mapaVacaciones.clear()
+                    listaEmpleados.add("Selecciona un empleado con solicitud de vacaciones")
+
+                    for (documento in documentos) {
+                        val nombreEmpleado = documento.id.substringAfter("_")
+                        val fechaInicio = documento.getString("fechaInicio") ?: continue
+                        val fechaFin = documento.getString("fechaFin") ?: continue
+
+                        listaEmpleados.add(nombreEmpleado)
+                        mapaVacaciones[nombreEmpleado] = Pair(fechaInicio, fechaFin)
+                    }
+
+                    val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listaEmpleados)
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    binding.spinnerEmpleados.adapter = adapter
+
+                    binding.spinnerEmpleados.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                            val nombreEmpleado = listaEmpleados[position]
+                            val fechas = mapaVacaciones[nombreEmpleado]
+                            if (fechas != null) {
+                                marcarFechasCalendario(fechas.first, fechas.second)
+                            }
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>) {}
+                    }
+                }
+        }
+
+    }
+    private fun marcarFechasCalendario(fechaInicio: String, fechaFin: String) {
+        val formato = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val calInicio = Calendar.getInstance()
+        val calFin = Calendar.getInstance()
+
+        try {
+            calInicio.time = formato.parse(fechaInicio) ?: return
+            calFin.time = formato.parse(fechaFin) ?: return
+        } catch (e: ParseException) {
+            e.printStackTrace()
+            return
+        }
+
+        val diasSeleccionados = mutableListOf<CalendarDay>()
+        val calActual = calInicio.clone() as Calendar
+
+        while (!calActual.after(calFin)) {
+            diasSeleccionados.add(CalendarDay.from(calActual))
+            calActual.add(Calendar.DAY_OF_MONTH, 1)
+        }
+
+        binding.calendarView.clearSelection()
+        for (dia in diasSeleccionados) {
+            binding.calendarView.setDateSelected(dia, true)
+        }
     }
 
     // Manejar las opciones seleccionadas en el menú lateral

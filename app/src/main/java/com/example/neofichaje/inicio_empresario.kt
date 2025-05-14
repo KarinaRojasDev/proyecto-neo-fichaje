@@ -3,6 +3,7 @@ package com.example.neofichaje
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -23,6 +24,9 @@ class inicio_empresario : AppCompatActivity() {
         configurarToolbar()
         manejarOpcionesMenu()
         crearSubcolecciones()
+        mostrarNotificacionPermisos()
+        mostrarNotificacionVacaciones()
+
     }
     private fun configurarToolbar() {
         val barraHerramientas = binding.includeInicioEmpresario.toolbarComun
@@ -42,43 +46,100 @@ class inicio_empresario : AppCompatActivity() {
         binding.inicioEmpresario.addDrawerListener(menu)
         menu.syncState()
     }
+    private fun mostrarNotificacionPermisos() {
+        val db = FirebaseFirestore.getInstance()
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
-    private fun manejarOpcionesMenu() {
-        binding.navViewEmpresario.setNavigationItemSelectedListener { opcion ->
-            when (opcion.itemId) {
-                R.id.inicioEmpresario -> {
-                    val intent = Intent(this, inicio_empresario::class.java)
-                    startActivity(intent)
-                }
-                R.id.menu_perfilEmpresa -> {
-                    val intent = Intent(this, perfilEmpresario::class.java)
-                    startActivity(intent)
-                }
-                R.id.menu_gestionEmpleados -> {
-                    val intent = Intent(this, gestionEmpleados::class.java)
-                    startActivity(intent)
-                }
-                R.id.menu_asistenciaEmpleado -> {
-                    val intent = Intent(this, gestionControlAsistencia::class.java)
-                    startActivity(intent)
-                }
-                R.id.menu_gestionVacaiones -> {
-                    val intent = Intent(this, gestionVacaciones::class.java)
-                    startActivity(intent)
-                }
-                R.id.menu_adjuntarDocumento -> {
-                    val intent = Intent(this, documentosEmpleados::class.java)
-                    startActivity(intent)
-                }
-                R.id.menu_cerrarSesionEmpresa -> {
-                    finishAffinity()
-                }
-            }
+        db.collection("usuarios").document(uid).get().addOnSuccessListener { document ->
+            val empresaId = document.getString("empresa_id") ?: return@addOnSuccessListener
 
-            binding.inicioEmpresario.closeDrawer(GravityCompat.START)
-            true
+            db.collection("empresas").document(empresaId)
+                .collection("gestionPermisos_bajas")
+                .whereEqualTo("estadoLectura", "pendiente")
+                .limit(1)
+                .get()
+                .addOnSuccessListener { documents ->
+                    if (!documents.isEmpty) {
+                        val doc = documents.first()
+                        val nombreEmpleado = doc.getString("nombreEmpleado") ?: "Empleado"
+                        val tipo = doc.getString("tipo") ?: "Permiso"
+                        val fechaInicio = doc.getString("fechaInicio") ?: ""
+                        val fechaFin = doc.getString("fechaFin") ?: ""
+                        val uidEmpleado = doc.getString("uidEmpleado") ?: return@addOnSuccessListener
+                        val empresaDocId = doc.id
+
+                        val mensaje = if (tipo == "Permiso") {
+                            "$nombreEmpleado ha solicitado permiso del $fechaInicio al $fechaFin"
+                        } else {
+                            "$nombreEmpleado ha marcado baja del $fechaInicio al $fechaFin"
+                        }
+
+                        binding.solicitudPermiso.visibility = View.VISIBLE
+                        binding.solicitudPermisoEmpleado.text = mensaje
+
+                        binding.solicitudPermiso.setOnClickListener {
+                            // Cambia estadoLectura en empresa
+                            db.collection("empresas").document(empresaId)
+                                .collection("gestionPermisos_bajas")
+                                .document(empresaDocId)
+                                .update("estadoLectura", "Leído")
+
+                            // Cambia estadoLectura en usuario
+                            db.collection("usuarios").document(uidEmpleado)
+                                .collection("permisos_bajas")
+                                .whereEqualTo("estadoLectura", "pendiente")
+                                .limit(1)
+                                .get()
+                                .addOnSuccessListener { permisosDocs ->
+                                    if (!permisosDocs.isEmpty) {
+                                        val userPermisoDocId = permisosDocs.first().id
+                                        db.collection("usuarios").document(uidEmpleado)
+                                            .collection("permisos_bajas")
+                                            .document(userPermisoDocId)
+                                            .update("estadoLectura", "Leído")
+                                    }
+                                }
+
+                            // 3️Envia notificación al empleado
+                            db.collection("usuarios").document(uidEmpleado)
+                                .update("tvSolicitudLeida", "Administrador ha aceptado tu solicitud de $tipo del $fechaInicio al $fechaFin.")
+
+                            // Oculta notificación en la app empresario
+                            binding.solicitudPermiso.visibility = View.GONE
+                        }
+                    } else {
+                        binding.solicitudPermiso.visibility = View.GONE
+                    }
+                }
         }
     }
+    private fun mostrarNotificacionVacaciones() {
+        val db = FirebaseFirestore.getInstance()
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        db.collection("usuarios").document(uid).get().addOnSuccessListener { document ->
+            val empresaId = document.getString("empresa_id") ?: return@addOnSuccessListener
+
+            db.collection("empresas").document(empresaId).get().addOnSuccessListener { empresaDoc ->
+                val notiVacaciones = empresaDoc.getString("tvVacacionesEmpresa")
+
+                if (!notiVacaciones.isNullOrEmpty()) {
+                    binding.notificationVacacionesEmpresa.visibility = View.VISIBLE
+                    binding.tvVacacionesEmpresa.text = notiVacaciones
+                    binding.notificationVacacionesEmpresa.setOnClickListener {
+                        startActivity(Intent(this, gestionVacaciones::class.java))
+                    }
+                } else {
+                    binding.notificationVacacionesEmpresa.visibility = View.GONE
+                }
+            }
+        }
+    }
+    private fun extraerNombreEmpleadoDesdeTexto(texto: String): String {
+        return texto.substringBefore(" ha solicitado")
+    }
+
+
     private fun crearSubcolecciones() {
         val db = FirebaseFirestore.getInstance()
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
@@ -127,6 +188,42 @@ class inicio_empresario : AppCompatActivity() {
             }
         }.addOnFailureListener { e ->
             Toast.makeText(this, "Error al obtener datos del usuario: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+    private fun manejarOpcionesMenu() {
+        binding.navViewEmpresario.setNavigationItemSelectedListener { opcion ->
+            when (opcion.itemId) {
+                R.id.inicioEmpresario -> {
+                    val intent = Intent(this, inicio_empresario::class.java)
+                    startActivity(intent)
+                }
+                R.id.menu_perfilEmpresa -> {
+                    val intent = Intent(this, perfilEmpresario::class.java)
+                    startActivity(intent)
+                }
+                R.id.menu_gestionEmpleados -> {
+                    val intent = Intent(this, gestionEmpleados::class.java)
+                    startActivity(intent)
+                }
+                R.id.menu_asistenciaEmpleado -> {
+                    val intent = Intent(this, gestionControlAsistencia::class.java)
+                    startActivity(intent)
+                }
+                R.id.menu_gestionVacaiones -> {
+                    val intent = Intent(this, gestionVacaciones::class.java)
+                    startActivity(intent)
+                }
+                R.id.menu_adjuntarDocumento -> {
+                    val intent = Intent(this, documentosEmpleados::class.java)
+                    startActivity(intent)
+                }
+                R.id.menu_cerrarSesionEmpresa -> {
+                    finishAffinity()
+                }
+            }
+
+            binding.inicioEmpresario.closeDrawer(GravityCompat.START)
+            true
         }
     }
 }

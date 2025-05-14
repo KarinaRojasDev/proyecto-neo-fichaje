@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/fondo"
     tools:context=".empleado_control_horario"
-    tools:openDrawer="">
+    tools:openDrawer="start">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -209,7 +209,6 @@
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
-
                         <TimePicker
                             android:id="@+id/reloj2"
                             android:layout_width="wrap_content"
@@ -242,3 +241,4 @@
         android:layout_gravity="start"
         app:menu="@menu/activity_inicio_empleado_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>
+
