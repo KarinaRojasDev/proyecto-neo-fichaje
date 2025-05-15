@@ -13,7 +13,13 @@ import androidx.core.view.GravityCompat
 import com.example.neofichaje.databinding.ActivityEmpleadoSolicitudVacacionesBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class empleado_solicitud_vacaciones : AppCompatActivity(),OnClickListener{
 
@@ -32,12 +38,12 @@ class empleado_solicitud_vacaciones : AppCompatActivity(),OnClickListener{
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-
         toolbar()
         manejarOpcionesMenu()
         binding.textofechaInicioVaca.setOnClickListener(this)
         binding.textofechaFinVaca.setOnClickListener(this)
         binding.btnEnviarSolicitud.setOnClickListener(this)
+
     }
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -79,53 +85,53 @@ class empleado_solicitud_vacaciones : AppCompatActivity(),OnClickListener{
 
     private fun enviarSolicitud() {
         val comentario = binding.idComentarioVaca.text.toString()
-        val uidEmpleado = auth.currentUser?.uid ?: return
+        val uidEmpleado = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
         if (fechaInicio.isNullOrEmpty() || fechaFin.isNullOrEmpty()) {
             Toast.makeText(this, "Selecciona las fechas de inicio y fin", Toast.LENGTH_SHORT).show()
             return
         }
 
+        val db = FirebaseFirestore.getInstance()
+
         db.collection("usuarios").document(uidEmpleado).get().addOnSuccessListener { doc ->
             val nombre = doc.getString("nombre") ?: "Empleado"
             val apellidos = doc.getString("apellidos") ?: ""
             val empresaId = doc.getString("empresa_id") ?: return@addOnSuccessListener
-            val añoActual = Calendar.getInstance().get(Calendar.YEAR).toString()
-            val nombreDoc = "vacaciones $añoActual $nombre $apellidos"
+            val calendar = Calendar.getInstance()
+            val anoActual = calendar.get(Calendar.YEAR).toString()
+            val mesActual = (calendar.get(Calendar.MONTH) + 1).toString().padStart(2, '0')
+            val nombreDoc = "$anoActual $mesActual $nombre $apellidos"
 
             val datosVacaciones = hashMapOf(
                 "fechaInicio" to fechaInicio,
                 "fechaFin" to fechaFin,
                 "comentario" to comentario,
-                "estado" to "pendiente"
+                "estado" to "pendiente",
+                "uidEmpleado" to uidEmpleado
             )
 
             // Guardar en usuarios
-            db.collection("usuarios")
-                .document(uidEmpleado)
+            db.collection("usuarios").document(uidEmpleado)
                 .collection("vacaciones")
                 .document(nombreDoc)
                 .set(datosVacaciones)
 
-            // Guardar en empresas (con año_nombreEmpleado como documento)
-            val nombreEmpresaDoc = "${añoActual}_${nombre}_${apellidos}"
-            db.collection("empresas")
-                .document(empresaId)
+            // Guardar en empresas
+            db.collection("empresas").document(empresaId)
                 .collection("gestionVacaciones")
-                .document(nombreEmpresaDoc)
+                .document(nombreDoc)
                 .set(datosVacaciones)
 
-            // Escribir notificación en usuarios
+            // Notificación
             val mensajeNotificacion = "Ha solicitado vacaciones del $fechaInicio al $fechaFin"
-            db.collection("usuarios")
-                .document(uidEmpleado)
+            db.collection("usuarios").document(uidEmpleado)
                 .update("tvVacacionesEmpleado", mensajeNotificacion)
 
-            // Escribir notificación al empresario
             db.collection("empresas").document(empresaId)
                 .update("tvVacacionesEmpresa", "$nombre $apellidos ha solicitado vacaciones del $fechaInicio al $fechaFin (Pendiente)")
 
-            // Limpiar la pantalla
+            // Limpiar y redirigir
             binding.textofechaInicioVaca.text = getString(R.string.SeleccioneFechaInicio)
             binding.textofechaFinVaca.text = getString(R.string.SeleccioneFechaFin)
             binding.idComentarioVaca.text?.clear()
@@ -133,6 +139,8 @@ class empleado_solicitud_vacaciones : AppCompatActivity(),OnClickListener{
             fechaFin = null
 
             Toast.makeText(this, "Solicitud enviada correctamente", Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, inicio_empleado::class.java))
+            finish()
         }
     }
 

@@ -127,18 +127,21 @@ class inicio_empresario : AppCompatActivity() {
                     binding.notificationVacacionesEmpresa.visibility = View.VISIBLE
                     binding.tvVacacionesEmpresa.text = notiVacaciones
                     binding.notificationVacacionesEmpresa.setOnClickListener {
-                        startActivity(Intent(this, gestionVacaciones::class.java))
+                    // Limpiar la notificación antes de abrir la pantalla
+                        db.collection("empresas").document(empresaId)
+                            .update("tvVacacionesEmpresa", "")
+                            .addOnSuccessListener {
+                                // Después de limpiar, abrir pantalla
+                                startActivity(Intent(this, gestionVacaciones::class.java))
+                            }
                     }
+
                 } else {
                     binding.notificationVacacionesEmpresa.visibility = View.GONE
                 }
             }
         }
     }
-    private fun extraerNombreEmpleadoDesdeTexto(texto: String): String {
-        return texto.substringBefore(" ha solicitado")
-    }
-
 
     private fun crearSubcolecciones() {
         val db = FirebaseFirestore.getInstance()

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -33,6 +34,8 @@ class gestionVacaciones : AppCompatActivity() {
         toolbar()
         manejarOpcionesMenu()
         cargarSolicitudesVacaciones()
+        configurarBotonAplicar()
+
     }
 
     private fun toolbar() {
@@ -63,10 +66,15 @@ class gestionVacaciones : AppCompatActivity() {
 
                     listaEmpleados.clear()
                     mapaVacaciones.clear()
-                    listaEmpleados.add("Selecciona un empleado con solicitud de vacaciones")
+                    listaEmpleados.add("Selecciona un empleado")
 
                     for (documento in documentos) {
-                        val nombreEmpleado = documento.id.substringAfter("_")
+                        // FILTRAR solo solicitudes pendientes
+                        if (documento.getString("estado") != "pendiente") continue
+
+                        val partes = documento.id.split(" ")
+                        if (partes.size < 4) continue
+                        val nombreEmpleado = partes.subList(2, partes.size).joinToString(" ")
                         val fechaInicio = documento.getString("fechaInicio") ?: continue
                         val fechaFin = documento.getString("fechaFin") ?: continue
 
@@ -91,8 +99,8 @@ class gestionVacaciones : AppCompatActivity() {
                     }
                 }
         }
-
     }
+
     private fun marcarFechasCalendario(fechaInicio: String, fechaFin: String) {
         val formato = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val calInicio = Calendar.getInstance()
@@ -119,6 +127,76 @@ class gestionVacaciones : AppCompatActivity() {
             binding.calendarView.setDateSelected(dia, true)
         }
     }
+    private fun configurarBotonAplicar() {
+        binding.btnIniSesionEmpresa.setOnClickListener {
+            val empleadoSeleccionado = binding.spinnerEmpleados.selectedItem?.toString()
+            if (empleadoSeleccionado.isNullOrEmpty()) {
+                Toast.makeText(this, "Selecciona un empleado", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val estado = when {
+                binding.radioAprobar.isChecked -> "aprobado"
+                binding.radioDenegar.isChecked -> "rechazado"
+                else -> {
+                    Toast.makeText(this, "Selecciona aprobar o denegar", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+
+            val db = FirebaseFirestore.getInstance()
+            val uidAdmin = FirebaseAuth.getInstance().currentUser?.uid ?: return@setOnClickListener
+
+            db.collection("usuarios").document(uidAdmin).get().addOnSuccessListener { doc ->
+                val empresaId = doc.getString("empresa_id") ?: return@addOnSuccessListener
+
+                db.collection("empresas").document(empresaId)
+                    .collection("gestionVacaciones")
+                    .get()
+                    .addOnSuccessListener { documentos ->
+                        for (documento in documentos) {
+                            val partes = documento.id.split(" ")
+                            if (partes.size < 4) continue
+                            val nombreDoc = partes.subList(2, partes.size).joinToString(" ")
+
+                            if (nombreDoc == empleadoSeleccionado) {
+                                documento.reference.update("estado", estado)
+
+                                val fechaInicio = documento.getString("fechaInicio") ?: ""
+                                val fechaFin = documento.getString("fechaFin") ?: ""
+                                val uidEmpleado = documento.getString("uidEmpleado") ?: ""
+
+                                if (uidEmpleado.isNotEmpty()) {
+                                    val mensaje = if (estado == "aprobado") {
+                                        "Tu solicitud de vacaciones del $fechaInicio al $fechaFin ha sido APROBADA"
+                                    } else {
+                                        "Tu solicitud de vacaciones del $fechaInicio al $fechaFin ha sido RECHAZADA"
+                                    }
+
+                                    //Notificación al empleado
+                                    db.collection("usuarios").document(uidEmpleado)
+                                        .update("tvVacacionesEmpleado", mensaje)
+
+                                    //Actualizar estado en usuarios
+                                    db.collection("usuarios").document(uidEmpleado)
+                                        .collection("vacaciones")
+                                        .document(documento.id)
+                                        .update("estado", estado)
+
+                                    Toast.makeText(this, "Solicitud $estado correctamente", Toast.LENGTH_SHORT).show()
+
+                                    binding.spinnerEmpleados.setSelection(0)
+                                    binding.radioGrupo.clearCheck()
+                                    binding.calendarView.clearSelection()
+                                    break
+                                }
+                            }
+                        }
+                    }
+            }
+        }
+    }
+
 
     // Manejar las opciones seleccionadas en el menú lateral
     private fun manejarOpcionesMenu() {

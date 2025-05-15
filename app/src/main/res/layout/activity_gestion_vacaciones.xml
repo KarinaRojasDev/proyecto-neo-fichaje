@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/fondo"
     tools:context=".gestionVacaciones"
-    tools:openDrawer="start">
+    tools:openDrawer="">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -76,6 +76,17 @@
                         app:mcv_showOtherDates="all"
                         app:mcv_weekDayTextAppearance="@style/CalendarWeekStyle" />
                 </LinearLayout>
+                <TextView
+                    android:id="@+id/tvConteoVacacionesEmpresario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black"
+                    android:text="0"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
                 <RadioGroup
                     android:id="@+id/radioGrupo"
                     android:layout_width="wrap_content"

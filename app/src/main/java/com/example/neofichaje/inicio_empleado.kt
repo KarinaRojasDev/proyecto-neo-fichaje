@@ -86,8 +86,10 @@ class inicio_empleado : AppCompatActivity(), OnClickListener {
 
                         permisosRef.get().addOnSuccessListener { docs ->
                             if (!docs.isEmpty) {
-                                val fechaFinStr = docs.first().getString("fechaFin") ?: return@addOnSuccessListener
-                                val sdf = java.text.SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                                val fechaFinStr = docs.first().getString("fechaFin")
+                                    ?: return@addOnSuccessListener
+                                val sdf =
+                                    java.text.SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                                 val fechaFin = sdf.parse(fechaFinStr)
                                 val hoy = Calendar.getInstance().time
 
@@ -96,7 +98,11 @@ class inicio_empleado : AppCompatActivity(), OnClickListener {
                                     db.collection("usuarios").document(uid).update("tvPermisos", "")
                                     binding.permiso.visibility = View.GONE
                                 } else {
-                                    Toast.makeText(this, "La notificación no se puede quitar hasta que finalice el permiso", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(
+                                        this,
+                                        "La notificación no se puede quitar hasta que finalice el permiso",
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                 }
                             }
                         }
@@ -132,14 +138,30 @@ class inicio_empleado : AppCompatActivity(), OnClickListener {
                 }
 
                 //NOTIFICACION VACACIONES
+                // NOTIFICACION VACACIONES
                 if (!notiVacaciones.isNullOrEmpty()) {
                     binding.notificationVacaciones.visibility = View.VISIBLE
                     binding.tvVacacionesEmpleado.text = notiVacaciones
-                    //binding.notificationVacaciones.setOnClickListener {
-                    //}
+
+                    if (notiVacaciones.contains(
+                            "APROBADA",
+                            true
+                        ) || notiVacaciones.contains("RECHAZADA", true)
+                    ) {
+                        // Solo permite eliminar si ya tiene respuesta
+                        binding.notificationVacaciones.setOnClickListener {
+                            db.collection("usuarios").document(uid)
+                                .update("tvVacacionesEmpleado", "")
+                            binding.notificationVacaciones.visibility = View.GONE
+                        }
+                    } else {
+                        // Si está pendiente, no hace nada al pulsar
+                        binding.notificationVacaciones.setOnClickListener(null)
+                    }
                 } else {
                     binding.notificationVacaciones.visibility = View.GONE
                 }
+
             }
     }
 
