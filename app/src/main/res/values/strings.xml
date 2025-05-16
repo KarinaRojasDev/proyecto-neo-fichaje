@@ -107,6 +107,7 @@
     <string name="agregar">Agregar nuevos empleados</string>
     <string name="eliminar">Eliminar</string>
     <string name="passEmpleado">Contraseña</string>
+    <string name="vacacionesCrear">Vacaciones</string>
 
     <!--EDITAR CONTRASEÑA-->
     <string name="titlePass">Cambio de Contraseña</string>

@@ -91,7 +91,6 @@
                     android:layout_gravity="center"
                     android:layout_margin="20dp"
                     android:text="@string/agregar"
-
                     app:drawableStartCompat="@drawable/ic_person_add"
                     android:drawablePadding="10dp"/>
                 <LinearLayout
@@ -239,10 +238,24 @@
                         android:padding="4dp"
                         android:textColorHint="@color/teal_900"
                         android:textSize="16sp" />
+                    <EditText
+                        android:id="@+id/etvacaciones"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/style_etbg"
+                        android:textColor="@color/black"
+                        android:drawableStart="@drawable/ic_beach"
+                        android:drawablePadding="10dp"
+                        android:ems="20"
+                        android:hint="@string/vacacionesCrear"
+                        android:padding="4dp"
+                        android:textColorHint="@color/teal_900"
+                        android:textSize="16sp" />
 
                     <android.widget.Button
                         android:id="@+id/btnAgregar"
-                        android:layout_width="wrap_content"
+                        android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="16dp"

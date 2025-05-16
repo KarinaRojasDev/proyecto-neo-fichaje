@@ -38,6 +38,8 @@ class empleado_solicitud_vacaciones : AppCompatActivity(),OnClickListener{
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
+
+        cargarDiasDisponibles()
         toolbar()
         manejarOpcionesMenu()
         binding.textofechaInicioVaca.setOnClickListener(this)
@@ -82,6 +84,22 @@ class empleado_solicitud_vacaciones : AppCompatActivity(),OnClickListener{
 
         datePicker.show()
     }
+    @SuppressLint("SetTextI18n")
+    private fun cargarDiasDisponibles() {
+        val uidEmpleado = auth.currentUser?.uid ?: return
+        db.collection("usuarios").document(uidEmpleado).get()
+            .addOnSuccessListener { documento ->
+                val anuales = documento.getLong("totalVacacionesAnuales") ?: 0L
+                val disfrutados = documento.getLong("totalVacacionesDisfrutadas") ?: 0L
+                val disponibles = anuales - disfrutados
+                binding.tvConteoVacacionesEmpleado.text = "Usted dispone de: $disponibles días de vacaciones"
+            }
+            .addOnFailureListener {
+                binding.tvConteoVacacionesEmpleado.text = "No se pudieron cargar los días"
+            }
+    }
+
+
 
     private fun enviarSolicitud() {
         val comentario = binding.idComentarioVaca.text.toString()
@@ -203,3 +221,4 @@ class empleado_solicitud_vacaciones : AppCompatActivity(),OnClickListener{
         }
     }
 }
+

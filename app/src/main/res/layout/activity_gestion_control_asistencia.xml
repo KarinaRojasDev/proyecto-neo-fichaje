@@ -26,24 +26,53 @@
                 android:layout_height="wrap_content" />
 
             <!-- Un LinearLayout para contener ELEMENTOS -->
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="300dp"> <!-- PRUEBAS CON EL MARGIN -->
+                android:layout_height="match_parent"
+                android:fillViewport="true">
 
-                <android.widget.Button
-                    android:id="@+id/btn_iniSesionEmpresa"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/gradient"
-                    android:textColor="@android:color/black"
-                    android:padding="12dp"
-                    android:text="GESTIÓN CONTROL ASISTENCIA EMPRESA"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Calendario -->
+                    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                        android:id="@+id/calendarView"
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        android:background="@color/rosaSuave"
+                        android:layout_gravity="center"
+                        app:mcv_dateTextAppearance="@style/CalendarDateTextStyle"
+                        app:mcv_headerTextAppearance="@style/CalendarHeaderStyle"
+                        app:mcv_selectionColor="@color/salmon"
+                        app:mcv_showOtherDates="all"
+                        app:mcv_weekDayTextAppearance="@style/CalendarWeekStyle" />
+
+                    <!-- Título de resumen -->
+                    <TextView
+                        android:id="@+id/tvResumenHoras"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Selecciona un día para ver el resumen"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:padding="8dp" />
+
+                    <!-- Lista de empleados y fichajes -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerFichajes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:overScrollMode="ifContentScrolls"
+                        android:scrollbars="vertical" />
+
+                </LinearLayout>
+            </ScrollView>
         </LinearLayout>
     </ScrollView>
     <!-- Menú lateral -->

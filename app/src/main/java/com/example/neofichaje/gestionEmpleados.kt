@@ -103,6 +103,9 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
         val numEmpleado = binding.etNumEmpleado.text.toString().trim()
         val password = binding.etPassEmpleado.text.toString().trim()
         val esEdicion = uidEmpleadoEditando != null
+        val vacacionesAnualesText = binding.etvacaciones.text.toString().trim()
+        val vacacionesAnuales = if (vacacionesAnualesText.isNotEmpty()) vacacionesAnualesText.toLong() else 0L
+
 
         if (nombre.isEmpty() || apellidos.isEmpty() || email.isEmpty()) {
             Toast.makeText(this, "Por favor completa todos los campos obligatorios", Toast.LENGTH_SHORT).show()
@@ -154,6 +157,7 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
                     "direccion" to direccion,
                     "puesto" to puesto,
                     "numEmpleado" to numEmpleado,
+                    "totalVacacionesAnuales" to vacacionesAnuales,
                     "empresa_id" to empresaIdSeleccionado!!
                 )
 
@@ -198,15 +202,16 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
             return
         }
 
-        val uid = empleadosMap[seleccionado] ?: return
-        val subcolecciones = listOf("contrato", "controlHorario", "nominas", "permisos_bajas", "vacaciones")
+        val uidEmpleado = empleadosMap[seleccionado] ?: return
 
-        for (coleccion in subcolecciones) {
-            db.collection("usuarios").document(uid).collection(coleccion)
+        // Eliminar todas las subcolecciones de usuarios
+        val subcoleccionesUsuario = listOf("contrato", "controlHorario", "nominas", "permisos_bajas", "vacaciones")
+        for (coleccion in subcoleccionesUsuario) {
+            db.collection("usuarios").document(uidEmpleado).collection(coleccion)
                 .get()
                 .addOnSuccessListener { docs ->
                     for (doc in docs) {
-                        db.collection("usuarios").document(uid)
+                        db.collection("usuarios").document(uidEmpleado)
                             .collection(coleccion)
                             .document(doc.id)
                             .delete()
@@ -214,16 +219,44 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
                 }
         }
 
-        db.collection("usuarios").document(uid)
-            .delete()
-            .addOnSuccessListener {
-                Toast.makeText(this, "Empleado eliminado correctamente", Toast.LENGTH_SHORT).show()
-                cargarEmpleadosEnSpinner()
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Error al eliminar empleado: ${e.message}", Toast.LENGTH_LONG).show()
+        // Borrar también registros en empresas
+        db.collection("usuarios").document(uidEmpleado).get()
+            .addOnSuccessListener { userDoc ->
+                val empresaId = userDoc.getString("empresa_id") ?: ""
+                val coleccionesEmpresa = listOf(
+                    "gestionVacaciones", "gestionContratos", "gestionNominas",
+                    "gestionControlHorario", "gestionPermisos_bajas"
+                )
+
+                // Para cada colección de empresas, buscar y eliminar los documentos del empleado
+                for (coleccion in coleccionesEmpresa) {
+                    db.collection("empresas").document(empresaId)
+                        .collection(coleccion)
+                        .whereEqualTo("uidEmpleado", uidEmpleado)
+                        .get()
+                        .addOnSuccessListener { docs ->
+                            for (doc in docs) {
+                                db.collection("empresas").document(empresaId)
+                                    .collection(coleccion)
+                                    .document(doc.id)
+                                    .delete()
+                            }
+                        }
+                }
+
+                // Eliminar el usuario principal después de todo
+                db.collection("usuarios").document(uidEmpleado)
+                    .delete()
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Empleado eliminado correctamente", Toast.LENGTH_SHORT).show()
+                        cargarEmpleadosEnSpinner() // refresca el spinner al instante
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Error al eliminar empleado: ${e.message}", Toast.LENGTH_LONG).show()
+                    }
             }
     }
+
     private fun cargarEmpleadosEnSpinner() {
         val empleados = mutableListOf("Selecciona un empleado")
         val listaEmpleados = mutableMapOf<String, String>()
