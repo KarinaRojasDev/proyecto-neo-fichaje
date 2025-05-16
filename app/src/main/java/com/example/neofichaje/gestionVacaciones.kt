@@ -38,6 +38,7 @@ class gestionVacaciones : AppCompatActivity() {
         manejarOpcionesMenu()
         cargarSolicitudesVacaciones()
         configurarBotonAplicar()
+        binding.calendarView.addDecorator(TodayDecorator())
 
     }
 
@@ -117,7 +118,7 @@ class gestionVacaciones : AppCompatActivity() {
                                         }
                                     }
                             } else {
-                                binding.tvConteoVacacionesEmpresario.text = "0"
+                                binding.tvConteoVacacionesEmpresario.text = ""
                             }
                         }
 
@@ -176,8 +177,6 @@ class gestionVacaciones : AppCompatActivity() {
                 }
             }
     }
-
-
 
     private fun marcarFechasCalendario(fechaInicio: String, fechaFin: String) {
         val formato = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -317,16 +316,13 @@ class gestionVacaciones : AppCompatActivity() {
                                                 "tvVacacionesEmpleado",
                                                 "Tu solicitud de vacaciones del $fechaInicio al $fechaFin ha sido RECHAZADA"
                                             )
-                                        Toast.makeText(
-                                            this,
-                                            "Solicitud rechazada",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        binding.tvConteoVacacionesEmpresario.text=" "
                                     }
 
                                     binding.spinnerEmpleados.setSelection(0)
                                     binding.radioGrupo.clearCheck()
                                     binding.calendarView.clearSelection()
+                                    binding.tvConteoVacacionesEmpresario.text = ""
                                     break
                                 }
                             }

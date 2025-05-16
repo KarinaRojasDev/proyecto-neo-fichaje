@@ -8,11 +8,12 @@
     android:layout_height="match_parent"
     android:background="@color/fondo"
     tools:context=".gestionControlAsistencia"
-    tools:openDrawer="start">
+    tools:openDrawer="">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,63 +26,83 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <!-- Un LinearLayout para contener ELEMENTOS -->
-            <ScrollView
+            <LinearLayout
+                android:id="@+id/layoutMain"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fillViewport="true">
+                android:padding="16dp"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <RadioGroup
+                    android:id="@+id/radioGrupo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="12dp">
+
+                    <RadioButton
+                        android:id="@+id/radioDia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dia"
+                        android:layout_marginEnd="16dp"
+                        android:checked="true"/>
+
+                    <RadioButton
+                        android:id="@+id/radioMes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mes"
+                        android:layout_marginEnd="16dp"/>
+
+                    <RadioButton
+                        android:id="@+id/radioAnual"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/anual"/>
+                </RadioGroup>
+
+
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/calendarView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:layout_marginBottom="16dp"/>
 
-                    <!-- Calendario -->
-                    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                        android:id="@+id/calendarView"
-                        android:layout_width="300dp"
-                        android:layout_height="300dp"
-                        android:background="@color/rosaSuave"
-                        android:layout_gravity="center"
-                        app:mcv_dateTextAppearance="@style/CalendarDateTextStyle"
-                        app:mcv_headerTextAppearance="@style/CalendarHeaderStyle"
-                        app:mcv_selectionColor="@color/salmon"
-                        app:mcv_showOtherDates="all"
-                        app:mcv_weekDayTextAppearance="@style/CalendarWeekStyle" />
+                <TextView
+                    android:id="@+id/tvResumenHoras"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/seleccione"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    android:layout_marginBottom="8dp" />
 
-                    <!-- Título de resumen -->
-                    <TextView
-                        android:id="@+id/tvResumenHoras"
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:id="@+id/layoutFichajes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Selecciona un día para ver el resumen"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:padding="8dp" />
+                        android:orientation="vertical" />
+                </ScrollView>
 
-                    <!-- Lista de empleados y fichajes -->
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerFichajes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
-                        android:overScrollMode="ifContentScrolls"
-                        android:scrollbars="vertical" />
+            </LinearLayout>
 
-                </LinearLayout>
-            </ScrollView>
+
         </LinearLayout>
     </ScrollView>
-    <!-- Menú lateral -->
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view_gestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         app:menu="@menu/activity_inicio_empresario_menu" />
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

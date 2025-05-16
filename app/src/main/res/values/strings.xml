@@ -136,6 +136,12 @@
     <string name="aprobar">Aprobar</string>
     <string name="denegar">Denegar</string>
 
+    <!--GESTIÓN ASISTENCIA/ CONTROL HORARIO-->
+    <string name="dia">Día</string>
+    <string name="mes">Mes</string>
+    <string name="anual">Año</string>
+    <string name="seleccione">Selecciona un día para ver el resumen</string>
+
 
     <!--pantalla de EDITAR PERFIL EMPRESA y PERFIL EMPRESA-->
     <string name="datosEmpresa">Datos de la empresa</string>

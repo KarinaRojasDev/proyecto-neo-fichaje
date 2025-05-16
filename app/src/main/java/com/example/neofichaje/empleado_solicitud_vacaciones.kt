@@ -64,6 +64,7 @@ class empleado_solicitud_vacaciones : AppCompatActivity(),OnClickListener{
             }
         }
     }
+
     @SuppressLint("SetTextI18n")
     private fun abrirCalendario(seleccionInicio: Boolean) {
         val calendario = Calendar.getInstance()
@@ -98,8 +99,6 @@ class empleado_solicitud_vacaciones : AppCompatActivity(),OnClickListener{
                 binding.tvConteoVacacionesEmpleado.text = "No se pudieron cargar los días"
             }
     }
-
-
 
     private fun enviarSolicitud() {
         val comentario = binding.idComentarioVaca.text.toString()

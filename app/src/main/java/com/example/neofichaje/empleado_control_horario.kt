@@ -87,6 +87,12 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
         }
     }
     @SuppressLint("SetTextI18n")
+    private fun mostrarHoraActual() {
+        val formatoHora = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val horaActual = formatoHora.format(Calendar.getInstance().time)
+        binding.tvInicioHora.text = "Hora: $horaActual"
+    }
+    @SuppressLint("SetTextI18n")
     private fun abrirCalendario(seleccionInicio: Boolean) {
         val calendario = Calendar.getInstance()
         val año = calendario.get(Calendar.YEAR)
@@ -158,7 +164,6 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
     private fun guardarFichaje(tipo: String) {
         val uidEmpleado = auth.currentUser?.uid ?: return
 
-        // Desactivar botones para evitar doble click rápido
         binding.btnFichajeEntrada.isEnabled = false
         binding.btnFichajeFin.isEnabled = false
 
@@ -175,7 +180,6 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
                     return@addOnSuccessListener
                 }
 
-                // Definir nombres de documentos
                 val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 val fechaActual = sdf.format(System.currentTimeMillis())
                 val nombreDocUsuarios = "controlHorario_$fechaActual"
@@ -189,7 +193,6 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
                 val docRefEmpresas = db.collection("empresas").document(empresaId)
                     .collection("gestionControlHorario").document(nombreDocEmpresas)
 
-                // Consultar si existe fichaje del día
                 docRefUsuarios.get().addOnSuccessListener { document ->
                     if (document.exists()) {
                         val horaSalida = document.getString("horaSalida")
@@ -203,16 +206,19 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
                                 "timestampSalida" to FieldValue.serverTimestamp(),
                                 "estado" to "cerrado"
                             )
-                            // Actualizar salida
                             docRefUsuarios.update(datosSalida)
                             docRefEmpresas.update(datosSalida)
 
                             Toast.makeText(this, "Fichaje de salida registrado", Toast.LENGTH_SHORT).show()
                             resetearCamposEntrada()
                         } else if (tipo == "entrada" && !horaSalida.isNullOrEmpty()) {
-                            // Si ya cerró, permitir nueva entrada (nuevo día)
+                            val fechaSeleccionada = binding.tvInicioFecha.text.toString().replace("Fecha: ", "").trim()
+                            val fechaISO = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
+                                SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(fechaSeleccionada)!!
+                            )
+
                             val datosEntrada = hashMapOf(
-                                "fecha" to binding.tvInicioFecha.text.toString(),
+                                "fecha" to fechaISO,
                                 "uidEmpleado" to uidEmpleado,
                                 "nombreEmpleado" to nombre,
                                 "apellidosEmpleado" to apellidos,
@@ -230,9 +236,13 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
                         }
                     } else {
                         if (tipo == "entrada") {
-                            // Si no existe, crear primer fichaje del día
+                            val fechaSeleccionada = binding.tvInicioFecha.text.toString().replace("Fecha: ", "").trim()
+                            val fechaISO = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
+                                SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(fechaSeleccionada)!!
+                            )
+
                             val datosEntrada = hashMapOf(
-                                "fecha" to binding.tvInicioFecha.text.toString(),
+                                "fecha" to fechaISO,
                                 "uidEmpleado" to uidEmpleado,
                                 "nombreEmpleado" to nombre,
                                 "apellidosEmpleado" to apellidos,
@@ -252,13 +262,14 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
                         }
                     }
 
-                    // Rehabilitar botones al finalizar
                     binding.btnFichajeEntrada.isEnabled = true
                     binding.btnFichajeFin.isEnabled = true
                 }
             }
         }
     }
+
+
     @SuppressLint("SetTextI18n")
     private fun cargarHoraFichajeEntrada() {
         val uidEmpleado = FirebaseAuth.getInstance().currentUser?.uid ?: return
@@ -282,13 +293,16 @@ class empleado_control_horario : AppCompatActivity(),OnClickListener {
     override fun onResume() {
         super.onResume()
         cargarHoraFichajeEntrada()
+        mostrarHoraActual()
     }
     @SuppressLint("SetTextI18n")
     private fun resetearCamposEntrada() {
+
         binding.tvInicioFecha.text = "Seleccione fecha inicio"
         binding.tvFinFecha.text = "Seleccione fecha final"
-        binding.tvInicioHora.text = "Seleccione hora de inicio"
+        binding.tvInicioHora.text = "Seleccione hora de inicio "
         binding.tvFinHora.text = "Seleccione hora final"
+
     }
 
 
