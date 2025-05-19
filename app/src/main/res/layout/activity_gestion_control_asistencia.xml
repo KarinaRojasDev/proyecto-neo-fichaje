@@ -63,12 +63,24 @@
                         android:text="@string/anual"/>
                 </RadioGroup>
 
-
-                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                    android:id="@+id/calendarView"
+                <Spinner
+                    android:id="@+id/spinnerEmpleados"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"/>
+
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="292dp"
+                    android:layout_height="265dp"
+                    android:layout_gravity="center"
+                    android:background="@color/rosaSuave"
+                    app:mcv_dateTextAppearance="@style/CalendarDateTextStyle"
+                    app:mcv_headerTextAppearance="@style/CalendarHeaderStyle"
+                    app:mcv_selectionColor="@color/salmon"
+                    app:mcv_showOtherDates="all"
+                    app:mcv_weekDayTextAppearance="@style/CalendarWeekStyle" />
+
 
                 <TextView
                     android:id="@+id/tvResumenHoras"

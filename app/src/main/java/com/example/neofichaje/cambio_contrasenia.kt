@@ -32,7 +32,6 @@ class cambio_contrasenia : AppCompatActivity(), OnClickListener, OnTouchListener
         auth = FirebaseAuth.getInstance()
 
         toolbar()
-        configurarMenuLateral()
         manejarOpcionesMenu()
         binding.btnGuardarPass.setOnClickListener(this)
         binding.etPassActual.setOnTouchListener(this)
@@ -63,12 +62,12 @@ class cambio_contrasenia : AppCompatActivity(), OnClickListener, OnTouchListener
         menu.syncState()
     }
     private fun cambiarContrasenia(vista: View) {
-        val pass = binding.etPassActual.text.toString().trim()
+        val passActual = binding.etPassActual.text.toString().trim()
         val nuevaContrasenia = binding.etNuevaContrasenia.text.toString().trim()
         val confirmarContrasenia = binding.etConfirmeContrasenia.text.toString().trim()
 
-        if (pass.isEmpty() || nuevaContrasenia.isEmpty() || confirmarContrasenia.isEmpty()) {
-            Snackbar.make(vista, "Por favor, completa todos los campos", Snackbar.LENGTH_LONG).show()
+        if (passActual.isEmpty() || nuevaContrasenia.isEmpty() || confirmarContrasenia.isEmpty()) {
+            Snackbar.make(vista, "Por favor completa todos los campos", Snackbar.LENGTH_LONG).show()
             return
         }
 
@@ -77,38 +76,31 @@ class cambio_contrasenia : AppCompatActivity(), OnClickListener, OnTouchListener
             return
         }
 
+        val user = auth.currentUser
+        val email = user?.email ?: return
 
-        // Intenta iniciar sesión con un usuario temporal
-        FirebaseFirestore.getInstance()
-            .collection("usuarios")
-            .whereEqualTo("email_admin", pass)
-            .get()
-            .addOnSuccessListener { documentos ->
-                if (!documentos.isEmpty) {
-                    //  Si existe el email en Firestore
-                    FirebaseAuth.getInstance().signInWithEmailAndPassword(pass, "098765a")
-                        .addOnSuccessListener { authResult ->
-                            val usuario = authResult.user
+        // Primero reautenticamos al usuario con su contraseña actual
+        val credential = com.google.firebase.auth.EmailAuthProvider.getCredential(email, passActual)
 
-                            usuario?.updatePassword(nuevaContrasenia)
-                                ?.addOnSuccessListener {
-                                    Snackbar.make(vista, "Contraseña actualizada correctamente", Snackbar.LENGTH_LONG).show()
-                                }
-                                ?.addOnFailureListener {
-                                    Snackbar.make(vista, "Error al actualizar contraseña", Snackbar.LENGTH_LONG).show()
-                                }
-                        }
-                        .addOnFailureListener {
-                            Snackbar.make(vista, "No se pudo autenticar al usuario, verifica el correo", Snackbar.LENGTH_LONG).show()
-                        }
-                } else {
-                    Snackbar.make(vista, "Este correo no está registrado", Snackbar.LENGTH_LONG).show()
-                }
+        user.reauthenticate(credential)
+            .addOnSuccessListener {
+                // Ahora sí cambiamos la contraseña
+                user.updatePassword(nuevaContrasenia)
+                    .addOnSuccessListener {
+                        Snackbar.make(vista, "Contraseña actualizada correctamente", Snackbar.LENGTH_LONG).show()
+                        binding.etPassActual.text.clear()
+                        binding.etNuevaContrasenia.text.clear()
+                        binding.etConfirmeContrasenia.text.clear()
+                    }
+                    .addOnFailureListener {
+                        Snackbar.make(vista, "Error al actualizar la contraseña", Snackbar.LENGTH_LONG).show()
+                    }
             }
             .addOnFailureListener {
-                Snackbar.make(vista, "Error al buscar en la base de datos", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(vista, "La contraseña actual es incorrecta", Snackbar.LENGTH_LONG).show()
             }
     }
+
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -202,10 +194,6 @@ class cambio_contrasenia : AppCompatActivity(), OnClickListener, OnTouchListener
                 binding.etConfirmeContrasenia.setSelection(binding.etConfirmeContrasenia.text.length)
             }
         }
-    }
-    private fun configurarMenuLateral() {
-        // Aquí puedes agregar más configuraciones si lo necesitas
-
     }
     // Manejar las opciones seleccionadas en el menú lateral
     private fun manejarOpcionesMenu() {

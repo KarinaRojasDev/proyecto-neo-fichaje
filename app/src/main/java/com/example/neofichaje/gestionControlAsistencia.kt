@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -19,6 +22,8 @@ class gestionControlAsistencia : AppCompatActivity() {
 
     private lateinit var binding: ActivityGestionControlAsistenciaBinding
     private lateinit var menu: ActionBarDrawerToggle
+    private var selectedEmpleadoUID: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +34,62 @@ class gestionControlAsistencia : AppCompatActivity() {
         toolbar()
 
         manejarOpcionesMenu()
+        binding.calendarView.addDecorator(TodayDecorator())
+        cargarListaEmpleados()
+
 
     }
+    private fun cargarListaEmpleados() {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("usuarios").document(uid).get().addOnSuccessListener { empresaDoc ->
+            val empresaId = empresaDoc.getString("empresa_id") ?: return@addOnSuccessListener
+
+            db.collection("usuarios")
+                .whereEqualTo("empresa_id", empresaId)
+                .get()
+                .addOnSuccessListener { documentos ->
+                    val lista = mutableListOf("Todos los empleados")
+                    val mapa = mutableMapOf<String, String>()
+
+                    for (empleadoDoc  in documentos) {
+
+                        val puesto = empleadoDoc.getString("puesto") ?: ""
+                        if (puesto.lowercase() != "tecnico") continue
+
+
+                        val nombre = empleadoDoc .getString("nombre") ?: ""
+                        val apellidos = empleadoDoc .getString("apellidos") ?: ""
+                        val nombreCompleto = "$nombre $apellidos"
+                        lista.add(nombreCompleto)
+                        mapa[nombreCompleto] = empleadoDoc .id
+                    }
+
+                    val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, lista)
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    binding.spinnerEmpleados.adapter = adapter
+
+                    binding.spinnerEmpleados.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        @SuppressLint("DefaultLocale")
+                        override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+                            selectedEmpleadoUID = mapa[lista[pos]] // null si es "Todos"
+                            binding.calendarView.selectedDate?.let {
+                                val fecha = String.format("%04d-%02d-%02d", it.year, it.month + 1, it.day)
+                                when {
+                                    binding.radioDia.isChecked -> cargarFichajes(fecha)
+                                    binding.radioMes.isChecked -> cargarResumenMensual(it.month + 1, it.year)
+                                    binding.radioAnual.isChecked -> cargarResumenAnual(it.year)
+                                }
+                            }
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>) {}
+                    }
+                }
+        }
+    }
+
 
     @SuppressLint("DefaultLocale")
     private fun configurarCalendario() {
@@ -64,10 +123,11 @@ class gestionControlAsistencia : AppCompatActivity() {
                         var totalMinutos = 0
                         var empleadosContados = 0
 
-                        for (doc in documentos) {
+                        for (doc in documentos ) {
                             val fechaDoc = doc.getString("fecha")
+                            val uidEmpleadoDoc = doc.getString("uidEmpleado") ?: ""
 
-                            if (fechaDoc == fecha) {
+                            if (fechaDoc == fecha && (selectedEmpleadoUID == null || selectedEmpleadoUID == uidEmpleadoDoc)) {
                                 empleadosContados++
                                 val nombre = doc.getString("nombreEmpleado") ?: ""
                                 val apellidos = doc.getString("apellidosEmpleado") ?: ""
@@ -138,13 +198,14 @@ class gestionControlAsistencia : AppCompatActivity() {
                             val apellidos = doc.getString("apellidosEmpleado") ?: ""
                             val horaEntrada = doc.getString("horaEntrada") ?: "-"
                             val horaSalida = doc.getString("horaSalida") ?: "-"
+                            val uidEmpleadoDoc = doc.getString("uidEmpleado") ?: ""
 
                             try {
                                 val fechaParts = fecha.split("-")
                                 val añoDoc = fechaParts[0].toInt()
                                 val mesDoc = fechaParts[1].toInt()
 
-                                if (añoDoc == año && mesDoc == mes && horaEntrada != "-" && horaSalida != "-") {
+                                if (añoDoc == año && mesDoc == mes && (selectedEmpleadoUID == null || selectedEmpleadoUID == uidEmpleadoDoc) && horaEntrada != "-" && horaSalida != "-") {
                                     val formato = SimpleDateFormat("HH:mm", Locale.getDefault())
                                     val entrada = formato.parse(horaEntrada)
                                     val salida = formato.parse(horaSalida)
@@ -210,12 +271,13 @@ class gestionControlAsistencia : AppCompatActivity() {
                             val apellidos = doc.getString("apellidosEmpleado") ?: ""
                             val horaEntrada = doc.getString("horaEntrada") ?: "-"
                             val horaSalida = doc.getString("horaSalida") ?: "-"
+                            val uidEmpleadoDoc = doc.getString("uidEmpleado") ?: ""
 
                             try {
                                 val fechaParts = fecha.split("-")
                                 val añoDoc = fechaParts[0].toInt()
 
-                                if (añoDoc == año && horaEntrada != "-" && horaSalida != "-") {
+                                if (añoDoc == año && (selectedEmpleadoUID == null || selectedEmpleadoUID == uidEmpleadoDoc) && horaEntrada != "-" && horaSalida != "-") {
                                     val formato = SimpleDateFormat("HH:mm", Locale.getDefault())
                                     val entrada = formato.parse(horaEntrada)
                                     val salida = formato.parse(horaSalida)

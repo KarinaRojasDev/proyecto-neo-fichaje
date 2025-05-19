@@ -165,27 +165,60 @@ class inicio_empleado : AppCompatActivity(), OnClickListener {
             }
     }
 
-
     @SuppressLint("SetTextI18n")
     private fun comprobarEstadoFichaje() {
         val uidEmpleado = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val nombreDoc = "controlHorario_${sdf.format(System.currentTimeMillis())}"
 
         FirebaseFirestore.getInstance()
             .collection("usuarios").document(uidEmpleado)
-            .collection("controlHorario").document(nombreDoc)
+            .collection("controlHorario")
+            .whereEqualTo("estado", "abierto")
             .get()
-            .addOnSuccessListener { document ->
-                if (document.exists() && document.getString("estado") == "abierto") {
-                    val horaEntrada = document.getString("horaEntrada") ?: ""
+            .addOnSuccessListener { documentos ->
+                if (!documentos.isEmpty) {
+                    val doc = documentos.first()
+                    val horaEntrada = doc.getString("horaEntrada") ?: ""
+                    val fechaISO = doc.getString("fecha") ?: ""
+
+                    // Guardamos en preferencias
+                    val sharedPref = getSharedPreferences("prefs_fichaje", MODE_PRIVATE)
+                    sharedPref.edit()
+                        .putString("fecha_fichaje_activa", fechaISO)
+                        .putString("hora_entrada", horaEntrada)
+                        .apply()
+
+                    // Mostramos la tarjeta de fichaje pendiente
                     binding.notificationEmpleados.visibility = View.VISIBLE
-                    binding.tvRegisterHours.text = "Has fichado a las $horaEntrada"
+                    val fechaFormateada = formatearFechaES(fechaISO)
+                    binding.tvRegisterHours.text = "Fichaste entrada el $fechaFormateada a las $horaEntrada"
+
+                    binding.notificationEmpleados.setOnClickListener {
+                        startActivity(Intent(this, empleado_control_horario::class.java))
+                    }
                 } else {
+                    // Si no hay fichaje abierto, ocultamos y limpiamos prefs
+                    val sharedPref = getSharedPreferences("prefs_fichaje", MODE_PRIVATE)
+                    sharedPref.edit()
+                        .remove("fecha_fichaje_activa")
+                        .remove("hora_entrada")
+                        .apply()
+
                     binding.notificationEmpleados.visibility = View.GONE
                 }
             }
     }
+    private fun formatearFechaES(fechaISO: String): String {
+        return try {
+            val formatoEntrada = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val formatoSalida = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val fecha = formatoEntrada.parse(fechaISO)
+            formatoSalida.format(fecha!!)
+        } catch (e: Exception) {
+            "Fecha inválida"
+        }
+    }
+
+
     private fun configurarToolbar() {
         val barraHerramientas = binding.includeInicioEmpleado.toolbarComun
         setSupportActionBar(barraHerramientas)

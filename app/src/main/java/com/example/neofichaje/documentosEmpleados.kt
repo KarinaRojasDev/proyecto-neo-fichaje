@@ -181,7 +181,7 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
         var tituloDocumento = binding.etTituloDocumento.text.toString().trim()
 
         if (tipoDoc == "nominas") {
-            tituloDocumento = tituloDocumento.replace(Regex("\\bnomina\\b", RegexOption.IGNORE_CASE), "Nómina de")
+            tituloDocumento = tituloDocumento.replace(Regex("\\bnomina de\\b", RegexOption.IGNORE_CASE), "Nómina de")
         }
 
         if (tipoDoc.isBlank() || nombreEmpleado == "Selecciona un empleado") {
@@ -234,7 +234,7 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
                                     limpiarCampos()
 
                                     val notificacion = when (tipoDoc) {
-                                        "nominas" -> "Tienes la  ${tituloDocumento.ifEmpty { "este mes" }} disponible"
+                                        "nominas" -> "Tienes la  ${tituloDocumento.ifEmpty {"este mes" }} disponible"
 
                                         "contrato" -> "Tienes tu contrato disponible"
                                         else -> null
