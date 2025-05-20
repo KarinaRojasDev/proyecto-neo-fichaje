@@ -83,7 +83,7 @@
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/black"
                     android:layout_gravity="center"
-                    android:textColorHint="@color/teal_900"
+                    android:textColorHint="@color/fondoPrincipal"
                     android:textSize="16sp"
                     android:maxLines="5"
                     android:minLines="3"

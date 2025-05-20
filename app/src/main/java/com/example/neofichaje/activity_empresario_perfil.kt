@@ -73,7 +73,7 @@ class activity_empresario_perfil : AppCompatActivity(),OnClickListener {
         val barraHerramientas = binding.includeEditarPerfil.toolbarComun
         setSupportActionBar(barraHerramientas)
 
-        // Cambiar el título del Toolbar
+        // Cambia el título del Toolbar
         supportActionBar?.title = "EDITAR PERFIL"
         menu = ActionBarDrawerToggle(
             this,

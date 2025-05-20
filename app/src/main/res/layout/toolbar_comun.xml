@@ -10,7 +10,7 @@
         android:id="@+id/toolbar_comun"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/teal_700"
+        android:background="@color/gradiente_azul_inicio"
         android:titleTextColor="@android:color/white"
         android:elevation="4dp"
         app:title="NeoFichaje"

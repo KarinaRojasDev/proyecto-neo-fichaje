@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/fondo"
     tools:context=".empleado_solicitud_vacaciones"
-    tools:openDrawer="">
+    tools:openDrawer="start">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -74,10 +74,10 @@
                         android:id="@+id/calendarioInicioVacaciones"
                         android:layout_width="292dp"
                         android:layout_height="265dp"
-                        android:background="@color/rosaSuave"
+                        android:background="@color/calm_background"
                         app:mcv_dateTextAppearance="@style/CalendarDateTextStyle"
                         app:mcv_headerTextAppearance="@style/CalendarHeaderStyle"
-                        app:mcv_selectionColor="@color/salmon"
+                        app:mcv_selectionColor="@color/selected_day_blue"
                         app:mcv_showOtherDates="all"
                         app:mcv_weekDayTextAppearance="@style/CalendarWeekStyle"
                         android:visibility="gone" />
@@ -115,10 +115,10 @@
                         android:id="@+id/calendarioFinVacaciones"
                         android:layout_width="292dp"
                         android:layout_height="265dp"
-                        android:background="@color/rosaSuave"
+                        android:background="@color/calm_background"
                         app:mcv_dateTextAppearance="@style/CalendarDateTextStyle"
                         app:mcv_headerTextAppearance="@style/CalendarHeaderStyle"
-                        app:mcv_selectionColor="@color/salmon"
+                        app:mcv_selectionColor="@color/selected_day_blue"
                         app:mcv_showOtherDates="all"
                         app:mcv_weekDayTextAppearance="@style/CalendarWeekStyle"
                         android:visibility="gone" />
@@ -156,7 +156,7 @@
                         android:inputType="textMultiLine"
                         android:fontFamily="@font/roboto"
                         android:textColor="@color/black"
-                        android:textColorHint="@color/teal_900"
+                        android:textColorHint="@color/fondoPrincipal"
                         android:textSize="16sp"
                         android:maxLines="5"
                         android:minLines="3"

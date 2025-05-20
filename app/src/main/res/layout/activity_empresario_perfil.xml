@@ -127,7 +127,7 @@
                         android:hint="@string/emailEmpresa"
                         android:inputType="textEmailAddress"
                         android:padding="4dp"
-                        android:textColorHint="@color/teal_900"
+                        android:textColorHint="@color/fondoPrincipal"
                         android:textSize="16sp" />
 
                     <EditText
@@ -143,7 +143,7 @@
                         android:hint="@string/fonoEmpresa"
                         android:inputType="number"
                         android:padding="4dp"
-                        android:textColorHint="@color/teal_900"
+                        android:textColorHint="@color/fondoPrincipal"
                         android:textSize="16sp" />
 
                     <EditText
@@ -159,7 +159,7 @@
                         android:hint="@string/dirreccionEmpresa"
                         android:inputType="text"
                         android:padding="4dp"
-                        android:textColorHint="@color/teal_900"
+                        android:textColorHint="@color/fondoPrincipal"
                         android:textSize="16sp" />
 
                     <EditText
@@ -175,7 +175,7 @@
                         android:hint="@string/webEmpresa"
                         android:inputType="text"
                         android:padding="4dp"
-                        android:textColorHint="@color/teal_900"
+                        android:textColorHint="@color/fondoPrincipal"
                         android:textSize="16sp" />
 
                     <TextView
@@ -203,7 +203,7 @@
                         android:hint="@string/nombreAdministrador"
                         android:inputType="textCapSentences|textPersonName"
                         android:padding="4dp"
-                        android:textColorHint="@color/teal_900"
+                        android:textColorHint="@color/fondoPrincipal"
                         android:textSize="16sp" />
                     <EditText
                         android:id="@+id/etApellidoAdmin"
@@ -218,7 +218,7 @@
                         android:hint="@string/apellidoAdministrador"
                         android:inputType="textCapSentences|textPersonName"
                         android:padding="4dp"
-                        android:textColorHint="@color/teal_900"
+                        android:textColorHint="@color/fondoPrincipal"
                         android:textSize="16sp" />
 
                     <EditText
@@ -234,7 +234,7 @@
                         android:hint="@string/emailAdministrador"
                         android:inputType="textEmailAddress"
                         android:padding="4dp"
-                        android:textColorHint="@color/teal_900"
+                        android:textColorHint="@color/fondoPrincipal"
                         android:textSize="16sp" />
 
                     <TextView

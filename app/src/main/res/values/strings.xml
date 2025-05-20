@@ -75,12 +75,12 @@
     <string name="puestoA">Puesto:</string>
     <string name="pass">Contraseña</string>
 
-    <!--LOGIN EMPRESARIO-->
+    <!--LOGIN EMPRESARIO/ EMPLEADO-->
     <string name="puesto">Soy Administrador</string>
     <string name="registro">Registrarse</string>
     <string name="cambioPass">Olvide mi contraseña</string>
     <string name="google">Iniciar sesión con Google</string>
-    <string name="default_web_client_id">tu-id-de-cliente-web-de-firebase</string>
+    <string name="default_web_client_id">300937761793-99i18b815ngb7j3je818n5omvl638en4.apps.googleusercontent.com</string>
 
 
     <!--MENU EMPRESARIO-->

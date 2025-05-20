@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_selected="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/salmon" /> <!-- Color del círculo cuando se selecciona -->
+            <solid android:color="@color/gradiente_azul_inicio" /> <!-- Color del círculo cuando se selecciona -->
             <corners android:radius="25dp" /> <!-- Forma circular -->
         </shape>
     </item>

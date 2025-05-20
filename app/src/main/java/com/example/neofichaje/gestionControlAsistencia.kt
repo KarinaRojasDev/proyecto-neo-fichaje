@@ -323,7 +323,7 @@ class gestionControlAsistencia : AppCompatActivity() {
         val barraHerramientas = binding.includeGestionAsistencia.toolbarComun
         setSupportActionBar(barraHerramientas)
         // Cambiar el título del Toolbar
-        supportActionBar?.title = "GESTIÓN CONTROL HORARIO"
+        supportActionBar?.title = "GESTIÓN ASISTENCIA EMPLEADOS"
         menu = ActionBarDrawerToggle(
             this,
             binding.menuGestionAsistencia,

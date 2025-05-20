@@ -48,7 +48,7 @@
             android:drawableStart="@drawable/ic_email"
             android:drawablePadding="10dp"
             android:textSize="16sp"
-            android:textColorHint="@color/teal_900"
+            android:textColorHint="@color/fondoPrincipal"
             android:textColor="@color/black"
             android:gravity=""/>
 
@@ -67,7 +67,7 @@
             android:hint="@string/contrasenia"
             android:inputType="textPassword"
             android:padding="6dp"
-            android:textColorHint="@color/teal_900"
+            android:textColorHint="@color/fondoPrincipal"
             android:textColor="@color/black"
             android:textSize="16sp" />
 

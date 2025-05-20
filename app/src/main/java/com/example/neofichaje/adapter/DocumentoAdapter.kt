@@ -107,8 +107,6 @@ class DocumentoAdapter(
                                         }
                                 }
                             }
-
-                        // actualiza el RecyclerView
                         Toast.makeText(context, "Documento eliminado correctamente", Toast.LENGTH_SHORT).show()
                         listaDocumentos.removeAt(position)
                         notifyItemRemoved(position)

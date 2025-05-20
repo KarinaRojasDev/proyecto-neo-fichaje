@@ -14,7 +14,7 @@ class TodayDecorator : DayViewDecorator {
     }
 
     override fun decorate(view: DayViewFacade) {
-        view.addSpan(DotSpan(8f, Color.parseColor("#FF69B4"))) // puntito rosa
-        view.addSpan(ForegroundColorSpan(Color.BLACK))         // texto negro
+        view.addSpan(DotSpan(8f, Color.parseColor("#7F5AF0")))
+        view.addSpan(ForegroundColorSpan(Color.BLACK))
     }
 }

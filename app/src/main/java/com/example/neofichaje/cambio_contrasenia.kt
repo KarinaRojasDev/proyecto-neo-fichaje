@@ -8,14 +8,12 @@ import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.View.OnClickListener
-import androidx.appcompat.widget.Toolbar
 import android.view.View.OnTouchListener
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import com.example.neofichaje.databinding.ActivityCambioContraseniaBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class cambio_contrasenia : AppCompatActivity(), OnClickListener, OnTouchListener {
     private lateinit var binding: ActivityCambioContraseniaBinding
@@ -84,7 +82,7 @@ class cambio_contrasenia : AppCompatActivity(), OnClickListener, OnTouchListener
 
         user.reauthenticate(credential)
             .addOnSuccessListener {
-                // Ahora sí cambiamos la contraseña
+                // Ahora cambiamos la contraseña
                 user.updatePassword(nuevaContrasenia)
                     .addOnSuccessListener {
                         Snackbar.make(vista, "Contraseña actualizada correctamente", Snackbar.LENGTH_LONG).show()

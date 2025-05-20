@@ -292,8 +292,8 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
         binding.etTituloDocumento.setText("")
         binding.etSubirArchivos.setText("")
         archivoUriSeleccionado = null
-        binding.spinnerLista.setSelection(0) // Selecciona "Selecciona un empleado"
-        binding.spinnerDoc.setSelection(0)   // Selecciona primer item (si tienes "Nominas"/"Contrato")
+        binding.spinnerLista.setSelection(0)
+        binding.spinnerDoc.setSelection(0)
     }
 
     private fun toolbar(){

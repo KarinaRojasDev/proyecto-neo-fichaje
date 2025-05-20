@@ -24,8 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-//import android.widget.TimePicker
-//import androidx.core.view.GravityCompat
+
 
 @Suppress("LABEL_NAME_CLASH")
 class empleado_control_horario : AppCompatActivity(),OnClickListener {

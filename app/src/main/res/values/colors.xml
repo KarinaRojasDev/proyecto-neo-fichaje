@@ -1,49 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--USADOS PRIMARIOS-->
+    <color name="fondoPrincipal">#061826</color>
+
+    <color name="gradiente_azul_inicio">#1B3F66</color>
+    <color name="gradiente_verde_centro">#79BD8A</color>
+    <color name="gradiente_claro_fin">#E0F2F1</color>
+    <color name="borde_neon_suave">#4CAF50</color>
+
+    <color name="fondo">#F4F4F1</color>
+    <!--LETRA PRIMARIOS-->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
     <color name="celeste">#BEDFFA</color>
 
-    <color name="black">#FF000000</color>
-    <color name="black_trans">#9F000000</color>
+    <!--CALENDARIO PRIMARIOS-->
+    <color name="calm_background">#F4F9F4</color>
+    <color name="selected_day_blue">#C9D6FF</color>
+    <color name="event_dot_purple">#7F5AF0</color>
 
-    <color name="transparent">#00FFFFFF</color>
-    <color name="white">#FFFFFFFF</color>
-
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="fondo">#dcfbfb</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal">#00BCD4</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="teal_900">#025251</color>
-
-    <color name="gray_light">#D8D8D8</color>
-    <color name="gray">#D2D2D2</color>
-    <color name="gray_200">#B3F0ECEC</color>
-    <color name="gray_medium">#787878</color>
-    <color name="gray_strong">#5B5B5B</color>
-    <color name="gray_drak">#2B2A29</color>
-    <color name="gray_light_trans">#9Ff7f7f7</color>
-
-    <!--SECUNDARIOS POSIBLE USO-->
-    <color name="rosaSuave">#FEFFE2E2</color>
-    <color name="salmon">#FF8383</color>
-    <color name="rosa">#AE445A</color>
-    <color name="purple">#8E0584</color>
-
-    <color name="blue_pastel">#CCE6FF</color>
-    <color name="blue_light">#CCE3FB</color>
-    <color name="blue">#2B91F7</color>
+    <!--TOLBAR PRIMARIOS-->
     <color name="azul">#3E5879</color>
-    <color name="blue_dark">#040C3E</color>
-    <color name="blue_trans">#FC4A8AFF</color>
-
-    <color name="colorOn">#2980B9</color>
-    <color name="colorOff">#3498DB</color>
-
-    <!--Me gusta no lo descarto por completo-->
-    <color name="lilaSuave">#8A92BD</color>
-    <color name="verde">#3E5879</color>
-
 </resources>
