@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.neofichaje.databinding.ActivityRegistroUsuarioBinding
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -47,7 +48,6 @@ class registroUsuario : AppCompatActivity(),OnClickListener, OnTouchListener {
         registrarEmpresaYUsuario()
     }
     private fun registrarEmpresaYUsuario() {
-
         val nombreEmpresa = binding.etNombreEmpresa.text.toString().trim()
         val nif = binding.etNif.text.toString().trim()
         val emailEmpresa = binding.etEmailEmpresa.text.toString().trim()
@@ -62,8 +62,8 @@ class registroUsuario : AppCompatActivity(),OnClickListener, OnTouchListener {
         val telefonoAdmin = binding.etTelefono.text.toString().trim()
         val numEmpleado = binding.etNumEmpleado.text.toString().trim()
         val password = binding.etPass.text.toString().trim()
-
         val puestoSeleccionado = binding.spinneriIdPuesto.selectedItem.toString()
+
         if (nombreEmpresa.isEmpty() || nif.isEmpty() || emailEmpresa.isEmpty() ||
             nombreAdmin.isEmpty() || apellidoAdmin.isEmpty() || emailAdmin.isEmpty() ||
             telefonoAdmin.isEmpty() || password.isEmpty() || empresaId.isEmpty()) {
@@ -72,69 +72,143 @@ class registroUsuario : AppCompatActivity(),OnClickListener, OnTouchListener {
             return
         }
 
-
         if (puestoSeleccionado == "Seleccionar puesto") {
             Toast.makeText(this, "Selecciona un puesto válido", Toast.LENGTH_SHORT).show()
             return
         }
+        val credential = EmailAuthProvider.getCredential(emailAdmin, password)
 
+        auth.fetchSignInMethodsForEmail(emailAdmin).addOnSuccessListener { result ->
+            val providers = result.signInMethods ?: emptyList()
 
+            if ("google.com" in providers) {
+                // Ya tiene Google, vinculamos la contraseña
+                auth.signInWithEmailAndPassword(emailAdmin, password)
+                    .addOnFailureListener {
+                        // Si no tiene password, lo vinculamos
+                        auth.signInWithCredential(credential)
+                            .addOnSuccessListener { linkResult ->
+                                val uid = linkResult.user?.uid ?: return@addOnSuccessListener
+                                guardarDatosEmpresaYUsuario(
+                                    uid,
+                                    nombreEmpresa,
+                                    nif,
+                                    emailEmpresa,
+                                    telefono,
+                                    direccion,
+                                    web,
+                                    empresaId,
+                                    nombreAdmin,
+                                    apellidoAdmin,
+                                    emailAdmin,
+                                    telefonoAdmin,
+                                    numEmpleado,
+                                    puestoSeleccionado
+                                )
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(
+                                    this,
+                                    "Error al vincular la cuenta existente con contraseña: ${it.message}",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                    }
+            } else {
+                // Crear nuevo usuario
+                auth.createUserWithEmailAndPassword(emailAdmin, password)
+                    .addOnSuccessListener { result ->
+                        val uid = result.user?.uid ?: return@addOnSuccessListener
+                        guardarDatosEmpresaYUsuario(
+                            uid,
+                            nombreEmpresa,
+                            nif,
+                            emailEmpresa,
+                            telefono,
+                            direccion,
+                            web,
+                            empresaId,
+                            nombreAdmin,
+                            apellidoAdmin,
+                            emailAdmin,
+                            telefonoAdmin,
+                            numEmpleado,
+                            puestoSeleccionado
+                        )
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(
+                            this,
+                            "Error al crear cuenta: ${it.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+            }
+        }
+    }
+    private fun guardarDatosEmpresaYUsuario(
+        uid: String,
+        nombreEmpresa: String,
+        nif: String,
+        emailEmpresa: String,
+        telefono: String,
+        direccion: String,
+        web: String,
+        empresaId: String,
+        nombreAdmin: String,
+        apellidoAdmin: String,
+        emailAdmin: String,
+        telefonoAdmin: String,
+        numEmpleado: String,
+        puesto: String
+    ) {
+        val empresaData = hashMapOf(
+            "nombreEmpresa" to nombreEmpresa,
+            "nif" to nif,
+            "emailEmpresa" to emailEmpresa,
+            "telefonoEmpresa" to telefono,
+            "direccionEmpresa" to direccion,
+            "web" to web
+        )
 
-        auth.createUserWithEmailAndPassword(emailAdmin, password)
-            .addOnSuccessListener { result ->
-                val uid = result.user?.uid ?: return@addOnSuccessListener
+        db.collection("empresas").document(empresaId).get()
+            .addOnSuccessListener { snapshot ->
+                if (snapshot.exists()) {
+                    Toast.makeText(this, "Ya existe una empresa con este ID", Toast.LENGTH_LONG).show()
+                    return@addOnSuccessListener
+                }
 
-                val empresaData = hashMapOf(
-                    "nombreEmpresa" to nombreEmpresa,
-                    "nif" to nif,
-                    "emailEmpresa" to emailEmpresa,
-                    "telefonoEmpresa" to telefono,
-                    "direccionEmpresa" to direccion,
-                    "web" to web
+                db.collection("empresas").document(empresaId).set(empresaData)
+
+                val subcolecciones = listOf("gestionVacaciones", "gestionContratos", "gestionNominas", "gestionControlHorario", "gestionPermisos_bajas")
+                subcolecciones.forEach {
+                    db.collection("empresas").document(empresaId).collection(it).document("inicio")
+                        .set(mapOf("estado" to "pendiente"))
+                }
+
+                val usuarioData = hashMapOf(
+                    "nombre" to nombreAdmin,
+                    "apellidos" to apellidoAdmin,
+                    "email" to emailAdmin,
+                    "telefono" to telefonoAdmin,
+                    "numEmpleado" to numEmpleado,
+                    "puesto" to puesto,
+                    "empresa_id" to empresaId
                 )
 
-                db.collection("empresas").document(empresaId).get()
-                    .addOnSuccessListener { snapshot ->
-                        if (snapshot.exists()) {
-                            Toast.makeText(this, "Ya existe una empresa con este ID", Toast.LENGTH_LONG).show()
-                            return@addOnSuccessListener
-                        }
-
-                        // Guardar empresa
-                        db.collection("empresas").document(empresaId).set(empresaData)
-
-                        //Subcolecciones
-                        val subcolecciones = listOf("gestionVacaciones", "gestionContratos", "gestionNominas", "gestionControlHorario", "gestionPermisos_bajas")
-                        subcolecciones.forEach {
-                            db.collection("empresas").document(empresaId).collection(it).document("inicio")
-                                .set(mapOf("estado" to "pendiente"))
-                        }
-
-                        // administrador
-                        val usuarioData = hashMapOf(
-                            "nombre" to nombreAdmin,
-                            "apellidos" to apellidoAdmin,
-                            "email" to emailAdmin,
-                            "telefono" to telefonoAdmin,
-                            "numEmpleado" to numEmpleado,
-                            "puesto" to puestoSeleccionado,
-                            "empresa_id" to empresaId
-                        )
-                        db.collection("usuarios").document(uid).set(usuarioData)
-
+                db.collection("usuarios").document(uid).set(usuarioData)
+                    .addOnSuccessListener {
                         Toast.makeText(this, "Registrado correctamente", Toast.LENGTH_LONG).show()
                         startActivity(Intent(this, activity_login_empresario::class.java))
                         finish()
                     }
                     .addOnFailureListener {
-                        Toast.makeText(this, "Error al comprobar empresa: ${it.message}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Error al guardar usuario: ${it.message}", Toast.LENGTH_LONG).show()
                     }
-
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Error al crear cuenta: ${it.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Error al comprobar empresa: ${it.message}", Toast.LENGTH_LONG).show()
             }
-
     }
 
     private fun cambiarVisibilidadContrasenia() {
