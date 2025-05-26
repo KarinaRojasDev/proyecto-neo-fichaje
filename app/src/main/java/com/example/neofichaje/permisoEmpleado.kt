@@ -69,7 +69,7 @@ class permisoEmpleado : AppCompatActivity(),OnClickListener,OnItemSelectedListen
                 abrirCalendario(false)
             }
             binding.btnTomarFoto.id->{
-                if (tienePermisoCamara()) {
+                if (verificarPermisoCamara()) {
                     abrirCamara()
                 } else {
                     pedirPermisoCamara()
@@ -206,7 +206,7 @@ class permisoEmpleado : AppCompatActivity(),OnClickListener,OnItemSelectedListen
         menu.syncState()
     }
 
-    private fun tienePermisoCamara(): Boolean {
+    private fun verificarPermisoCamara(): Boolean {
         // Verificar si ya tiene permisos para usar la cámara
         return ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }

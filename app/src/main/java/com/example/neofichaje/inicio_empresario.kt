@@ -152,7 +152,7 @@ class inicio_empresario : AppCompatActivity() {
 
         usuarioRef.get().addOnSuccessListener { document ->
             if (document.exists()) {
-                val rol = document.getString("puesto") // Asegúrate de tener el campo "puesto"
+                val rol = document.getString("puesto")
 
                 // Si el rol es "administrador" o "empresario", creamos las subcolecciones
                 if (rol == "Administrador" ) {

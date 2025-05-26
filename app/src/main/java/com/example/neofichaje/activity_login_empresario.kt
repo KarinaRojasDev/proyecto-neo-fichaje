@@ -177,7 +177,7 @@ class activity_login_empresario : AppCompatActivity(), OnClickListener, OnTouchL
         return false
     }
 
-    private fun firebaseAuthWithGoogle(idToken: String) {
+    private fun firebaseAuthConGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
@@ -213,7 +213,7 @@ class activity_login_empresario : AppCompatActivity(), OnClickListener, OnTouchL
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account.idToken!!)
+                firebaseAuthConGoogle(account.idToken!!)
             } catch (e: ApiException) {
                 Snackbar.make(binding.root, "Fallo en el login con Google", Snackbar.LENGTH_LONG).show()
             }
