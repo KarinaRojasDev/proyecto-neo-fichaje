@@ -29,11 +29,11 @@
 
 ## 🔄 Flujo general
 
-1. El usuario se registra o inicia sesión (correo o Google)
-2. Según el rol, accede a un panel diferente
-3. El técnico puede fichar y solicitar vacaciones
-4. El empresario puede visualizar, aprobar o rechazar solicitudes
-5. Ambos pueden ver sus documentos en PDF
+1. El usuario se registra o inicia sesión  con su correo o cuenta de Google.
+2. Dependiendo de su rol (técnico o empresario), accede a su panel personalizado.
+3. El técnico puede fichar entradas y salidas, solicitar vacaciones y permisos.
+4. El empresario puede gestionar solicitudes, aprobándolas o rechazándolas.
+5. El empresario también puede subir documentos PDF (como contratos o nóminas), y el técnico puede visualizarlos.
 
 ## 📂 Organización del código
 
@@ -43,9 +43,8 @@
 
 ## 📈 Progreso
 
-Este proyecto ha sido desarrollado de manera individual, incluyendo todas las fases de análisis, diseño, programación, pruebas e implementación final.  
-Puedes revisar los [commits](https://github.com/KarinaRojasDev/proyecto-neo-fichaje/commits/main) para ver la evolución detallada del trabajo.
-
+En este apartado se puede consultar todo el historial de trabajo realizado en el proyecto: desde los primeros avances hasta los ajustes finales.
+Puedes acceder a los [commits](https://github.com/KarinaRojasDev/proyecto-neo-fichaje/commits/main) en GitHub para ver paso a paso cómo fue evolucionando el desarrollo.
 
 ## 👩‍💻 Autora
 
