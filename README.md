@@ -84,13 +84,13 @@
 ![Gestión de Vacaciones](images/gestionVacaciones.png)
 
 ### 📄 Consulta de nóminas
-![Nóminas](images/nominas.png)
+![Nóminas](images/nomina.png)
 
 ### 📎 Adjuntar documentos
 ![Adjuntar Documentos](images/adjuntarDocumentos.png)
 
 ### 🏁 Pantalla de inicio del empleado
-![Inicio Empleado](images/pantallainicioEmpleado.png)
+![Inicio Empleado](images/inicioEmpleado.png)
 
 ### ⏱ Control horario
 ![Control Horario](images/controlHorario.png)
