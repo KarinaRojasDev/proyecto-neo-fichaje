@@ -62,40 +62,49 @@
 
 ## 📸 Capturas de pantalla
 
-### 🔐 Pantalla de inicio de sesión
-![Login](images/login.png)
+### 🔐 Acceso a la aplicación
 
-### 📝 Registro de nuevo usuario
-![Registro](images/registro.png)
+<p align="center">
+  <img src="images/login.png" alt="Pantalla de inicio de sesión" width="45%"/>
+  <img src="images/registro.png" alt="Registro de nuevo usuario" width="45%"/>
+</p>
 
-### 👤 Menú del empleado
-![Menú Empleado](images/menuEmpleado.png)
+### 👤 Paneles de usuario
 
-### 🧑‍💼 Menú del empresario
-![Menú Empresario](images/menuEmpresario.png)
+<p align="center">
+  <img src="images/menuEmpleado.png" alt="Menú del empleado" width="45%"/>
+  <img src="images/menuEmpresario.png" alt="Menú del empresario" width="45%"/>
+</p>
 
-### 🕒 Control de asistencia
-![Gestión de Asistencia](images/gestionAsistencia.png)
+### 🕒 Gestión de asistencia y empleados
 
-### 👥 Gestión de empleados
-![Gestión de Empleados](images/gestionEmpleados.png)
+<p align="center">
+  <img src="images/gestionAsistencia.png" alt="Gestión de asistencia" width="45%"/>
+  <img src="images/gestionEmpleados.png" alt="Gestión de empleados" width="45%"/>
+</p>
 
-### 🌴 Solicitud de vacaciones
-![Gestión de Vacaciones](images/gestionVacaciones.png)
+### 🌴 Solicitudes y documentos
 
-### 📄 Consulta de nóminas
-![Nóminas](images/nomina.png)
+<p align="center">
+  <img src="images/gestionVacaciones.png" alt="Gestión de vacaciones" width="45%"/>
+  <img src="images/nomina.png" alt="Consulta de nóminas" width="45%"/>
+</p>
 
-### 📎 Adjuntar documentos
-![Adjuntar Documentos](images/adjuntarDocumentos.png)
+### 📎 Funcionalidades adicionales
 
-### 🏁 Pantalla de inicio del empleado
-![Inicio Empleado](images/inicioEmpleado.png)
+<p align="center">
+  <img src="images/adjuntarDocumentos.png" alt="Adjuntar documentos" width="45%"/>
+  <img src="images/inicioEmpleado.png" alt="Inicio del empleado" width="45%"/>
+</p>
 
 ### ⏱ Control horario
-![Control Horario](images/controlHorario.png)
+
+<p align="center">
+  <img src="images/controlHorario.png" alt="Control horario" width="45%"/>
+</p>
 
 ---
+
 
 ## 📈 Seguimiento del proyecto
 
