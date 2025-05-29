@@ -1,51 +1,110 @@
 # 📲 NeoFichaje
 
-**NeoFichaje** es una aplicación Android desarrollada para facilitar el control horario, la gestión de empleados en empresas pequeñas y medianas.
+**NeoFichaje** es una aplicación Android diseñada para optimizar el control horario y la gestión de empleados en pequeñas y medianas empresas. Esta solución móvil permite a los trabajadores registrar sus jornadas laborales, solicitar vacaciones y consultar documentos, mientras que los empresarios pueden gestionar su equipo de manera eficiente desde cualquier lugar.
 
-## 🛠 Tecnologías utilizadas
+---
+
+## 🚀 Tecnologías utilizadas
 
 - **Android Studio** – Entorno de desarrollo
-- **Kotlin** – Lenguaje de programación
-- **XML** – Diseño de interfaces
-- **Firebase Authentication** – Registro y login de usuarios
-- **Firestore** – Base de datos en la nube (NoSQL)
-- **Firebase Cloud Storage** – Almacenamiento de archivos (PDF de contratos y nóminas)
-- **Google Sign-In** – Inicio de sesión con cuenta Google
-- **MaterialCalendarView** – Componente visual de calendario para seleccionar fechas
+- **Kotlin** – Lenguaje de programación principal
+- **XML** – Diseño de interfaces de usuario
+- **Firebase Authentication** – Registro e inicio de sesión seguros
+- **Firestore** – Base de datos NoSQL en la nube
+- **Firebase Cloud Storage** – Almacenamiento de documentos (contratos, nóminas)
+- **Google Sign-In** – Autenticación con cuenta de Google
+- **MaterialCalendarView** – Selección de fechas con componente de calendario
+
+---
 
 ## 👥 Roles de usuario
 
-- **Administrador / Empresario**: puede registrar empleados, subir contratos y nóminas, gestionar asistencia y aprobar solicitudes.
-- **Empleado / Técnico**: puede fichar entradas y salidas, solicitar vacaciones y permisos, y ver sus documentos personales.
+### 👤 Empleado / Técnico:
+- Fichaje de entradas y salidas
+- Solicitudes de vacaciones y permisos
+- Visualización de documentos personales
 
-## 🧩 Funcionalidades
+### 🧑‍💼 Administrador / Empresario:
+- Alta y gestión de empleados
+- Aprobación de solicitudes
+- Subida de documentos (contratos, nóminas)
+- Control de asistencia
 
-- 📅 Control horario con geolocalización
-- ✍️ Registro y login seguro (con correo y Google)
-- 👤 Gestión de perfil
-- 🧾 Visualización y descarga de contratos y nóminas
-- 🌴 Solicitudes de vacaciones y permisos
-- 🔔 Notificaciones internas para empleados y administradores
+---
+## 🧩 Funcionalidades destacadas
 
-## 🔄 Flujo general
+- 📅 Fichaje con geolocalización
+- 🔐 Registro y login con correo y Google
+- 📄 Consulta y descarga de contratos y nóminas
+- 🌴 Gestión de vacaciones y permisos
+- 🔔 Sistema de notificaciones internas
+- 🧾 Historial de actividad por usuario
 
-1. El usuario se registra o inicia sesión  con su correo o cuenta de Google.
-2. Dependiendo de su rol (técnico o empresario), accede a su panel personalizado.
-3. El técnico puede fichar entradas y salidas, solicitar vacaciones y permisos.
-4. El empresario puede gestionar solicitudes, aprobándolas o rechazándolas.
-5. El empresario también puede subir documentos PDF (como contratos o nóminas), y el técnico puede visualizarlos.
+---
 
-## 📂 Organización del código
+## 🔄 Flujo de uso
 
-- /app – Lógica principal de la app (actividades, fragments, modelos)
-- /gradle – Configuraciones del proyecto
-- firebase.json – Configuración de Firebase
+1. El usuario se registra o inicia sesión.
+2. Según su rol, accede al panel correspondiente.
+3. Los empleados fichan su jornada o gestionan sus solicitudes.
+4. Los empresarios supervisan, aprueban y cargan documentos.
 
-## 📈 Progreso
+---
 
-En este apartado se puede consultar todo el historial de trabajo realizado en el proyecto: desde los primeros avances hasta los ajustes finales.
-Puedes acceder a los [commits](https://github.com/KarinaRojasDev/proyecto-neo-fichaje/commits/main) en GitHub para ver paso a paso cómo fue evolucionando el desarrollo.
+## 📂 Estructura del proyecto
+- /app → Código fuente principal (Activities, Fragments, ViewModels)
+- /images → Capturas de pantalla para documentación
+- /gradle → Configuraciones del sistema de build
+- firebase.json → Configuración de servicios en la nube (Firebase)
+- README.md → Documentación del proyecto
+
+---
+
+## 📸 Capturas de pantalla
+
+### 🔐 Pantalla de inicio de sesión
+![Login](images/login.png)
+
+### 📝 Registro de nuevo usuario
+![Registro](images/registro.png)
+
+### 👤 Menú del empleado
+![Menú Empleado](images/menuEmpleado.png)
+
+### 🧑‍💼 Menú del empresario
+![Menú Empresario](images/menuEmpresario.png)
+
+### 🕒 Control de asistencia
+![Gestión de Asistencia](images/gestionAsistencia.png)
+
+### 👥 Gestión de empleados
+![Gestión de Empleados](images/gestionEmpleados.png)
+
+### 🌴 Solicitud de vacaciones
+![Gestión de Vacaciones](images/gestionVacaciones.png)
+
+### 📄 Consulta de nóminas
+![Nóminas](images/nominas.png)
+
+### 📎 Adjuntar documentos
+![Adjuntar Documentos](images/adjuntarDocumentos.png)
+
+### 🏁 Pantalla de inicio del empleado
+![Inicio Empleado](images/pantallainicioEmpleado.png)
+
+### ⏱ Control horario
+![Control Horario](images/controlHorario.png)
+
+---
+
+## 📈 Seguimiento del proyecto
+
+Puedes consultar el progreso completo en el historial de [commits](https://github.com/KarinaRojasDev/proyecto-neo-fichaje/commits/main), donde se documenta cada fase del desarrollo, desde el diseño inicial hasta la implementación final.
+
+---
 
 ## 👩‍💻 Autora
 
-Desarrollado por **Karina Rojas** como proyecto final del segundo curso de Desarrollo de Aplicaciones Multiplataforma (DAM).
+Desarrollado por **Karina Rojas**, como proyecto final del segundo curso del ciclo de **Desarrollo de Aplicaciones Multiplataforma (DAM)**.
+
+> Este proyecto refleja el esfuerzo, dedicación y pasión por el desarrollo móvil, con el objetivo de aportar valor real al mundo empresarial actual.

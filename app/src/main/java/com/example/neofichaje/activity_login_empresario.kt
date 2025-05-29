@@ -21,6 +21,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.activity.result.contract.ActivityResultContracts
 
+@Suppress("DEPRECATION")
 class activity_login_empresario : AppCompatActivity(), OnClickListener, OnTouchListener {
     private lateinit var binding: ActivityLoginEmpresarioBinding
     private lateinit var auth: FirebaseAuth

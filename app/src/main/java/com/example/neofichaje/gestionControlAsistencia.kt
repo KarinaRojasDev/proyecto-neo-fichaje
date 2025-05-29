@@ -18,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Suppress("LABEL_NAME_CLASH")
 class gestionControlAsistencia : AppCompatActivity() {
 
     private lateinit var binding: ActivityGestionControlAsistenciaBinding

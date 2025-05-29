@@ -16,7 +16,7 @@ import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-@Suppress("LABEL_NAME_CLASH")
+@Suppress("LABEL_NAME_CLASH", "NAME_SHADOWING")
 class registroUsuario : AppCompatActivity(),OnClickListener, OnTouchListener {
     private lateinit var binding: ActivityRegistroUsuarioBinding
     private lateinit var puesto:ArrayList<CharSequence>

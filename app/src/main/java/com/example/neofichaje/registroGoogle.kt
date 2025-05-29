@@ -17,6 +17,7 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 
 
+@Suppress("LABEL_NAME_CLASH")
 class registroGoogle : AppCompatActivity(), View.OnClickListener,OnTouchListener {
 
     private lateinit var binding: ActivityRegistroGoogleBinding
