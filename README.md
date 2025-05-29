@@ -65,42 +65,42 @@
 ### 🔐 Acceso a la aplicación
 
 <p align="center">
-  <img src="images/login.png" alt="Pantalla de inicio de sesión" width="45%"/>
-  <img src="images/registro.png" alt="Registro de nuevo usuario" width="45%"/>
+  <img src="images/login.png" alt="Pantalla de inicio de sesión" height="300px"/>
+  <img src="images/registro.png" alt="Registro de nuevo usuario" height="300px"/>
 </p>
 
 ### 👤 Paneles de usuario
 
 <p align="center">
-  <img src="images/menuEmpleado.png" alt="Menú del empleado" width="45%"/>
-  <img src="images/menuEmpresario.png" alt="Menú del empresario" width="45%"/>
+  <img src="images/menuEmpleado.png" alt="Menú del empleado" height="300px"/>
+  <img src="images/menuEmpresario.png" alt="Menú del empresario" height="300px"/>
 </p>
 
 ### 🕒 Gestión de asistencia y empleados
 
 <p align="center">
-  <img src="images/gestionAsistencia.png" alt="Gestión de asistencia" width="45%"/>
-  <img src="images/gestionEmpleados.png" alt="Gestión de empleados" width="45%"/>
+  <img src="images/gestionAsistencia.png" alt="Gestión de asistencia" height="300px"/>
+  <img src="images/gestionEmpleados.png" alt="Gestión de empleados" height="300px"/>
 </p>
 
-### 🌴 Solicitudes y documentos
+### 🌴 Solicitudes de vacaciones y documentos
 
 <p align="center">
-  <img src="images/gestionVacaciones.png" alt="Gestión de vacaciones" width="45%"/>
-  <img src="images/nomina.png" alt="Consulta de nóminas" width="45%"/>
+  <img src="images/gestionVacaciones.png" alt="Gestión de vacaciones" height="300px"/>
+  <img src="images/adjuntarArchivos.png" alt="Adjuntar documentos" height="300px"/>
 </p>
 
-### 📎 Funcionalidades adicionales
+### 📎 Inicio empleado y nómina
 
 <p align="center">
-  <img src="images/adjuntarDocumentos.png" alt="Adjuntar documentos" width="45%"/>
-  <img src="images/inicioEmpleado.png" alt="Inicio del empleado" width="45%"/>
+  <img src="images/inicioEmpleado.png" alt="Inicio del empleado" height="300px"/>
+  <img src="images/nomina.png" alt="Consulta de nóminas" height="300px"/>
 </p>
 
 ### ⏱ Control horario
 
 <p align="center">
-  <img src="images/controlHorario.png" alt="Control horario" width="45%"/>
+  <img src="images/controlHorario.png" alt="Control horario" height="300px"/>
 </p>
 
 ---
