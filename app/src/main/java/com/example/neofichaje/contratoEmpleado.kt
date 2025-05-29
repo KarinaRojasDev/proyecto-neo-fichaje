@@ -82,12 +82,11 @@ class contratoEmpleado : AppCompatActivity() {
                 snapshot.documents.forEach { doc ->
                     val documento = Documento(
                         id = doc.id,
-                        nombreArchivo = doc.getString("nombreArchivo") ?: "",
+                        nombreArchivo = "Contrato de trabajo",
                         url = doc.getString("url") ?: "",
                         tituloDocumento = doc.getString("tituloDocumento") ?: ""
                     )
                     if (documento.url.isNotEmpty()) {
-                        documento.nombreArchivo = "Contrato de trabajo"
                         listaContratos.add(documento)
                     }
                 }
