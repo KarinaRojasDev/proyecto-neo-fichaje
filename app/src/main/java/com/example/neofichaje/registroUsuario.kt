@@ -67,7 +67,6 @@ class registroUsuario : AppCompatActivity(),OnClickListener, OnTouchListener {
         if (nombreEmpresa.isEmpty() || nif.isEmpty() || emailEmpresa.isEmpty() ||
             nombreAdmin.isEmpty() || apellidoAdmin.isEmpty() || emailAdmin.isEmpty() ||
             telefonoAdmin.isEmpty() || password.isEmpty() || empresaId.isEmpty()) {
-
             Toast.makeText(this, "Por favor, completa todos los campos obligatorios", Toast.LENGTH_SHORT).show()
             return
         }
@@ -76,76 +75,52 @@ class registroUsuario : AppCompatActivity(),OnClickListener, OnTouchListener {
             Toast.makeText(this, "Selecciona un puesto válido", Toast.LENGTH_SHORT).show()
             return
         }
-        val credential = EmailAuthProvider.getCredential(emailAdmin, password)
 
-        auth.fetchSignInMethodsForEmail(emailAdmin).addOnSuccessListener { result ->
-            val providers = result.signInMethods ?: emptyList()
+        val passwordCredential = EmailAuthProvider.getCredential(emailAdmin, password)
 
-            if ("google.com" in providers) {
-                // Ya tiene Google, vinculamos la contraseña
-                auth.signInWithEmailAndPassword(emailAdmin, password)
-                    .addOnFailureListener {
-                        // Si no tiene password, lo vinculamos
-                        auth.signInWithCredential(credential)
-                            .addOnSuccessListener { linkResult ->
-                                val uid = linkResult.user?.uid ?: return@addOnSuccessListener
-                                guardarDatosEmpresaYUsuario(
-                                    uid,
-                                    nombreEmpresa,
-                                    nif,
-                                    emailEmpresa,
-                                    telefono,
-                                    direccion,
-                                    web,
-                                    empresaId,
-                                    nombreAdmin,
-                                    apellidoAdmin,
-                                    emailAdmin,
-                                    telefonoAdmin,
-                                    numEmpleado,
-                                    puestoSeleccionado
-                                )
-                            }
-                            .addOnFailureListener {
-                                Toast.makeText(
-                                    this,
-                                    "Error al vincular la cuenta existente con contraseña: ${it.message}",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                    }
-            } else {
-                // Crear nuevo usuario
-                auth.createUserWithEmailAndPassword(emailAdmin, password)
-                    .addOnSuccessListener { result ->
-                        val uid = result.user?.uid ?: return@addOnSuccessListener
-                        guardarDatosEmpresaYUsuario(
-                            uid,
-                            nombreEmpresa,
-                            nif,
-                            emailEmpresa,
-                            telefono,
-                            direccion,
-                            web,
-                            empresaId,
-                            nombreAdmin,
-                            apellidoAdmin,
-                            emailAdmin,
-                            telefonoAdmin,
-                            numEmpleado,
-                            puestoSeleccionado
-                        )
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(
-                            this,
-                            "Error al crear cuenta: ${it.message}",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
+        FirebaseAuth.getInstance().fetchSignInMethodsForEmail(emailAdmin)
+            .addOnSuccessListener { result ->
+                val methods = result.signInMethods ?: listOf()
+
+                if ("google.com" in methods) {
+                    // Ya existe con Google → vincular contraseña
+                    FirebaseAuth.getInstance().signInWithCredential(passwordCredential)
+                        .addOnSuccessListener { result ->
+                            val user = result.user ?: return@addOnSuccessListener
+                            guardarDatosEmpresaYUsuario(
+                                user.uid,
+                                nombreEmpresa, nif, emailEmpresa, telefono,
+                                direccion, web, empresaId,
+                                nombreAdmin, apellidoAdmin, emailAdmin,
+                                telefonoAdmin, numEmpleado, puestoSeleccionado
+                            )
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "Error vinculando cuenta con Google: ${it.message}", Toast.LENGTH_LONG).show()
+                        }
+                } else {
+                    // No existe → crear nueva cuenta con email y password
+                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailAdmin, password)
+                        .addOnSuccessListener { result ->
+                            val user = result.user ?: return@addOnSuccessListener
+                            guardarDatosEmpresaYUsuario(
+                                user.uid,
+                                nombreEmpresa, nif, emailEmpresa, telefono,
+                                direccion, web, empresaId,
+                                nombreAdmin, apellidoAdmin, emailAdmin,
+                                telefonoAdmin, numEmpleado, puestoSeleccionado
+                            )
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "Error al crear cuenta: ${it.message}", Toast.LENGTH_LONG).show()
+                        }
+                }
             }
-        }
+            .addOnFailureListener {
+                Toast.makeText(this, " Error al verificar método de inicio de sesión", Toast.LENGTH_LONG).show()
+            }
     }
+
     private fun guardarDatosEmpresaYUsuario(
         uid: String,
         nombreEmpresa: String,

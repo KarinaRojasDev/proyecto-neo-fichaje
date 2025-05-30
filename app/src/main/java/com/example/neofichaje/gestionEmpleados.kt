@@ -53,7 +53,7 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id){
             binding.tvAgregarNuevos.id->{
-                binding.linearLayoutEditar.visibility = View.VISIBLE
+                formularioNuevoEmpleado()
             }
             binding.btnAgregar.id -> {
                 registrarEmpleado()
@@ -65,6 +65,28 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
                 editarEmpleados()
             }
         }
+    }
+    private fun formularioNuevoEmpleado() {
+        limpiarCampos()
+
+        // Puesto valor fijo y bloqueado
+        val puesto= "Tecnico"
+        binding.etPuestoEmpleado.setText(puesto)
+        binding.etPuestoEmpleado.isEnabled = false
+        binding.etPuestoEmpleado.isFocusable = false
+
+        // Vacaciones valor fijo y bloqueado
+        val dias = 30
+        binding.etvacaciones.setText(dias.toString())
+        binding.etvacaciones.isEnabled = false
+        binding.etvacaciones.isFocusable = false
+
+        binding.linearLayoutEditar.visibility = View.VISIBLE
+
+        binding.etPassEmpleado.setText("")
+        binding.etPassEmpleado.hint = "Contraseña del empleado"
+        binding.etPassEmpleado.visibility = View.VISIBLE
+
     }
     private fun editarEmpleados() {
 
@@ -86,10 +108,15 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
                     binding.etDirEmpleado.setText(doc.getString("direccion"))
                     binding.etPuestoEmpleado.setText(doc.getString("puesto"))
                     binding.etNumEmpleado.setText(doc.getString("numEmpleado"))
-                    binding.etPassEmpleado.setText("")
-
+                    binding.etPassEmpleado.visibility = View.GONE
+                    val vacacionesAnuales = doc.getLong("totalVacacionesAnuales") ?: 0L
+                    val vacacionesDisfrutadas = doc.getLong("totalVacacionesDisfrutadas") ?: 0L
+                    val vacacionesRestantes = vacacionesAnuales - vacacionesDisfrutadas
+                    binding.etvacaciones.setText(vacacionesRestantes.toString())
+                    //  bloqueo este campo,solo muestro información de vacaciones
+                    binding.etvacaciones.isEnabled = false
+                    binding.etvacaciones.isFocusable = false
                     binding.linearLayoutEditar.visibility = View.VISIBLE
-                    Toast.makeText(this, "Editando a $seleccionado", Toast.LENGTH_SHORT).show()
                 }
             }
     }
@@ -184,6 +211,7 @@ class gestionEmpleados : AppCompatActivity(),OnClickListener {
                                 Toast.makeText(this, "Empleado agregado correctamente", Toast.LENGTH_LONG).show()
                                 binding.linearLayoutEditar.visibility = View.GONE
                                 limpiarCampos()
+                                cargarEmpleadosEnSpinner()
                             }
                             .addOnFailureListener {
                                 Toast.makeText(this, "Error al agregar empleado", Toast.LENGTH_LONG).show()

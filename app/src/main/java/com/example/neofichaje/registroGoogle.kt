@@ -128,13 +128,20 @@ class registroGoogle : AppCompatActivity(), View.OnClickListener,OnTouchListener
                                 val credential = EmailAuthProvider.getCredential(email, password)
                                 auth.currentUser?.linkWithCredential(credential)
                                     ?.addOnSuccessListener {
-                                        Toast.makeText(this, "Registro completado con éxito. Puedes iniciar con Google o contraseña.", Toast.LENGTH_LONG).show()
+                                        Toast.makeText(this, " Cuenta vinculada con contraseña correctamente", Toast.LENGTH_LONG).show()
                                         startActivity(Intent(this, inicio_empresario::class.java))
                                         finish()
                                     }
-                                    ?.addOnFailureListener {
-                                        Toast.makeText(this, "Datos guardados, pero no se pudo vincular la contraseña: ${it.message}", Toast.LENGTH_LONG).show()
+                                    ?.addOnFailureListener { error ->
+                                        if (error.message?.contains("already") == true || error.message?.contains("exists") == true) {
+                                            Toast.makeText(this, "Esta cuenta ya está vinculada con una contraseña", Toast.LENGTH_LONG).show()
+                                            startActivity(Intent(this, inicio_empresario::class.java))
+                                            finish()
+                                        } else {
+                                            Toast.makeText(this, " Error vinculando cuenta: ${error.message}", Toast.LENGTH_LONG).show()
+                                        }
                                     }
+
                             }
                             .addOnFailureListener {
                                 Toast.makeText(this, "Error al registrar el usuario", Toast.LENGTH_LONG).show()

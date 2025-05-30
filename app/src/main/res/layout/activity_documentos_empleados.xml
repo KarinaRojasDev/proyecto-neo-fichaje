@@ -57,7 +57,7 @@
                         android:textColorHint="@color/black"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
-                        android:hint="@string/tituloDoc"/>
+                        android:hint="Ejemplo: Nómina de abril"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <android.widget.Button
                     android:id="@+id/btnSubirArchivo"

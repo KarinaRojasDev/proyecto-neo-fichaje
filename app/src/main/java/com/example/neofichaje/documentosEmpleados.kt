@@ -57,6 +57,8 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
         binding.btnGuardarDocumento.setOnClickListener(this)
 
 
+
+
     }
     override fun onClick(v: View?) {
         when(v?.id){
@@ -179,6 +181,12 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
         val tipoDoc = binding.spinnerDoc.selectedItem.toString().lowercase()
         val nombreEmpleado = binding.spinnerLista.selectedItem.toString()
         var tituloDocumento = binding.etTituloDocumento.text.toString().trim()
+
+
+        if (tituloDocumento.isEmpty()) {
+            Toast.makeText(this, "Debes introducir un título para el documento", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         if (tipoDoc == "nominas") {
             tituloDocumento = tituloDocumento.replace(Regex("\\bnomina de\\b", RegexOption.IGNORE_CASE), "Nómina de")
