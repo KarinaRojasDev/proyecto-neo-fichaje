@@ -62,8 +62,10 @@ class activity_login_empresario : AppCompatActivity(), OnClickListener, OnTouchL
                 recuperarCorreo()
             }
             binding.btnGoogle.id -> {
-                val signInIntent = googleSignInClient.signInIntent
-                googleSignInLauncher.launch(signInIntent)
+                googleSignInClient.signOut().addOnCompleteListener {
+                    val signInIntent = googleSignInClient.signInIntent
+                    googleSignInLauncher.launch(signInIntent)
+                }
             }
         }
     }

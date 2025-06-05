@@ -183,10 +183,11 @@ class documentosEmpleados : AppCompatActivity(),OnClickListener {
         var tituloDocumento = binding.etTituloDocumento.text.toString().trim()
 
 
-        if (tituloDocumento.isEmpty()) {
-            Toast.makeText(this, "Debes introducir un título para el documento", Toast.LENGTH_SHORT).show()
+        if (tipoDoc == "nominas" && tituloDocumento.isEmpty()) {
+            Toast.makeText(this, "Debes introducir un título para la nómina", Toast.LENGTH_SHORT).show()
             return
         }
+
 
         if (tipoDoc == "nominas") {
             tituloDocumento = tituloDocumento.replace(Regex("\\bnomina de\\b", RegexOption.IGNORE_CASE), "Nómina de")
