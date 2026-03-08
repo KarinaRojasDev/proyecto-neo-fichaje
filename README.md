@@ -1,75 +1,119 @@
-# Project Overview
-This project is a comprehensive time and attendance tracking system that allows employees to clock in and out seamlessly.
+# 📲 NeoFichaje
 
-## Technology Stack
-- **Frontend:** React.js, Tailwind CSS
-- **Backend:** Node.js, Express
-- **Database:** MongoDB
-- **Authentication:** Firebase Auth
-- **Deployment:** Firebase Hosting
+**NeoFichaje** es una aplicación Android diseñada para optimizar el control horario y la gestión de empleados en pequeñas y medianas empresas. Esta solución móvil permite a los trabajadores registrar sus jornadas laborales, solicitar vacaciones y consultar documentos, mientras que los empresarios pueden gestionar su equipo de manera eficiente desde cualquier lugar.
 
-## Installation Requirements
-1. Clone the repository.
-2. Install dependencies using npm:
-   ```bash
-   npm install
-   ```
-3. Set up environment variables for sensitive information.
-4. Run the application using:
-   ```bash
-   npm start
-   ```
+---
 
-## Features
-- User Authentication
-- Time Tracking
-- Attendance reports
-- Admin dashboard
+## 🚀 Tecnologías utilizadas
 
-## Architecture
-This project follows a client-server architecture. The frontend communicates with the backend via RESTful API endpoints.
+- **Android Studio** – Entorno de desarrollo
+- **Kotlin** – Lenguaje de programación principal
+- **XML** – Diseño de interfaces de usuario
+- **Firebase Authentication** – Registro e inicio de sesión seguros
+- **Firestore** – Base de datos NoSQL en la nube
+- **Firebase Cloud Storage** – Almacenamiento de documentos (contratos, nóminas)
+- **Google Sign-In** – Autenticación con cuenta de Google
+- **MaterialCalendarView** – Selección de fechas con componente de calendario
 
-## File Structure
-```
-├── client    # Frontend code
-│   ├── src
-│   └── public
-├── server    # Backend code
-│   ├── routes
-│   ├── models
-│   └── controllers
-├── .env      # Environment variables
-├── README.md
-└── package.json
-```
+---
 
-## Usage Guide
-After setting up the environment, the application can be accessed at `http://localhost:3000`. Users can register and log in to access their time-tracking dashboard.
+## 👥 Roles de usuario
 
-## Firebase Setup
-1. Create a Firebase project.
-2. Add a web app in the project.
-3. Install Firebase SDK:
-   ```bash
-   npm install firebase
-   ```
-4. Initialize Firebase in your project.
+### 👤 Empleado / Técnico:
+- Fichaje de entradas y salidas
+- Solicitudes de vacaciones y permisos
+- Visualización de documentos personales
 
-## API Documentation
-- **GET /api/users:** Retrieve all users.
-- **POST /api/login:** Authenticate user login.
-- **POST /api/attendance:** Submit attendance data.
+### 🧑‍💼 Administrador / Empresario:
+- Alta y gestión de empleados
+- Aprobación de solicitudes
+- Subida de documentos (contratos, nóminas)
+- Control de asistencia
 
-## Contributing Guidelines
-We welcome contributions! Please follow these steps:
-1. Fork the repository.
-2. Create a new branch.
-3. Make your changes and push them.
-4. Create a pull request.
+---
+## 🧩 Funcionalidades destacadas
 
-## Troubleshooting
-- If you encounter errors, please check your console for messages.
-- Ensure that all environment variables are configured correctly.
+- 📅 Fichaje con geolocalización
+- 🔐 Registro y login con correo y Google
+- 📄 Consulta y descarga de contratos y nóminas
+- 🌴 Gestión de vacaciones y permisos
+- 🔔 Sistema de notificaciones internas
+- 🧾 Historial de actividad por usuario
 
-![Project Architecture](path/to/image.png)
-![Feature Overview](path/to/image2.png)
+---
+
+## 🔄 Flujo de uso
+
+1. El usuario se registra o inicia sesión.
+2. Según su rol, accede al panel correspondiente.
+3. Los empleados fichan su jornada o gestionan sus solicitudes.
+4. Los empresarios supervisan, aprueban y cargan documentos.
+
+---
+
+## 📂 Estructura del proyecto
+- /app → Código fuente principal (Activities, Fragments, ViewModels)
+- /images → Capturas de pantalla para documentación
+- /gradle → Configuraciones del sistema de build
+- firebase.json → Configuración de servicios en la nube (Firebase)
+- README.md → Documentación del proyecto
+
+---
+
+## 📸 Capturas de pantalla
+
+### 🔐 Acceso a la aplicación
+
+<p align="center">
+  <img src="images/login.png" alt="Pantalla de inicio de sesión" width="48%"/>
+  <img src="images/registro.png" alt="Registro de nuevo usuario" width="48%"/>
+</p>
+
+### 👤 Paneles de usuario
+
+<p align="center">
+  <img src="images/menuEmpleado.png" alt="Menú del empleado" width="48%"/>
+  <img src="images/menuEmpresario.png" alt="Menú del empresario" width="48%"/>
+</p>
+
+### 🕒 Gestión de asistencia y empleados
+
+<p align="center">
+  <img src="images/gestionAsistencia.png" alt="Gestión de asistencia" width="48%"/>
+  <img src="images/gestionEmpleados.png" alt="Gestión de empleados" width="48%"/>
+</p>
+
+### 🌴 Solicitudes de vacaciones y documentos
+
+<p align="center">
+  <img src="images/gestionVacaciones.png" alt="Gestión de vacaciones" width="48%"/>
+  <img src="images/adjuntarArchivos.png" alt="Adjuntar documentos" width="48%"/>
+</p>
+
+### 📎 Inicio empleado y nómina
+
+<p align="center">
+  <img src="images/inicioEmpleado.png" alt="Inicio del empleado" width="48%"/>
+  <img src="images/nomina.png" alt="Consulta de nóminas" width="48%"/>
+</p>
+
+### ⏱ Control horario
+
+<p align="center">
+  <img src="images/controlHorario.png" alt="Control horario" width="48%"/>
+</p>
+
+---
+
+
+## 📈 Seguimiento del proyecto
+
+Puedes consultar el progreso completo en el historial de [commits](https://github.com/KarinaRojasDev/proyecto-neo-fichaje/commits/main), donde se documenta cada fase del desarrollo, desde el diseño inicial hasta la implementación final.
+
+---
+
+## 👩‍💻 Autora
+
+Desarrollado por **Karina Rojas**, como proyecto final del segundo curso del ciclo de **Desarrollo de Aplicaciones Multiplataforma (DAM)**.
+
+> Este proyecto refleja el esfuerzo, dedicación y pasión por el desarrollo móvil, con el objetivo de aportar valor real al mundo empresarial actual.
